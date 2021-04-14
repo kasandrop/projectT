@@ -1,8 +1,9 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:tangram/settings.dart';
+import 'package:tangram/shapes/shapes.dart';
+
+import 'PuzzleToSolve.dart';
+import 'drawShapes.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,14 +42,91 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
+//each shape is build of positions array. blocks are states. and there is
+// a widget getShapes() which iterates all points of the shapes . Points are
+// rendered.
+
 class ScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int screenWidth = MediaQuery.of(context).size.width.toInt();
     int screenHeight = MediaQuery.of(context).size.height.toInt();
-    Settings settings =
-        Settings(pixelHeight: screenHeight, pixelWidth: screenWidth, boardWidth: 8);
+    Settings settings = Settings(
+      pixelHeight: screenHeight,
+      pixelWidth: screenWidth,
+      boardWidth: 8,
+    );
     print(settings);
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: 0,
+          left: 0,
+          child: WidgetGridLines(
+            settings: settings,
+          ),
+        ),
+        Positioned(
+            top: 0,
+            left: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: DrawShapes(
+                shapes: [
+                  Trapezoid(x: 4, y: 7),
+                  RectangleWithTriangle(x: 1, y: 4),
+                  Triangle(x: 0, y: 1),
+                  Triangle(x: 3, y: 1),
+                  Triangle(x: 6, y: 1),
+                  RectangleWithoutTriangle(x: 1, y: 6),
+                ],
+                color: Colors.green,
+                settings: settings,
+              ),
+            )),
+        Positioned(
+            top: 0,
+            left: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: DrawShapes(
+                shapes: [
+                  PuzzleToSolve(
+                    x: 0,
+                    y: 8,
+                    settings: settings,
+                  )
+                ],
+                settings: settings,
+                color: Colors.red,
+              ),
+            )),
+        Positioned(
+          bottom: 50,
+          right: 20,
+          child: Container(
+            child: FloatingActionButton(
+              onPressed: () => print('marcin'),
+              child: Icon(Icons.autorenew_rounded),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class WidgetGridLines extends StatelessWidget {
+  final Settings settings;
+
+  const WidgetGridLines({
+    required this.settings,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return CustomPaint(
       painter: LinesGrid(
         color: Theme.of(context).primaryColor,
@@ -97,7 +175,7 @@ class LinesGrid extends CustomPainter {
       path.lineTo(offset1.dx, offset2.dy);
       path.moveTo(offset1.dx, offset1.dy);
     }
-    for (int i = 0; i < boardHeight; i++) {
+    for (int i = 0; i <= boardHeight; i++) {
       var offset1 = startPoint + Offset(0, (i * pointSize).toDouble());
       var offset2 = offset1 + Offset(pixelWidth.toDouble(), 0);
       path.moveTo(offset1.dx, offset1.dy);
@@ -110,7 +188,7 @@ class LinesGrid extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-
+/*
 class ShapePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -149,3 +227,4 @@ class ShapePainter extends CustomPainter {
     return false;
   }
 }
+*/
