@@ -74,12 +74,12 @@ class ScreenWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               child: DrawShapes(
                 shapes: [
-                  Trapezoid(x: 4, y: 7),
-                  RectangleWithTriangle(x: 1, y: 4),
-                  Triangle(x: 0, y: 1),
-                  Triangle(x: 3, y: 1),
-                  Triangle(x: 6, y: 1),
-                  RectangleWithoutTriangle(x: 1, y: 6),
+                  Trapezoid(x: 4, y: 7, color: Colors.green),
+                  RectangleWithTriangle(x: 1, y: 4, color: Colors.green),
+                  Triangle(x: 0, y: 1, color: Colors.green),
+                  Triangle(x: 3, y: 1, color: Colors.green),
+                  Triangle(x: 6, y: 1, color: Colors.green),
+                  RectangleWithoutTriangle(x: 1, y: 6, color: Colors.green),
                 ],
                 color: Colors.green,
                 settings: settings,
@@ -97,6 +97,7 @@ class ScreenWidget extends StatelessWidget {
                     x: 0,
                     y: 8,
                     settings: settings,
+                    color: Colors.red,
                   )
                 ],
                 settings: settings,

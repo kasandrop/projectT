@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../coordinateSystem.dart';
 import 'baseShape.dart';
 
@@ -6,8 +8,10 @@ class Trapezoid extends BaseShape {
   Trapezoid({
     required int x,
     required int y,
+    required color,
   }) : super(
-        //   color: Colors.red,
+          color: color,
+          origin: Offset(x + 2, y + 2),
         ) {
     points.add(PointSystem(dx: x, dy: y, west: false, north: false));
     points.add(PointSystem(dx: x + 1, dy: y));

@@ -8,5 +8,8 @@ abstract class BaseShape {
   final Offset origin;
   final List<PointSystem> points = [];
 
-  BaseShape();
+  BaseShape({
+    required this.color,
+    required this.origin,
+  });
 }

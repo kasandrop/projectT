@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../coordinateSystem.dart';
 import 'baseShape.dart';
 
@@ -5,8 +7,10 @@ class RectangleWithoutTriangle extends BaseShape {
   RectangleWithoutTriangle({
     required int x,
     required int y,
+    required color,
   }) : super(
-        //  color: Colors.red,
+          color: color,
+          origin: Offset(x + 1, y + 1),
         ) {
     {
       points.add(PointSystem(
