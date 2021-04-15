@@ -15,6 +15,7 @@ class PointSystem {
     this.west = true,
   });
 }
+
 //  |-----------|
 //  |'    N   ' |3
 //    W ' ' E   |2
