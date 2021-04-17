@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-
-import '../coordinateSystem.dart';
-import 'baseShape.dart';
+import 'package:tangram/businessLogic/coordinateSystem.dart';
+import 'package:tangram/businessLogic/shapes/baseShape.dart';
 
 class RectangleWithoutTriangle extends BaseShape {
   RectangleWithoutTriangle({
     required int x,
     required int y,
-    required color,
   }) : super(
-          color: color,
           origin: Offset(x + 1, y + 1),
         ) {
     {

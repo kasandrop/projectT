@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tangram/businessLogic/coordinateSystem.dart';
+import 'package:tangram/businessLogic/shapes/baseShape.dart';
 import 'package:tangram/settings.dart';
-import 'package:tangram/shapes/shapes.dart';
 
 import 'coordinateSystem.dart';
 
@@ -14,7 +15,7 @@ class PuzzleToSolve extends BaseShape {
     required int x,
     required int y,
     required this.settings,
-  }) : super(origin: Offset(x + 3, y + 3), color: color) {
+  }) : super(origin: Offset(x + 3, y + 3)) {
     points.add(new PointSystem(dx: x + 2, dy: y));
     points.add(new PointSystem(dx: x + 3, dy: y));
 

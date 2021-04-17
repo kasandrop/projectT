@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tangram/businessLogic/PuzzleToSolve.dart';
 import 'package:tangram/settings.dart';
-import 'package:tangram/shapes/shapes.dart';
-
-import 'PuzzleToSolve.dart';
-import 'drawShapes.dart';
+import 'package:tangram/widgets/drawShapes.dart';
+import 'package:tangram/widgets/shapes/allShapesWidget.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,104 +16,86 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter ',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.pink,
       ),
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ScreenWidget(),
+      home: Scaffold(
+        body: ScreenWidget(),
+      ),
     );
   }
 }
 
 //each shape is build of positions array. blocks are states. and there is
-// a widget getShapes() which iterates all points of the shapes . Points are
+// a widget getShapes() which iterates all points of the businessLogic.shapes . Points are
 // rendered.
 
 class ScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    int screenWidth = MediaQuery.of(context).size.width.toInt();
+    int screenWidth = (MediaQuery.of(context).size.width).toInt();
     int screenHeight = MediaQuery.of(context).size.height.toInt();
     Settings settings = Settings(
       pixelHeight: screenHeight,
       pixelWidth: screenWidth,
-      boardWidth: 8,
+      boardWidth: 9,
     );
     print(settings);
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          child: WidgetGridLines(
-            settings: settings,
-          ),
-        ),
-        Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: DrawShapes(
-                shapes: [
-                  Trapezoid(x: 4, y: 7, color: Colors.green),
-                  RectangleWithTriangle(x: 1, y: 4, color: Colors.green),
-                  Triangle(x: 0, y: 1, color: Colors.green),
-                  Triangle(x: 3, y: 1, color: Colors.green),
-                  Triangle(x: 6, y: 1, color: Colors.green),
-                  RectangleWithoutTriangle(x: 1, y: 6, color: Colors.green),
-                ],
-                color: Colors.green,
+    return Center(
+      child: SizedBox(
+        height: settings.pixelHeight.toDouble(),
+        width: settings.pixelWidth.toDouble(),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 0,
+              left: 0,
+              child: WidgetGridLines(
                 settings: settings,
               ),
-            )),
-        Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: DrawShapes(
-                shapes: [
-                  PuzzleToSolve(
-                    x: 0,
-                    y: 8,
-                    settings: settings,
-                    color: Colors.red,
-                  )
-                ],
-                settings: settings,
-                color: Colors.red,
-              ),
-            )),
-        Positioned(
-          bottom: 50,
-          right: 20,
-          child: Container(
-            child: FloatingActionButton(
-              onPressed: () => print('marcin'),
-              child: Icon(Icons.autorenew_rounded),
             ),
-          ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                height: settings.pixelHeight.toDouble(),
+                width: settings.pixelWidth.toDouble(),
+                child: AllShapesWidget(
+                  settings: settings,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                height: settings.pixelHeight.toDouble(),
+                width: settings.pixelWidth.toDouble(),
+                child: DrawShapes(
+                  shapes: [
+                    PuzzleToSolve(
+                      x: 0,
+                      y: 8,
+                      settings: settings,
+                      color: Colors.red,
+                    )
+                  ],
+                  settings: settings,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 50,
+              right: 20,
+              child: Container(
+                  //   child: FloatingActionButton(
+                  //onPressed: () => triangle.rotateRight(),
+                  //      child: Icon(Icons.autorenew_rounded),
+                  ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

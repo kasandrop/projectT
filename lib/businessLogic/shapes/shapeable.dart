@@ -1,7 +1,9 @@
-abstract class IShapeable {
-  rotateLeft();
+import '../coordinateSystem.dart';
 
-  rotateRight();
+abstract class IShapeable {
+  List<PointSystem> rotateLeft();
+
+  List<PointSystem> rotateRight();
 
   bool arePointsOutsideBoundaries({
     required int boardWidth,

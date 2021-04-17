@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-
-import '../coordinateSystem.dart';
-import 'baseShape.dart';
+import 'package:tangram/businessLogic/coordinateSystem.dart';
+import 'package:tangram/businessLogic/shapes/baseShape.dart';
 
 class Trapezoid extends BaseShape {
   //final List<PointSystem> points = [];
   Trapezoid({
     required int x,
     required int y,
-    required color,
   }) : super(
-          color: color,
           origin: Offset(x + 2, y + 2),
         ) {
     points.add(PointSystem(dx: x, dy: y, west: false, north: false));

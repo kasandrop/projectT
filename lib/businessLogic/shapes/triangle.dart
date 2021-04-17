@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/shapes/baseShape.dart';
-import 'package:tangram/shapes/shapeable.dart';
-
-import '../coordinateSystem.dart';
+import 'package:tangram/businessLogic/coordinateSystem.dart';
+import 'package:tangram/businessLogic/shapes/baseShape.dart';
+import 'package:tangram/businessLogic/shapes/shapeable.dart';
 
 class Triangle extends BaseShape implements IShapeable {
   static Map<PointSystem, List<PointSystem>> pattern = {
@@ -16,12 +15,11 @@ class Triangle extends BaseShape implements IShapeable {
     ],
     PointSystem(dx: 0, dy: 0, west: false, north: false, east: false, south: false): [],
   };
+
   Triangle({
     required int x,
     required int y,
-    required color,
   }) : super(
-          color: color,
           origin: Offset(x + 1, y.toDouble()),
         ) {
     points.add(
@@ -52,10 +50,30 @@ class Triangle extends BaseShape implements IShapeable {
     throw UnimplementedError();
   }
 
+//TODO: interesting thing about const[]
   @override
-  rotateRight() {
+  List<PointSystem> rotateRight() {
+    List<PointSystem> temps = List.of(points);
+    List<PointSystem> pointsAfterRotation = [];
+
     points.forEach((PointSystem point) {
-      PointSystem tempPoint = point;
+      PointSystem found = temps.firstWhere(
+          (PointSystem element) => point.dx == element.dx && point.dy == element.dy);
+      int dx = origin.dx.toInt() - point.dy + origin.dy.toInt();
+      int dy = origin.dy.toInt() + point.dx - origin.dx.toInt();
+      pointsAfterRotation.add(
+        PointSystem(
+          dx: dx,
+          dy: dy,
+          east: found.north,
+          south: found.east,
+          west: found.south,
+          north: found.west,
+        ),
+      );
+      temps.removeWhere((element) => element.dx == found.dx && point.dy == element.dy);
     });
+
+    return pointsAfterRotation;
   }
 }
