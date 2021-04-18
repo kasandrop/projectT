@@ -1,5 +1,5 @@
-import 'package:tangram/businessLogic/shapes/trapezoid.dart';
-import 'package:tangram/widgets/shapes/shapeWidget.dart';
+import 'package:tangram/business/shapes/trapezoid.dart';
+import 'package:tangram/presentation/widgets/shapes/shapeWidget.dart';
 
 class TrapezoidWidget extends ShapeWidget {
   final Trapezoid trapezoid;

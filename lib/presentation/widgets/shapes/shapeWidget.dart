@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/coordinateSystem.dart';
-import 'package:tangram/businessLogic/shapes/baseShape.dart';
+import 'package:tangram/business/coordinateSystem.dart';
+import 'package:tangram/business/shapes/baseShape.dart';
+import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/settings.dart';
-import 'package:tangram/widgets/drawPoint.dart';
 
 abstract class ShapeWidget extends StatelessWidget {
   final BaseShape baseShape;
@@ -21,7 +21,7 @@ abstract class ShapeWidget extends StatelessWidget {
     List<Positioned> visiblePoints = [];
 
     baseShape.points.forEach((PointSystem point) {
-      print('visible points x:${point.dx} y:${point.dy}');
+      // print('visible points x:${point.dx} y:${point.dy}');
       visiblePoints.add(Positioned(
         top: point.dy * settings.pointSize.toDouble(),
         left: point.dx * settings.pointSize.toDouble(),
@@ -32,7 +32,7 @@ abstract class ShapeWidget extends StatelessWidget {
         ),
       ));
     });
-    print('visible points size:${visiblePoints.length}');
+    //print('visible points size:${visiblePoints.length}');
     return Stack(children: visiblePoints);
   }
 }

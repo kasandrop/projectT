@@ -1,5 +1,5 @@
-import 'package:tangram/businessLogic/shapes/rectangleWithoutTriangle.dart';
-import 'package:tangram/widgets/shapes/shapeWidget.dart';
+import 'package:tangram/business/shapes/rectangleWithoutTriangle.dart';
+import 'package:tangram/presentation/widgets/shapes/shapeWidget.dart';
 
 class RectangleWithoutTriangleWidget extends ShapeWidget {
   final RectangleWithoutTriangle rectangleWithoutTriangle;

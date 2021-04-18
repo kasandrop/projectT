@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/coordinateSystem.dart';
+import 'package:tangram/business/coordinateSystem.dart';
 
 abstract class BaseShape {
   final Offset origin;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/PuzzleToSolve.dart';
+import 'package:tangram/business/PuzzleToSolve.dart';
+import 'package:tangram/presentation/widgets/puzzleToSolveWidget.dart';
+import 'package:tangram/presentation/widgets/shapes/allShapesWidget.dart';
 import 'package:tangram/settings.dart';
-import 'package:tangram/widgets/drawShapes.dart';
-import 'package:tangram/widgets/shapes/allShapesWidget.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,70 +32,34 @@ class MyApp extends StatelessWidget {
 class ScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    int screenWidth = (MediaQuery.of(context).size.width).toInt();
+    int screenWidth = MediaQuery.of(context).size.width.toInt();
     int screenHeight = MediaQuery.of(context).size.height.toInt();
+
     Settings settings = Settings(
-      pixelHeight: screenHeight,
-      pixelWidth: screenWidth,
-      boardWidth: 9,
-    );
+        heightOffAppBarr: AppBar().preferredSize.height.toInt(),
+        pixelHeight: screenHeight,
+        pixelWidth: screenWidth,
+        boardWidth: 9);
     print(settings);
-    return Center(
-      child: SizedBox(
-        height: settings.pixelHeight.toDouble(),
-        width: settings.pixelWidth.toDouble(),
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0,
-              child: WidgetGridLines(
-                settings: settings,
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        WidgetGridLines(settings: settings),
+        AllShapesWidget(settings: settings),
+        PuzzleToSolveWidget(
+            puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
+            settings: settings,
+            color: Colors.red),
+        Positioned(
+          bottom: 50,
+          right: 20,
+          child: Container(
+              //   child: FloatingActionButton(
+              //onPressed: () => triangle.rotateRight(),
+              //      child: Icon(Icons.autorenew_rounded),
               ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Container(
-                height: settings.pixelHeight.toDouble(),
-                width: settings.pixelWidth.toDouble(),
-                child: AllShapesWidget(
-                  settings: settings,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Container(
-                height: settings.pixelHeight.toDouble(),
-                width: settings.pixelWidth.toDouble(),
-                child: DrawShapes(
-                  shapes: [
-                    PuzzleToSolve(
-                      x: 0,
-                      y: 8,
-                      settings: settings,
-                      color: Colors.red,
-                    )
-                  ],
-                  settings: settings,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 50,
-              right: 20,
-              child: Container(
-                  //   child: FloatingActionButton(
-                  //onPressed: () => triangle.rotateRight(),
-                  //      child: Icon(Icons.autorenew_rounded),
-                  ),
-            ),
-          ],
         ),
-      ),
+      ],
     );
   }
 }
@@ -111,14 +75,14 @@ class WidgetGridLines extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: LinesGrid(
-        color: Theme.of(context).primaryColor,
-        boardWidth: settings.boardWidth,
-        pixelHeight: settings.pixelHeight,
-        pointSize: settings.pointSize,
-        startPoint: Offset(0, 0),
-        pixelWidth: settings.pixelWidth,
-        boardHeight: settings.boardHeight,
-      ),
+          color: Theme.of(context).primaryColor,
+          boardWidth: settings.boardWidth,
+          pixelHeight: settings.pixelHeight,
+          pointSize: settings.pointSize,
+          startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
+          pixelWidth: settings.pixelWidth,
+          boardHeight: settings.boardHeight,
+          appBarHeight: settings.heightOffAppBarr),
       child: Container(),
     );
   }
@@ -132,37 +96,42 @@ class LinesGrid extends CustomPainter {
   final int boardHeight;
   final int pixelHeight;
   final int pixelWidth;
+  final int appBarHeight;
 
-  LinesGrid({
-    required this.color,
-    required this.startPoint,
-    required this.pointSize,
-    required this.boardWidth,
-    required this.boardHeight,
-    required this.pixelHeight,
-    required this.pixelWidth,
-  });
+  LinesGrid(
+      {required this.color,
+      required this.startPoint,
+      required this.pointSize,
+      required this.boardWidth,
+      required this.boardHeight,
+      required this.pixelHeight,
+      required this.pixelWidth,
+      required this.appBarHeight});
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.translate(startPoint.dx, startPoint.dy);
     var paint = Paint();
     paint.color = color;
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 0.0;
     Path path = Path();
     for (int i = 0; i <= boardWidth; i++) {
-      var offset1 = startPoint + Offset((i * pointSize).toDouble(), 0);
-      var offset2 = offset1 + Offset(0, pixelHeight.toDouble());
-      path.moveTo(offset1.dx, offset1.dy);
-      path.lineTo(offset1.dx, offset2.dy);
-      path.moveTo(offset1.dx, offset1.dy);
-    }
-    for (int i = 0; i <= boardHeight; i++) {
-      var offset1 = startPoint + Offset(0, (i * pointSize).toDouble());
-      var offset2 = offset1 + Offset(pixelWidth.toDouble(), 0);
+      var offset1 = Offset((i * pointSize).toDouble(), 0);
+      var offset2 = Offset(
+          (i * pointSize).toDouble(), (pixelHeight - 2 * startPoint.dy).toDouble());
       path.moveTo(offset1.dx, offset1.dy);
       path.lineTo(offset2.dx, offset2.dy);
+      // path.moveTo(offset1.dx, offset1.dy);
+    }
+    for (int i = 0; i <= boardHeight; i++) {
+      var offset1 = Offset(0, (i * pointSize).toDouble());
+      var offset2 =
+          Offset(pixelWidth.toDouble() - 2 * startPoint.dx, (i * pointSize).toDouble());
+
       path.moveTo(offset1.dx, offset1.dy);
+      path.lineTo(offset2.dx, offset2.dy);
+      //path.moveTo(offset1.dx, offset1.dy);
     }
     canvas.drawPath(path, paint);
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/shapes/shapes.dart';
+import 'package:tangram/business/shapes/shapes.dart';
 import 'package:tangram/settings.dart';
 
-class ShapeButtonsWidget extends StatelessWidget {
+class ShapeButtonsWidget1 extends StatelessWidget {
   final Settings settings;
   final RectangleWithoutTriangle rwt;
   final RectangleWithTriangle rWihoutT;
@@ -11,7 +11,7 @@ class ShapeButtonsWidget extends StatelessWidget {
   final Triangle t2;
   final Triangle t3;
 
-  const ShapeButtonsWidget({
+  const ShapeButtonsWidget1({
     required this.settings,
     required this.rwt,
     required this.rWihoutT,
@@ -24,7 +24,7 @@ class ShapeButtonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: settings.pixelHeight * 0.2,
+      alignment: Alignment.center,
       child: Column(
         children: <Widget>[
           Row(children: <Widget>[]),

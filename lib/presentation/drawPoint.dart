@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/coordinateSystem.dart';
+import 'package:tangram/business/coordinateSystem.dart';
 import 'package:tangram/settings.dart';
 
 class DrawPoint extends StatelessWidget {
@@ -21,6 +21,7 @@ class DrawPoint extends StatelessWidget {
         pointSize: settings.pointSize.toDouble(),
         pointSystem: pointSystem,
         color: color,
+        startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
       ),
     );
   }
@@ -36,6 +37,7 @@ class FillerPainter extends CustomPainter {
   final double dxMiddle;
   final double dyMiddle;
   final Color color;
+  final Offset startPoint; //origin
 
   final PointSystem pointSystem;
 
@@ -43,12 +45,13 @@ class FillerPainter extends CustomPainter {
     required this.pointSize,
     required this.pointSystem,
     required this.color,
+    required this.startPoint,
   })   : dxMiddle = pointSize / 2,
-        //(pointSize/2).toInt()
         dyMiddle = pointSize / 2;
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.translate(startPoint.dx, startPoint.dy);
     Path path = Path();
     var paint = Paint();
     paint.color = color;

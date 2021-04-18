@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/coordinateSystem.dart';
-import 'package:tangram/businessLogic/shapes/baseShape.dart';
+import 'package:tangram/business/coordinateSystem.dart';
+import 'package:tangram/business/shapes/baseShape.dart';
 
 class RectangleWithTriangle extends BaseShape {
   RectangleWithTriangle({

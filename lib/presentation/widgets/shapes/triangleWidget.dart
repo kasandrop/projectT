@@ -1,5 +1,5 @@
-import 'package:tangram/businessLogic/shapes/triangle.dart';
-import 'package:tangram/widgets/shapes/shapeWidget.dart';
+import 'package:tangram/business/shapes/triangle.dart';
+import 'package:tangram/presentation/widgets/shapes/shapeWidget.dart';
 
 class TriangleWidget extends ShapeWidget {
   final Triangle triangle;

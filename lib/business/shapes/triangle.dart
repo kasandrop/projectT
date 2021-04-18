@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/businessLogic/coordinateSystem.dart';
-import 'package:tangram/businessLogic/shapes/baseShape.dart';
-import 'package:tangram/businessLogic/shapes/shapeable.dart';
+import 'package:tangram/business/coordinateSystem.dart';
+import 'package:tangram/business/shapes/baseShape.dart';
+import 'package:tangram/business/shapes/shapeable.dart';
 
 class Triangle extends BaseShape implements IShapeable {
   static Map<PointSystem, List<PointSystem>> pattern = {
