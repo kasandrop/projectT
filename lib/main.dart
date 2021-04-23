@@ -36,31 +36,41 @@ class ScreenWidget extends StatelessWidget {
     int screenHeight = MediaQuery.of(context).size.height.toInt();
 
     Settings settings = Settings(
-        heightOffAppBarr: AppBar().preferredSize.height.toInt(),
+        // heightOffAppBarr: AppBar().preferredSize.height.toInt(),
         pixelHeight: screenHeight,
         pixelWidth: screenWidth,
         boardWidth: 9);
-    print(settings);
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        WidgetGridLines(settings: settings),
-        AllShapesWidget(settings: settings),
-        PuzzleToSolveWidget(
-            puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
-            settings: settings,
-            color: Colors.red),
-        Positioned(
-          bottom: 50,
-          right: 20,
-          child: Container(
-              //   child: FloatingActionButton(
-              //onPressed: () => triangle.rotateRight(),
-              //      child: Icon(Icons.autorenew_rounded),
-              ),
-        ),
-      ],
-    );
+    // print(settings);
+    return Container(
+        height: settings.pixelHeight.toDouble(),
+        width: settings.pixelWidth.toDouble(),
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            WidgetGridLines(settings: settings),
+            PuzzleToSolveWidget(
+                puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
+                settings: settings,
+                color: Colors.red),
+            Positioned(
+                top: 0,
+                left: 0,
+                child: Container(
+                  height: settings.pixelHeight.toDouble(),
+                  width: settings.pixelWidth.toDouble(),
+                  child: AllShapesWidget(settings: settings),
+                )),
+            Positioned(
+              bottom: 50,
+              right: 20,
+              child: Container(
+                  //   child: FloatingActionButton(
+                  //onPressed: () => triangle.rotateRight(),
+                  //      child: Icon(Icons.autorenew_rounded),
+                  ),
+            ),
+          ],
+        ));
   }
 }
 
@@ -75,14 +85,14 @@ class WidgetGridLines extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: LinesGrid(
-          color: Theme.of(context).primaryColor,
-          boardWidth: settings.boardWidth,
-          pixelHeight: settings.pixelHeight,
-          pointSize: settings.pointSize,
-          startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
-          pixelWidth: settings.pixelWidth,
-          boardHeight: settings.boardHeight,
-          appBarHeight: settings.heightOffAppBarr),
+        color: Theme.of(context).primaryColor,
+        boardWidth: settings.boardWidth,
+        pixelHeight: settings.pixelHeight,
+        pointSize: settings.pointSize,
+        startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
+        pixelWidth: settings.pixelWidth,
+        boardHeight: settings.boardHeight,
+      ),
       child: Container(),
     );
   }
@@ -96,7 +106,6 @@ class LinesGrid extends CustomPainter {
   final int boardHeight;
   final int pixelHeight;
   final int pixelWidth;
-  final int appBarHeight;
 
   LinesGrid(
       {required this.color,
@@ -105,8 +114,7 @@ class LinesGrid extends CustomPainter {
       required this.boardWidth,
       required this.boardHeight,
       required this.pixelHeight,
-      required this.pixelWidth,
-      required this.appBarHeight});
+      required this.pixelWidth});
 
   @override
   void paint(Canvas canvas, Size size) {

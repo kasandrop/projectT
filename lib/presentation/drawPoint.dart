@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:tangram/business/coordinateSystem.dart';
 import 'package:tangram/settings.dart';
+import 'package:tangram/util/logger.dart';
 
 class DrawPoint extends StatelessWidget {
   final Settings settings;
@@ -15,15 +18,17 @@ class DrawPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(settings.pointSize.toDouble(), settings.pointSize.toDouble()),
-      painter: FillerPainter(
-        pointSize: settings.pointSize.toDouble(),
-        pointSystem: pointSystem,
-        color: color,
-        startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
-      ),
-    );
+    return GestureDetector(
+        onTap: () => log.d('onTap'),
+        child: CustomPaint(
+          size: Size(settings.pointSize.toDouble(), settings.pointSize.toDouble()),
+          painter: FillerPainter(
+            pointSize: settings.pointSize.toDouble(),
+            pointSystem: pointSystem,
+            color: color,
+            startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
+          ),
+        ));
   }
 }
 
@@ -41,20 +46,33 @@ class FillerPainter extends CustomPainter {
 
   final PointSystem pointSystem;
 
-  const FillerPainter({
+  //TODO: created path to inject to constructor to make it const
+  Path path;
+
+  FillerPainter({
     required this.pointSize,
     required this.pointSystem,
     required this.color,
     required this.startPoint,
   })   : dxMiddle = pointSize / 2,
-        dyMiddle = pointSize / 2;
+        dyMiddle = pointSize / 2,
+        path = Path();
 
   @override
+  bool hitTest(Offset position) {
+    Offset position1 = position + startPoint;
+    bool hitTest = path.contains(position1);
+    //log.d('hittest result: $hitTest');
+    return hitTest;
+  }
+
   void paint(Canvas canvas, Size size) {
+    //canvas.save();
     canvas.translate(startPoint.dx, startPoint.dy);
-    Path path = Path();
+    //Path path = Path();
     var paint = Paint();
     paint.color = color;
+    paint.style = PaintingStyle.fill;
 
     // paint.strokeWidth = 3;
     if (pointSystem.east == true &&
@@ -104,6 +122,7 @@ class FillerPainter extends CustomPainter {
     }
 
     canvas.drawPath(path, paint);
+    //canvas.restore();
   }
 
   @override

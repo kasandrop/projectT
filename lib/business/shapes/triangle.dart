@@ -4,32 +4,32 @@ import 'package:tangram/business/shapes/baseShape.dart';
 import 'package:tangram/business/shapes/shapeable.dart';
 
 class Triangle extends BaseShape implements IShapeable {
-  static Map<PointSystem, List<PointSystem>> pattern = {
-    PointSystem(dx: 0, dy: 0, west: false, north: false): [],
-    PointSystem(dx: 0, dy: 0): [],
-    PointSystem(dx: 0, dy: 0, west: false, north: false): [
-      PointSystem(dx: 0, dy: 0, west: false, north: false, east: false, south: false),
-      PointSystem(dx: 0, dy: 0, west: true, north: false, east: false, south: true),
-      PointSystem(dx: 0, dy: 0, west: true, north: true, east: true, south: true),
-      PointSystem(dx: 0, dy: 0, west: true, north: false, east: false, south: true),
-    ],
-    PointSystem(dx: 0, dy: 0, west: false, north: false, east: false, south: false): [],
-  };
+  // static Map<PointSystem, List<PointSystem>> pattern = {
+  //   PointSystem(dx: 0, dy: 0, west: false, north: false): [],
+  //   PointSystem(dx: 0, dy: 0): [],
+  //   PointSystem(dx: 0, dy: 0, west: false, north: false): [
+  //     PointSystem(dx: 0, dy: 0, west: false, north: false, east: false, south: false),
+  //     PointSystem(dx: 0, dy: 0, west: true, north: false, east: false, south: true),
+  //     PointSystem(dx: 0, dy: 0, west: true, north: true, east: true, south: true),
+  //     PointSystem(dx: 0, dy: 0, west: true, north: false, east: false, south: true),
+  //   ],
+  //   PointSystem(dx: 0, dy: 0, west: false, north: false, east: false, south: false): [],
+  // };
 
   Triangle({
-    required int x,
-    required int y,
+    int xPos = 0,
+    int yPos = 0,
   }) : super(
-          origin: Offset(x + 1, y.toDouble()),
+          origin: Offset(xPos + 1, yPos.toDouble()),
         ) {
     points.add(
-      PointSystem(dx: x, dy: y, west: false, north: false),
+      PointSystem(dx: 0, dy: 1, west: false, north: false),
     );
     points.add(
-      PointSystem(dx: x + 1, dy: y),
+      PointSystem(dx: 1, dy: 1),
     );
     points.add(
-      PointSystem(dx: x + 1, dy: y - 1, west: false, north: false),
+      PointSystem(dx: 1, dy: 0, west: false, north: false),
     );
   }
 
