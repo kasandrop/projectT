@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/business/shapes/shapes.dart';
+import 'package:tangram/business/shapes/shapesData.dart';
 import 'package:tangram/settings.dart';
 
 class ShapeButtonsWidget1 extends StatelessWidget {
   final Settings settings;
-  final RectangleWithoutTriangle rwt;
-  final RectangleWithTriangle rWihoutT;
+  final RectWithoutTriangle rwt;
+  final RectWithTriangle rWihoutT;
   final Trapezoid trapezoid;
   final Triangle t1;
   final Triangle t2;

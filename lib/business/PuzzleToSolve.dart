@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/business/coordinateSystem.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
 import 'package:tangram/settings.dart';
+
+import '../util/coordinateSystem.dart';
 
 class PuzzleToSolve extends BaseShape {
   //final Color color;

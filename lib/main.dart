@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tangram/business/PuzzleToSolve.dart';
+import 'package:tangram/business/useCases/get_initial_points.dart';
+import 'package:tangram/presentation/movements/movements_bloc.dart';
 import 'package:tangram/presentation/widgets/puzzleToSolveWidget.dart';
 import 'package:tangram/presentation/widgets/shapes/allShapesWidget.dart';
 import 'package:tangram/settings.dart';
+
+import 'business/shapes/rectWithTriangle.dart';
+import 'business/shapes/rectWithoutTriangle.dart';
+import 'business/shapes/trapezoid.dart';
+import 'business/shapes/triangle.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final GetPointsUseCase getPointsUseCase = GetPointsUseCase(
+    rectangleWithoutTriangle: RectWithoutTriangle(),
+    rectangleWithTriangle: RectWithTriangle(),
+    trapezoid: Trapezoid(),
+    triangleBlue: Triangle(),
+    triangleGreen: Triangle(),
+    triangleRed: Triangle(),
+  );
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,8 +33,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: Scaffold(
-        body: ScreenWidget(),
+      home: BlocProvider(
+        create: (context) => MovementsBloc(getPoints: getPointsUseCase),
+        child: ScreenWidget(),
       ),
     );
   }
@@ -41,36 +57,41 @@ class ScreenWidget extends StatelessWidget {
         pixelWidth: screenWidth,
         boardWidth: 9);
     // print(settings);
-    return Container(
-        height: settings.pixelHeight.toDouble(),
-        width: settings.pixelWidth.toDouble(),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            WidgetGridLines(settings: settings),
-            PuzzleToSolveWidget(
-                puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
-                settings: settings,
-                color: Colors.red),
-            Positioned(
-                top: 0,
-                left: 0,
-                child: Container(
-                  height: settings.pixelHeight.toDouble(),
-                  width: settings.pixelWidth.toDouble(),
-                  child: AllShapesWidget(settings: settings),
-                )),
-            Positioned(
-              bottom: 50,
-              right: 20,
-              child: Container(
-                  //   child: FloatingActionButton(
-                  //onPressed: () => triangle.rotateRight(),
-                  //      child: Icon(Icons.autorenew_rounded),
+    return Scaffold(
+        body: Container(
+            height: settings.pixelHeight.toDouble(),
+            width: settings.pixelWidth.toDouble(),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                WidgetGridLines(settings: settings),
+                PuzzleToSolveWidget(
+                    puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
+                    settings: settings,
+                    color: Colors.red),
+                Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      height: settings.pixelHeight.toDouble(),
+                      width: settings.pixelWidth.toDouble(),
+                      child: AllShapesWidget(
+                        settings: settings,
+                      ),
+                    )),
+                Positioned(
+                  bottom: 50,
+                  right: 20,
+                  child: Container(
+                    child: FloatingActionButton(
+                      onPressed: () =>
+                          BlocProvider.of<MovementsBloc>(context).add(RotatedRight()),
+                      child: Icon(Icons.autorenew_rounded),
+                    ),
                   ),
-            ),
-          ],
-        ));
+                )
+              ],
+            )));
   }
 }
 

@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:tangram/business/coordinateSystem.dart';
 import 'package:tangram/settings.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:tangram/util/coordinateSystem.dart';
 
 class DrawPoint extends StatelessWidget {
   final Settings settings;
@@ -19,16 +16,16 @@ class DrawPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => log.d('onTap'),
+        // onTap: () => log.d('onTap'),
         child: CustomPaint(
-          size: Size(settings.pointSize.toDouble(), settings.pointSize.toDouble()),
-          painter: FillerPainter(
-            pointSize: settings.pointSize.toDouble(),
-            pointSystem: pointSystem,
-            color: color,
-            startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
-          ),
-        ));
+      size: Size(settings.pointSize.toDouble(), settings.pointSize.toDouble()),
+      painter: FillerPainter(
+        pointSize: settings.pointSize.toDouble(),
+        pointSystem: pointSystem,
+        color: color,
+        startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
+      ),
+    ));
   }
 }
 
@@ -54,7 +51,7 @@ class FillerPainter extends CustomPainter {
     required this.pointSystem,
     required this.color,
     required this.startPoint,
-  })   : dxMiddle = pointSize / 2,
+  })  : dxMiddle = pointSize / 2,
         dyMiddle = pointSize / 2,
         path = Path();
 

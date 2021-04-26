@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tangram/presentation/drawPoint.dart';
-import 'package:tangram/presentation/movements/movements_bloc.dart';
 import 'package:tangram/settings.dart';
 import 'package:tangram/util/coordinateSystem.dart';
 import 'package:tangram/util/shape_enum.dart';
 
-class TriangleWidget extends StatefulWidget {
+class RectWithTriangleWidget extends StatefulWidget {
   final List<PointSystem> points;
   final int x;
   final int y;
   final Settings settings;
   final Color color;
-  final Shapes shape;
+  final Shapes shape = Shapes.RectWithTriangle;
 
-  const TriangleWidget({
+  const RectWithTriangleWidget({
     Key? key,
     required this.points,
     required this.settings,
     required this.color,
     required this.x,
     required this.y,
-    required this.shape,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => TriangleWidgetState();
+  State<StatefulWidget> createState() => RectWithTriangleWidgetState();
 }
 
-class TriangleWidgetState extends State<TriangleWidget> {
+class RectWithTriangleWidgetState extends State<RectWithTriangleWidget> {
   Offset position = Offset(0, 0);
   Offset delta = Offset(0, 0);
 
@@ -53,16 +50,7 @@ class TriangleWidgetState extends State<TriangleWidget> {
       top: position.dy * widget.settings.pointSize.toDouble(),
       left: position.dx * widget.settings.pointSize.toDouble(),
       child: Draggable(
-        onDragStarted: () => BlocProvider.of<MovementsBloc>(context)
-            .add(ShapeFocused(shape: widget.shape)),
-        // onDraggableCanceled: (velocity, offset) {
-        //   log.d('onDraggableCanceled  offset:${offset}');
-        //   setState(() {
-        //     position = Offset((offset.dx / widget.settings.pointSize).roundToDouble(),
-        //         (offset.dy / widget.settings.pointSize).roundToDouble());
-        //   });
-        // },
-
+        //onDragStarted: () => log.d('dragged started'),
         onDragUpdate: (details) {
           delta = details.delta + delta;
           // log.d('onDragUpdate  details Delta:${delta}');
@@ -82,7 +70,6 @@ class TriangleWidgetState extends State<TriangleWidget> {
             setState(() {
               position = Offset(-1, 0) + position;
               delta = Offset(0, delta.dy);
-              ;
             });
           }
           if (delta.dy < widget.settings.pointSize * (-1)) {
@@ -92,21 +79,18 @@ class TriangleWidgetState extends State<TriangleWidget> {
             });
           }
         },
-        child: GestureDetector(
-          onTap: () => BlocProvider.of<MovementsBloc>(context)
-              .add(ShapeFocused(shape: widget.shape)),
-          child: Container(
-              height: widget.settings.pointSize * 2,
-              width: widget.settings.pointSize * 2,
-              child: Stack(children: visiblePoints)),
-        ),
+        child: Container(
+            //color: Colors.yellowAccent,
+            height: widget.settings.pointSize * 4,
+            width: widget.settings.pointSize * 4,
+            child: Stack(children: visiblePoints)),
         feedback: Container(
-            height: widget.settings.pointSize * 2,
-            width: widget.settings.pointSize * 2,
+            height: widget.settings.pointSize * 4,
+            width: widget.settings.pointSize * 4,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage("assets/triangle.png"),
+                image: AssetImage("assets/rectangleWithTriangle.png"),
               ),
             )),
       ),

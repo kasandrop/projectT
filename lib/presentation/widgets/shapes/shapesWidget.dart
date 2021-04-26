@@ -1,5 +1,3 @@
-export 'rectangleWithTriangleWidget.dart';
-export 'rectangleWithoutTriangleWidget.dart';
-export 'shapeWidget.dart';
+export 'rectWithTriangleWidget.dart';
 export 'trapezoidWidget.dart';
 export 'triangleWidget.dart';

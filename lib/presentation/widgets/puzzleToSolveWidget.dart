@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/PuzzleToSolve.dart';
-import 'package:tangram/business/coordinateSystem.dart';
+import '../../util/coordinateSystem.dart';
 import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/settings.dart';
 

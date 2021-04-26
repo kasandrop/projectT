@@ -8,9 +8,12 @@ abstract class MovementsEvent extends Equatable {
 }
 
 class ShapeFocused extends MovementsEvent {
-  final String shapeId;
+  final Shapes shape;
 
-  const ShapeFocused({required this.shapeId});
+  const ShapeFocused({required this.shape});
+
+  @override
+  List<Object> get props => [shape];
 }
 
 class ShapeUnFocused extends MovementsEvent {}
@@ -18,10 +21,3 @@ class ShapeUnFocused extends MovementsEvent {}
 class RotatedRight extends MovementsEvent {}
 
 class RotatedLeft extends MovementsEvent {}
-
-class ShapeMoved extends MovementsEvent {
-  final double x;
-  final double y;
-
-  ShapeMoved({required this.x, required this.y});
-}
