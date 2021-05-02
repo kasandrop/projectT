@@ -22,13 +22,13 @@ class Triangle extends BaseShape {
           origin: Offset(xPos.toDouble(), yPos.toDouble()),
         ) {
     points.add(
-      PointSystem(dx: 0, dy: 1, west: false, north: false),
+      const PointSystem(dx: 0, dy: 1, west: false, north: false),
     );
     points.add(
-      PointSystem(dx: 1, dy: 1),
+      const PointSystem(dx: 1, dy: 1),
     );
     points.add(
-      PointSystem(dx: 1, dy: 0, west: false, north: false),
+      const PointSystem(dx: 1, dy: 0, west: false, north: false),
     );
   }
 

@@ -5,5 +5,4 @@ enum Shapes {
   Trapezoid,
   RectWithTriangle,
   RectWithoutTriangle,
-  None
 }

@@ -49,7 +49,7 @@ class SimpleLogPrinter extends LogPrinter {
     this.lineLength = 120,
     this.colors = true,
     this.printEmojis = true,
-    this.printTime = true,
+    this.printTime = false,
   }) {
     // _startTime ??= DateTime.now();
 
@@ -206,25 +206,25 @@ class SimpleLogPrinter extends LogPrinter {
               errorColor.resetBackground,
         );
       }
-      buffer.add(color(_middleBorder));
+      //  buffer.add(color(_middleBorder));
     }
 
     if (stacktrace != null) {
       for (var line in stacktrace.split('\n')) {
         buffer.add('$color$verticalLine $line');
       }
-      buffer.add(color(_middleBorder));
+      // buffer.add(color(_middleBorder));
     }
 
     if (time != null) {
-      buffer..add(color('$verticalLine $time'))..add(color(_middleBorder));
+      //buffer..add(color('$verticalLine $time'))..add(color(_middleBorder));
     }
 
-    var emoji = _getEmoji(level);
+    //var emoji = _getEmoji(level);
     for (var line in message.split('\n')) {
-      buffer.add(color('$verticalLine $emoji$line'));
+      buffer.add(color('$verticalLine  $line'));
     }
-    buffer.add(color(_bottomBorder));
+    //buffer.add(color(_bottomBorder));
 
     return buffer;
   }

@@ -1,5 +1,6 @@
 part of 'movements_bloc.dart';
 
+//TODO: remove  base class
 abstract class MovementsEvent extends Equatable {
   const MovementsEvent();
 
@@ -8,12 +9,12 @@ abstract class MovementsEvent extends Equatable {
 }
 
 class ShapeFocused extends MovementsEvent {
-  final Shapes shape;
+  final Shapes focusShape;
 
-  const ShapeFocused({required this.shape});
+  const ShapeFocused({required this.focusShape});
 
   @override
-  List<Object> get props => [shape];
+  List<Object> get props => [focusShape];
 }
 
 class ShapeUnFocused extends MovementsEvent {}

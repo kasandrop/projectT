@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/settings.dart';
 import 'package:tangram/util/coordinateSystem.dart';
 
 class DrawPoint extends StatelessWidget {
-  final Settings settings;
   final PointSystem pointSystem;
   final Color color;
+  final double pointSize;
+  final VoidCallback? onTap;
 
   const DrawPoint({
-    required this.settings,
     required this.pointSystem,
     required this.color,
+    required this.pointSize,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        // onTap: () => log.d('onTap'),
-        child: CustomPaint(
-      size: Size(settings.pointSize.toDouble(), settings.pointSize.toDouble()),
+    return // GestureDetector(
+        // onTap: onTap,
+        // child:
+        CustomPaint(
+      size: Size(pointSize, pointSize),
       painter: FillerPainter(
-        pointSize: settings.pointSize.toDouble(),
+        pointSize: pointSize,
         pointSystem: pointSystem,
         color: color,
-        startPoint: Offset(settings.leftOver.dx, settings.leftOver.dy),
+        startPoint: Offset.zero,
       ),
-    ));
+      //       ),
+    );
   }
 }
 
@@ -44,7 +47,7 @@ class FillerPainter extends CustomPainter {
   final PointSystem pointSystem;
 
   //TODO: created path to inject to constructor to make it const
-  Path path;
+  final Path path;
 
   FillerPainter({
     required this.pointSize,
@@ -65,7 +68,7 @@ class FillerPainter extends CustomPainter {
 
   void paint(Canvas canvas, Size size) {
     //canvas.save();
-    canvas.translate(startPoint.dx, startPoint.dy);
+    // canvas.translate(startPoint.dx, startPoint.dy);
     //Path path = Path();
     var paint = Paint();
     paint.color = color;

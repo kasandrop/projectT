@@ -1,40 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tangram/business/PuzzleToSolve.dart';
-import '../../util/coordinateSystem.dart';
 import 'package:tangram/presentation/drawPoint.dart';
-import 'package:tangram/settings.dart';
+import 'package:tangram/util/coordinateSystem.dart';
+import 'package:tangram/util/settings.dart';
 
 class PuzzleToSolveWidget extends StatelessWidget {
   final PuzzleToSolve puzzleToSolve;
 
-  final Settings settings;
-  final Color color;
+  final Color color = Colors.red;
 
   const PuzzleToSolveWidget({
+    Key? key,
     required this.puzzleToSolve,
-    required this.settings,
-    required this.color,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Positioned> visiblePoints = [];
-
-    puzzleToSolve.points.forEach((PointSystem point) {
-      // print('visible points x:${point.dx} y:${point.dy}');
-      visiblePoints.add(Positioned(
-        top: point.dy * settings.pointSize.toDouble(),
-        left: point.dx * settings.pointSize.toDouble(),
-        child: DrawPoint(
-          settings: settings,
-          pointSystem: point,
-          color: color,
-        ),
-      ));
-    });
-    //print('visible points size:${visiblePoints.length}');
+    double pointSize = Provider.of<Settings>(context).pointSize.toDouble();
     return IgnorePointer(
-      child: Stack(children: visiblePoints),
+      child: Stack(
+        children: puzzleToSolve.points
+            .map((PointSystem point) => Positioned(
+                  top: point.dy * pointSize,
+                  left: point.dx * pointSize,
+                  child: DrawPoint(
+                    pointSize: pointSize,
+                    pointSystem: point,
+                    color: color,
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 }
