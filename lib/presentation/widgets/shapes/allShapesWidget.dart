@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/presentation/movements/movements_bloc.dart';
-import 'package:tangram/presentation/widgets/shapes/rectWithoutTriangleWidget.dart';
-import 'package:tangram/presentation/widgets/shapes/shapesWidget.dart';
-import 'package:tangram/settings.dart';
-import 'package:tangram/util/coordinateSystem.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:tangram/presentation/widgets/shapes/shapeWidget.dart';
+import 'package:tangram/util/settings.dart';
 import 'package:tangram/util/shape_enum.dart';
 
 class AllShapesWidget extends StatelessWidget {

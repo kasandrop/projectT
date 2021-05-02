@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
+import 'package:tangram/business/shapes/shapeable.dart';
 import 'package:tangram/util/coordinateSystem.dart';
 
-class Triangle extends BaseShape {
+class Triangle extends BaseShape implements IMovable {
   // static Map<PointSystem, List<PointSystem>> pattern = {
   //   PointSystem(dx: 0, dy: 0, west: false, north: false): [],
   //   PointSystem(dx: 0, dy: 0): [],
@@ -56,6 +57,18 @@ class Triangle extends BaseShape {
     });
 
     return pointsAfterRotation;
+  }
+
+  @override
+  bool arePointsOutsideBoundaries({required int boardWidth, required int boardHeight}) {
+    // TODO: implement arePointsOutsideBoundaries
+    throw UnimplementedError();
+  }
+
+  @override
+  List<PointSystem> rotateLeft() {
+    // TODO: implement rotateLeft
+    throw UnimplementedError();
   }
 }
 

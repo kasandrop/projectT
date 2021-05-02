@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:tangram/business/useCases/GetInitialPositionsOfTheShapes.dart';
+import 'package:tangram/business/useCases/MovingMechanismUseCase.dart';
 import 'package:tangram/business/useCases/get_initial_points.dart';
 import 'package:tangram/util/coordinateSystem.dart';
 import 'package:tangram/util/logger.dart';

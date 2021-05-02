@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/business/PuzzleToSolve.dart';
+import 'package:provider/provider.dart';
 import 'package:tangram/business/useCases/get_initial_points.dart';
 import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/presentation/movements/movements_bloc.dart';

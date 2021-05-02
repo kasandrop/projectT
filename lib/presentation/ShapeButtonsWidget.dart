@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/shapesData.dart';
-import 'package:tangram/settings.dart';
+import 'package:tangram/util/settings.dart';
 
 class ShapeButtonsWidget1 extends StatelessWidget {
   final Settings settings;

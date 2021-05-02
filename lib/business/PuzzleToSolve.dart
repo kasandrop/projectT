@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
-import 'package:tangram/settings.dart';
+import 'package:tangram/util/settings.dart';
 
 import '../util/coordinateSystem.dart';
 

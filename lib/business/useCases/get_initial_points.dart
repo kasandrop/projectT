@@ -29,7 +29,28 @@ class GetPointsUseCase {
     };
   }
 
-  List<PointSystem> getPoints(Shapes shape) {
+  void rotateShape({required Shapes shape}) {
+    if (shape == Shapes.RectWithTriangle) {
+      rectangleWithTriangle.rotateRight();
+    }
+    if (shape == Shapes.RectWithoutTriangle) {
+      rectangleWithoutTriangle.rotateRight();
+    }
+    if (shape == Shapes.Trapezoid) {
+      trapezoid.rotateRight();
+    }
+    if (shape == Shapes.TriangleRed) {
+      triangleRed.rotateRight();
+    }
+    if (shape == Shapes.TriangleBlue) {
+      triangleBlue.rotateRight();
+    }
+    if (shape == Shapes.TriangleGreen) {
+      triangleGreen.rotateRight();
+    }
+  }
+
+  List<PointSystem> getPoints({required Shapes shape}) {
     if (shape == Shapes.RectWithTriangle) {
       return rectangleWithTriangle.points;
     }

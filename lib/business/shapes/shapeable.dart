@@ -1,6 +1,6 @@
 import 'package:tangram/util/coordinateSystem.dart';
 
-abstract class IShapeable {
+abstract class IMovable {
   List<PointSystem> rotateLeft();
 
   List<PointSystem> rotateRight();
