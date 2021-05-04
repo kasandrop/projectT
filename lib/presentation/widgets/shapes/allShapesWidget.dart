@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tangram/presentation/widgets/shapes/shapeWidget.dart';
+import 'package:tangram/util/constants.dart';
 import 'package:tangram/util/settings.dart';
 import 'package:tangram/util/shape_enum.dart';
 
@@ -14,33 +15,33 @@ class AllShapesWidget extends StatelessWidget {
       height: Provider.of<Settings>(context).pixelHeight.toDouble(),
       child: Stack(
         children: <Widget>[
-          ShapeWidget(
+          const ShapeWidget(
             // key: GlobalKey(),
-            color: Colors.blue,
+            color: colorBlue,
             shape: Shapes.TriangleBlue,
           ),
-          ShapeWidget(
+          const ShapeWidget(
             //  key: GlobalKey(),
-            color: Colors.orange,
+            color: colorOrange,
             shape: Shapes.TriangleRed,
           ),
-          ShapeWidget(
-            color: Colors.green,
+          const ShapeWidget(
+            color: colorOrange,
             shape: Shapes.TriangleGreen,
           ),
-          ShapeWidget(
+          const ShapeWidget(
             //    key: GlobalKey(),
-            color: Colors.blue,
+            color: colorBlue,
             shape: Shapes.Trapezoid,
           ),
-          ShapeWidget(
+          const ShapeWidget(
             //  key: GlobalKey(),
-            color: Colors.blue,
+            color: colorBlue,
             shape: Shapes.RectWithTriangle,
           ),
-          ShapeWidget(
+          const ShapeWidget(
             // key: GlobalKey(),
-            color: Colors.blue,
+            color: colorBlue,
             shape: Shapes.RectWithoutTriangle,
           ),
         ],

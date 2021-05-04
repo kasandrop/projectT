@@ -54,84 +54,8 @@ class MyApp extends StatelessWidget {
             //global pure function in a file,
             getPointsUseCase: getPointsUseCase,
             movingMechanismUseCase: movingMechanismUseCase),
-        child: const ScreenWidget(   ),
+        child: const ScreenWidget(),
       ),
     );
   }
 }
-//
-//
-// class DraggingWidget extends StatefulWidget {
-//   final MovementsState myState;
-//   final double pointSize;
-//
-//
-//   DraggingWidget({required this.myState, required this.pointSize});
-//
-//   @override
-//   _DraggingWidgetState createState() => _DraggingWidgetState();
-// }
-//
-//
-//
-//
-// class _DraggingWidgetState extends State<DraggingWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Draggable(
-//
-//       hitTestBehavior: HitTestBehavior.deferToChild,
-//       onDragStarted: () {
-//         log.d('drag Started');
-//         BlocProvider.of<MovementsBloc>(context).add(
-//             DragStarted(pointSizeInt: widget.pointSize.toInt()));
-//         //return dragStarted(context, pointSize);
-//       },
-//       onDragUpdate: (DragUpdateDetails dud) {
-//         log.d('ondrag  update');
-//         BlocProvider.of<MovementsBloc>(context).add(
-//           ShapeDragged(
-//             delta: dud.delta,
-//           ),
-//         );
-//       },
-//
-//       child: Container(
-//
-//         //color: Colors.yellow,
-//         height: widget.pointSize * getBoardSize(shape: shape),
-//         //global pure function in a file
-//         width: widget.pointSize * getBoardSize(shape: shape),
-//         child: Stack(
-//           children: state.pointsMap[shape]!
-//               .map(
-//                 (PointSystem point) =>
-//                 Positioned(
-//                   top: point.dy * pointSize,
-//                   left: point.dx * pointSize,
-//                   child: DrawPoint(
-//                     onTap: tapping,
-//                     pointSize: pointSize,
-//                     pointSystem: point,
-//                     color: color,
-//                   ),
-//                 ),
-//           )
-//               .toList(),
-//         ),
-//       ),
-//       feedback: Container(
-//         key: globalKey3,
-//         height: pointSize * getBoardSize(shape: shape),
-//         width: pointSize * getBoardSize(shape: shape),
-//         decoration: BoxDecoration(
-//           image: DecorationImage(
-//             fit: BoxFit.fill,
-//             image: AssetImage(getAssetPath(shape: shape)),
-//           ),
-//         ),
-//       ),
-//     )
-//     ,
-//   }
-// }

@@ -8,6 +8,7 @@ import 'package:tangram/business/PuzzleToSolve.dart';
 import 'package:tangram/presentation/widgets/puzzleToSolveWidget.dart';
 import 'package:tangram/presentation/widgets/shapes/allShapesWidget.dart';
 import 'package:tangram/presentation/widgets/widgetGridLines.dart';
+import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/settings.dart';
 
 class ScreenWidget extends StatelessWidget {
@@ -23,7 +24,6 @@ class ScreenWidget extends StatelessWidget {
               pixelWidth: constraints.maxWidth.toInt(),
             );
             return Provider<Settings>.value(
-              //key: ValueKey(33),
               value: settings,
               child: Container(
                 height: constraints.maxHeight,
@@ -31,24 +31,22 @@ class ScreenWidget extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
-                    const WidgetGridLines(key: ValueKey(41)),
+                    const WidgetGridLines(),
                     PuzzleToSolveWidget(
-                      key: ValueKey(38),
                       puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
                     ),
-                    const AllShapesWidget(key: ValueKey(42)),
-                    // Positioned(
-                    //   key: ValueKey(51),
-                    //   bottom: 50,
-                    //   right: 20,
-                    //   child: Container(
-                    //     child: FloatingActionButton(
-                    //       onPressed: () => {log.d('fucking tap')},
-                    //       //     BlocProvider.of<MovementsBloc>(context).add(RotatedRight()),
-                    //       child: Icon(Icons.autorenew_rounded),
-                    //     ),
-                    //   ),
-                    // ),
+                    const AllShapesWidget(),
+                    Positioned(
+                      bottom: 50,
+                      right: 20,
+                      child: Container(
+                        child: FloatingActionButton(
+                          onPressed: () => {log.d('..tap')},
+                          //     BlocProvider.of<MovementsBloc>(context).add(RotatedRight()),
+                          child: Icon(Icons.autorenew_rounded),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

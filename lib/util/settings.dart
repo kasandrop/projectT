@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/util/shape_enum.dart';
 
+
 class Settings {
   //-- how many points
   final int boardWidth; //9
