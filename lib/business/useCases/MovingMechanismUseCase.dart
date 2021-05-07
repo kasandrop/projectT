@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MovingMechanismUseCase {
-  int pointSize = 0;
+  late int pointSize;
 
   MovingMechanismUseCase();
 

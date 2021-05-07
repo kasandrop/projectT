@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/presentation/movements/movements_bloc.dart';
 import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/coordinateSystem.dart';
+import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/settings.dart';
 import 'package:tangram/util/shape_enum.dart';
@@ -23,77 +23,153 @@ class ShapeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // log.d('$shape');
 
-    return BlocBuilder<MovementsBloc, MovementsState>(builder: (context, state) {
-      final double pointSize = Provider.of<Settings>(context).pointSize.toDouble();
-      return Positioned(
-        //  key: ValueKey(151),
-        top: state.positionsMap[shape]!.dy * pointSize,
-        left: state.positionsMap[shape]!.dx * pointSize,
-
-        child: Draggable(
-            // rootOverlay: true,
-            onDragEnd: (details) {
-              log.d('drag ended');
-            },
-            onDragStarted: () {
-              log.d('onDragStarted');
-              BlocProvider.of<MovementsBloc>(context)
-                  .add(ShapeFocused(focusShape: shape));
-              BlocProvider.of<MovementsBloc>(context).add(DragStarted(
-                pointSizeInt: pointSize.toInt(),
-              ));
-            },
-            onDragUpdate: (details) {
-              Offset delta = Offset(details.delta.dx, details.delta.dy);
-              log.d('so it was onDragUpdate');
-              BlocProvider.of<MovementsBloc>(context).add(
-                ShapeDragged(
-                  delta: delta,
-                ),
-              );
-            },
-            childWhenDragging: Container(
-                height: pointSize * getBoardSize(shape: shape),
-                width: pointSize * getBoardSize(shape: shape),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage(getAssetPath(shape: shape)),
-                  ),
-                )),
-            child: Container(
-              height: pointSize * getBoardSize(shape: shape),
-              width: pointSize * getBoardSize(shape: shape),
-              child: Stack(
-                children: state.pointsMap[shape]!
-                    .map((PointSystem point) => Positioned(
-                          top: point.dy * pointSize,
-                          left: point.dx * pointSize,
-                          child: DrawPoint(
-                            pointSize: pointSize,
-                            pointSystem: point,
-                            color: color,
-                          ),
-                        ))
-                    .toList(),
-              ),
-            ),
-            //),
-
-            feedback: ModifyContainer(
-              shape: shape,
-              assetBuilder: (imageProvider) {
-                return MyFeedback(
-                  shape: shape,
-                  imageProvider: imageProvider,
-                  pointSize: pointSize,
-                );
-              },
-            )),
+    return BlocBuilder<MovementsBloc, MovementsState>(
+        builder: (context, state) {
+      final pointSize = Provider.of<Settings>(context).pointSize.toDouble();
+      final dx = state.positionsMap[shape]!.dx;
+      final dy = state.positionsMap[shape]!.dy;
+      final pointsSystem = state.baseShapeMap[shape]!.points;
+      return PositionedWrapper(
+        dx: dx * pointSize,
+        dy: dy * pointSize,
+        pointSize: pointSize,
+        shape: shape,
+        color: color,
+        pointsSystem: pointsSystem,
       );
     });
-    // }
-    //);
+  }
+}
+
+class PositionedWrapper extends StatelessWidget {
+  final double pointSize;
+  final Shapes shape;
+  final List<PointSystem> pointsSystem;
+  final Color color;
+  final double dx;
+  final double dy;
+
+  const PositionedWrapper({
+    Key? key,
+    required this.pointSize,
+    required this.shape,
+    required this.pointsSystem,
+    required this.color,
+    required this.dx,
+    required this.dy,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: dy,
+      left: dx,
+      child: DraggableWrapper(
+          shape: shape,
+          pointSize: pointSize,
+          pointsSystem: pointsSystem,
+          color: color),
+    );
+  }
+}
+
+class DraggableWrapper extends StatelessWidget {
+  const DraggableWrapper({
+    Key? key,
+    required this.shape,
+    required this.pointSize,
+    required this.pointsSystem,
+    required this.color,
+  }) : super(key: key);
+
+  final Shapes shape;
+  final double pointSize;
+  final List<PointSystem> pointsSystem;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Draggable(
+      key: ObjectKey('draggable'),
+      //  rootOverlay: true,
+      childWhenDragging: ShapeFromPointsWidget(
+        key: ObjectKey('childWhenDragging'),
+        pointSize: pointSize,
+        shape: shape,
+        pointsSystem: pointsSystem,
+        color: color,
+      ),
+      child: ShapeFromPointsWidget(
+          key: ObjectKey('child'),
+          pointSize: pointSize,
+          shape: shape,
+          pointsSystem: pointsSystem,
+          color: color),
+      feedback: ShapeFromPointsWidget(
+          key: ObjectKey('feedback'),
+          pointSize: pointSize,
+          shape: shape,
+          pointsSystem: pointsSystem,
+          color: color),
+
+      onDragEnd: (e) {
+        BlocProvider.of<MovementsBloc>(context).add(DraggedFinished());
+      },
+      onDragStarted: () {
+       // log.d('onDragStarted');
+        BlocProvider.of<MovementsBloc>(context)
+            .add(ShapeFocused(focusShape: shape));
+        BlocProvider.of<MovementsBloc>(context).add(DragStarted(
+          pointSizeInt: pointSize.toInt(),
+        ));
+      },
+      onDragUpdate: (details) {
+        //log.d('onDragUpdate');
+        final Offset delta = Offset(details.delta.dx, details.delta.dy);
+        BlocProvider.of<MovementsBloc>(context).add(
+          ShapeDragged(
+            delta: delta,
+          ),
+        );
+      },
+      //  childWhenDragging: ShapeFromPointsWidget(pointSize: pointSize, shape: shape, pointsSystem: pointsSystem, color: color),
+    );
+  }
+}
+
+class ShapeFromPointsWidget extends StatelessWidget {
+  const ShapeFromPointsWidget({
+    Key? key,
+    required this.pointSize,
+    required this.shape,
+    required this.pointsSystem,
+    required this.color,
+  }) : super(key: key);
+
+  final double pointSize;
+  final Shapes shape;
+  final List<PointSystem> pointsSystem;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: pointSize * getBoardSize(shape: shape),
+      width: pointSize * getBoardSize(shape: shape),
+      child: Stack(
+        children: pointsSystem
+            .map((PointSystem point) => Positioned(
+                  top: point.dy * pointSize,
+                  left: point.dx * pointSize,
+                  child: DrawPoint(
+                    pointSize: pointSize,
+                    pointSystem: point,
+                    color: color,
+                  ),
+                ))
+            .toList(),
+      ),
+    );
   }
 }
 
@@ -106,7 +182,8 @@ class MyFeedback extends StatelessWidget {
       {Key? key,
       required this.pointSize,
       required this.shape,
-      required this.imageProvider});
+      required this.imageProvider})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

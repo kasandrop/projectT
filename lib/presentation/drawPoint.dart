@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/util/coordinateSystem.dart';
+import 'package:tangram/util/point_system.dart';
 
 class DrawPoint extends StatelessWidget {
   final PointSystem pointSystem;
   final Color color;
   final double pointSize;
   const DrawPoint({
+    Key? key,
     required this.pointSystem,
     required this.color,
     required this.pointSize,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

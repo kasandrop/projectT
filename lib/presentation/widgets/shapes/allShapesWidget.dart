@@ -15,35 +15,13 @@ class AllShapesWidget extends StatelessWidget {
       height: Provider.of<Settings>(context).pixelHeight.toDouble(),
       child: Stack(
         children: <Widget>[
+          const ShapeWidget(color: colorBlue, shape: Shapes.TriangleBlue),
+          const ShapeWidget(color: colorOrange, shape: Shapes.TriangleRed),
+          const ShapeWidget(color: colorOrange, shape: Shapes.TriangleGreen),
+          const ShapeWidget(color: colorBlue, shape: Shapes.Trapezoid),
+          const ShapeWidget(color: colorBlue, shape: Shapes.RectWithTriangle),
           const ShapeWidget(
-            // key: GlobalKey(),
-            color: colorBlue,
-            shape: Shapes.TriangleBlue,
-          ),
-          const ShapeWidget(
-            //  key: GlobalKey(),
-            color: colorOrange,
-            shape: Shapes.TriangleRed,
-          ),
-          const ShapeWidget(
-            color: colorOrange,
-            shape: Shapes.TriangleGreen,
-          ),
-          const ShapeWidget(
-            //    key: GlobalKey(),
-            color: colorBlue,
-            shape: Shapes.Trapezoid,
-          ),
-          const ShapeWidget(
-            //  key: GlobalKey(),
-            color: colorBlue,
-            shape: Shapes.RectWithTriangle,
-          ),
-          const ShapeWidget(
-            // key: GlobalKey(),
-            color: colorBlue,
-            shape: Shapes.RectWithoutTriangle,
-          ),
+              color: colorBlue, shape: Shapes.RectWithoutTriangle),
         ],
       ),
     );

@@ -3,8 +3,10 @@
 // rendered.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:tangram/business/PuzzleToSolve.dart';
+import 'package:tangram/presentation/movements/movements_bloc.dart';
 import 'package:tangram/presentation/widgets/puzzleToSolveWidget.dart';
 import 'package:tangram/presentation/widgets/shapes/allShapesWidget.dart';
 import 'package:tangram/presentation/widgets/widgetGridLines.dart';
@@ -29,7 +31,6 @@ class ScreenWidget extends StatelessWidget {
                 height: constraints.maxHeight,
                 width: constraints.maxWidth,
                 child: Stack(
-                  fit: StackFit.expand,
                   children: <Widget>[
                     const WidgetGridLines(),
                     PuzzleToSolveWidget(
@@ -41,10 +42,12 @@ class ScreenWidget extends StatelessWidget {
                       right: 20,
                       child: Container(
                         child: FloatingActionButton(
-                          onPressed: () => {log.d('..tap')},
-                          //     BlocProvider.of<MovementsBloc>(context).add(RotatedRight()),
-                          child: Icon(Icons.autorenew_rounded),
-                        ),
+                            child: Icon(Icons.autorenew_rounded),
+                            onPressed: () => {
+                                  log.d('..tap'),
+                                  BlocProvider.of<MovementsBloc>(context)
+                                      .add(RotatedRight()),
+                                }),
                       ),
                     ),
                   ],

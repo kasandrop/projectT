@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
 import 'package:tangram/business/shapes/shapeable.dart';
-import 'package:tangram/util/coordinateSystem.dart';
+import 'package:tangram/util/point_system.dart';
 
-class RectWithTriangle extends BaseShape implements IMovable {
-  RectWithTriangle({
-    int xPos = 2,
-    int yPos = 2,
-  }) : super(
-          origin: Offset(xPos.toDouble(), yPos.toDouble()),
-        ) {
+class RectWithTriangle extends BaseShape {
+  RectWithTriangle({Offset origin = const Offset(2, 2)})
+      : super(origin: origin) {
     points.add(const PointSystem(dx: 2, dy: 0, east: false, north: false));
     points.add(const PointSystem(dx: 2, dy: 1));
     points.add(const PointSystem(dx: 3, dy: 1, east: false, north: false));
@@ -20,7 +16,8 @@ class RectWithTriangle extends BaseShape implements IMovable {
   }
 
   @override
-  bool arePointsOutsideBoundaries({required int boardWidth, required int boardHeight}) {
+  bool arePointsOutsideBoundaries(
+      {required int boardWidth, required int boardHeight}) {
     // TODO: implement arePointsOutsideBoundaries
     throw UnimplementedError();
   }
@@ -31,9 +28,4 @@ class RectWithTriangle extends BaseShape implements IMovable {
     throw UnimplementedError();
   }
 
-  @override
-  List<PointSystem> rotateRight() {
-    // TODO: implement rotateRight
-    throw UnimplementedError();
-  }
 }

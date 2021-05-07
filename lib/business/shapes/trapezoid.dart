@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
 import 'package:tangram/business/shapes/shapeable.dart';
-import 'package:tangram/util/coordinateSystem.dart';
+import 'package:tangram/util/point_system.dart';
 
-class Trapezoid extends BaseShape implements IMovable {
+class Trapezoid extends BaseShape {
   //final List<PointSystem> points = [];
-  Trapezoid({
-    int xPos = 2,
-    int yPos = 2,
-  }) : super(
-          origin: Offset(xPos.toDouble(), yPos.toDouble()),
-        ) {
+  Trapezoid({Offset origin=const Offset(2,2)}):super(origin:origin ){
+
     points.add(const PointSystem(dx: 0, dy: 3, west: false, north: false));
     points.add(const PointSystem(dx: 1, dy: 3));
     points.add(const PointSystem(dx: 2, dy: 3, east: false, south: false));
@@ -40,9 +36,5 @@ class Trapezoid extends BaseShape implements IMovable {
     throw UnimplementedError();
   }
 
-  @override
-  List<PointSystem> rotateRight() {
-    // TODO: implement rotateRight
-    throw UnimplementedError();
-  }
+
 }

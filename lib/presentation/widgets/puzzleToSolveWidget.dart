@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tangram/business/PuzzleToSolve.dart';
 import 'package:tangram/presentation/drawPoint.dart';
-import 'package:tangram/util/coordinateSystem.dart';
+import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/settings.dart';
 
 class PuzzleToSolveWidget extends StatelessWidget {
@@ -17,7 +17,7 @@ class PuzzleToSolveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final double pointSize = Provider.of<Settings>(context).pointSize.toDouble();
+    final double pointSize = Provider.of<Settings>(context).pointSize.toDouble();
     return IgnorePointer(
       child: Stack(
         children: puzzleToSolve.points

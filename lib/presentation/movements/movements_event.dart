@@ -40,7 +40,7 @@ class ShapeDragged extends MovementsEvent {
   List<Object> get props => [delta];
 }
 
-class ShapeUnFocused extends MovementsEvent {}
+class DraggedFinished extends MovementsEvent {}
 
 class RotatedRight extends MovementsEvent {}
 
