@@ -1,4 +1,4 @@
-# tangram
+# triangram
 
 A new Flutter application.
 
