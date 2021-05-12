@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PointSystem {
-  final int dx;
-  final int dy;
+  final num dx;
+  final num dy;
   final bool north;
   final bool east;
   final bool south;
@@ -45,8 +45,11 @@ class PointSystem {
     return 'PointSystem{dx: $dx, '
         'dy: $dy,\n north: $north  \n, east: $east  \n, south: $south  \n, west: $west \n}';
   }
-}
 
+  PointSystem operator +(Offset offset) =>
+      PointSystem.zero(dx: dx + offset.dx, dy: dy + offset.dy);
+}
+// Offset operator +(Offset other) => Offset(dx + other.dx, dy + other.dy);
 //  |-----------|
 //  |'    N   ' |3
 //    W ' ' E   |2
