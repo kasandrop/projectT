@@ -17,7 +17,7 @@ class PuzzleToSolveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double pointSize = Provider.of<Settings>(context).pointSize.toDouble();
+    final pointSize = Provider.of<Settings>(context).pointSize.toDouble();
     return IgnorePointer(
       child: Stack(
         children: puzzleToSolve.points

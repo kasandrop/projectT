@@ -8,7 +8,7 @@ class WidgetGridLines extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Settings settings = Provider.of<Settings>(context);
+    var settings = Provider.of<Settings>(context);
 
     return CustomPaint(
       painter: LinesGrid(
@@ -51,19 +51,19 @@ class LinesGrid extends CustomPainter {
     paint.color = color;
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 0.0;
-    Path path = Path();
-    for (int i = 0; i <= boardWidth; i++) {
+    var path = Path();
+    for (var i = 0; i <= boardWidth; i++) {
       var offset1 = Offset((i * pointSize).toDouble(), 0);
-      var offset2 = Offset(
-          (i * pointSize).toDouble(), (pixelHeight - 2 * startPoint.dy).toDouble());
+      var offset2 = Offset((i * pointSize).toDouble(),
+          (pixelHeight - 2 * startPoint.dy).toDouble());
       path.moveTo(offset1.dx, offset1.dy);
       path.lineTo(offset2.dx, offset2.dy);
       // path.moveTo(offset1.dx, offset1.dy);
     }
-    for (int i = 0; i <= boardHeight; i++) {
+    for (var i = 0; i <= boardHeight; i++) {
       var offset1 = Offset(0, (i * pointSize).toDouble());
-      var offset2 =
-          Offset(pixelWidth.toDouble() - 2 * startPoint.dx, (i * pointSize).toDouble());
+      var offset2 = Offset(pixelWidth.toDouble() - 2 * startPoint.dx,
+          (i * pointSize).toDouble());
 
       path.moveTo(offset1.dx, offset1.dy);
       path.lineTo(offset2.dx, offset2.dy);

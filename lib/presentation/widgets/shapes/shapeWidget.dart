@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/presentation/movements/movements_bloc.dart';
 import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/logger.dart';
+import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/settings.dart';
 import 'package:tangram/util/shape_enum.dart';
 
@@ -99,12 +99,6 @@ class DraggableWrapper extends StatelessWidget {
         pointsSystem: pointsSystem,
         color: color,
       ),
-      child: ShapeFromPointsWidget(
-          key: ObjectKey('child'),
-          pointSize: pointSize,
-          shape: shape,
-          pointsSystem: pointsSystem,
-          color: color),
       feedback: ShapeFromPointsWidget(
           key: ObjectKey('feedback'),
           pointSize: pointSize,
@@ -113,10 +107,11 @@ class DraggableWrapper extends StatelessWidget {
           color: color),
 
       onDragEnd: (e) {
+        log.d('onDragEnd');
         BlocProvider.of<MovementsBloc>(context).add(DraggedFinished());
       },
       onDragStarted: () {
-       // log.d('onDragStarted');
+        log.d('onDragStarted');
         BlocProvider.of<MovementsBloc>(context)
             .add(ShapeFocused(focusShape: shape));
         BlocProvider.of<MovementsBloc>(context).add(DragStarted(
@@ -125,13 +120,19 @@ class DraggableWrapper extends StatelessWidget {
       },
       onDragUpdate: (details) {
         //log.d('onDragUpdate');
-        final Offset delta = Offset(details.delta.dx, details.delta.dy);
+        final delta = Offset(details.delta.dx, details.delta.dy);
         BlocProvider.of<MovementsBloc>(context).add(
           ShapeDragged(
             delta: delta,
           ),
         );
       },
+      child: ShapeFromPointsWidget(
+          key: ObjectKey('child'),
+          pointSize: pointSize,
+          shape: shape,
+          pointsSystem: pointsSystem,
+          color: color),
       //  childWhenDragging: ShapeFromPointsWidget(pointSize: pointSize, shape: shape, pointsSystem: pointsSystem, color: color),
     );
   }
@@ -214,19 +215,19 @@ class ModifyContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final ImageProvider<Object> assetImage;
 
-    if (Shapes.RectWithTriangle == shape)
+    if (Shapes.RectWithTriangle == shape) {
       assetImage = const AssetImage(shapesRectWithTriangle);
-    else if (Shapes.RectWithoutTriangle == shape)
+    } else if (Shapes.RectWithoutTriangle == shape) {
       assetImage = const AssetImage(shapesRectWithoutTriangle);
-    else if (Shapes.TriangleGreen == shape)
+    } else if (Shapes.TriangleGreen == shape) {
       assetImage = const AssetImage(shapesTriangleGreen);
-    else if (Shapes.TriangleRed == shape)
+    } else if (Shapes.TriangleRed == shape) {
       assetImage = const AssetImage(shapesTriangleRed);
-    else if (Shapes.TriangleBlue == shape)
+    } else if (Shapes.TriangleBlue == shape) {
       assetImage = const AssetImage(shapesTriangleBlue);
-    else
-      // (Shapes.Trapezoid == shape)
+    } else {
       assetImage = const AssetImage(shapesTrapezoid);
+    }
 
     return assetBuilder(assetImage);
   }

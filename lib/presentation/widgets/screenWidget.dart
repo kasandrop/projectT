@@ -21,7 +21,7 @@ class ScreenWidget extends StatelessWidget {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            Settings settings = Settings(
+            var settings = Settings(
               pixelHeight: constraints.maxHeight.toInt(),
               pixelWidth: constraints.maxWidth.toInt(),
             );
@@ -42,12 +42,12 @@ class ScreenWidget extends StatelessWidget {
                       right: 20,
                       child: Container(
                         child: FloatingActionButton(
-                            child: Icon(Icons.autorenew_rounded),
                             onPressed: () => {
                                   log.d('..tap'),
                                   BlocProvider.of<MovementsBloc>(context)
                                       .add(RotatedRight()),
-                                }),
+                                },
+                            child: Icon(Icons.autorenew_rounded)),
                       ),
                     ),
                   ],

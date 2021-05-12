@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tangram/util/shape_enum.dart';
 
 class GetInitialPositionsUseCase {
-  final Map<Shapes, Offset> positionsMap = <Shapes, Offset>{
+  final Map<Shapes, Offset> positionsMap = const <Shapes, Offset>{
     Shapes.Trapezoid: Offset(6, 3),
     Shapes.TriangleBlue: Offset(0, 0),
     Shapes.TriangleRed: Offset(4, 0),
@@ -11,5 +11,5 @@ class GetInitialPositionsUseCase {
     Shapes.RectWithTriangle: Offset(3, 7)
   };
 
-  GetInitialPositionsUseCase();
+  const GetInitialPositionsUseCase();
 }

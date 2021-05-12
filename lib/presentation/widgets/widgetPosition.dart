@@ -9,7 +9,7 @@ class WidgetPosition {
   WidgetPosition({required this.x, required this.y, required this.size});
 
   WidgetPosition.fromContext(BuildContext context) {
-    RenderBox object = context.findRenderObject() as RenderBox;
+    var object = context.findRenderObject() as RenderBox;
     x = object.semanticBounds.topLeft.dx;
     y = object.semanticBounds.topLeft.dy;
     size = object.semanticBounds.size;

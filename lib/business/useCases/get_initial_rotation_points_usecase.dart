@@ -1,5 +1,4 @@
 import 'package:tangram/business/shapes/shapesData.dart';
-import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/shape_enum.dart';
 
 class GetInitialRotationPointsUseCase {

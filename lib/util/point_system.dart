@@ -17,27 +17,28 @@ class PointSystem {
     this.west = true,
   });
 
-
   /*
      PointSystem  ps is about to get  rotated.
    */
-  Offset getOffset(){
-    return  Offset(this.dx.toDouble(),this.dy.toDouble());
+  Offset getOffset() {
+    return Offset(dx.toDouble(), dy.toDouble());
   }
 
   //100% correctf
-    PointSystem.afterClockWiseRotation({required PointSystem ps,required dx,required this.dy})
-      : this.north = ps.west,
-        this.east = ps.north,
-        this.south = ps.east,
-        this.west = ps.south,
-        this.dx=dx-1;//clockwise rotation will move top left of the point to become top right
+  PointSystem.afterClockWiseRotation(
+      {required PointSystem ps, required dx, required this.dy})
+      : north = ps.west,
+        east = ps.north,
+        south = ps.east,
+        west = ps.south,
+        dx = dx -
+            1; //clockwise rotation will move top left of the point to become top right
 
   const PointSystem.zero({required this.dx, required this.dy})
-      : this.north = false,
-        this.east = false,
-        this.south = false,
-        this.west = false;
+      : north = false,
+        east = false,
+        south = false,
+        west = false;
 
   @override
   String toString() {

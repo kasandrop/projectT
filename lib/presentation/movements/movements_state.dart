@@ -19,16 +19,12 @@ class MovementsState extends Equatable {
     Shapes? focusShape,
     Offset? delta,
   }) {
-    this
-        .baseShapeMap
-        .update(focusShape ?? this.focusShape, (value) => baseShape ?? value);
-    this
-        .positionsMap
-        .update(focusShape ?? this.focusShape, (value) => currentPosition ?? value);
+    baseShapeMap.update(focusShape ?? this.focusShape, (value) => baseShape ?? value);
+    positionsMap.update(focusShape ?? this.focusShape, (value) => currentPosition ?? value);
 
     return MovementsState(
-      baseShapeMap: this.baseShapeMap,
-      positionsMap: this.positionsMap,
+      baseShapeMap: baseShapeMap,
+      positionsMap: positionsMap,
       focusShape: focusShape ?? this.focusShape,
       delta: delta ?? this.delta,
     );

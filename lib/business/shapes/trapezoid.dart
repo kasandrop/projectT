@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
-import 'package:tangram/business/shapes/shapeable.dart';
 import 'package:tangram/util/point_system.dart';
 
 class Trapezoid extends BaseShape {

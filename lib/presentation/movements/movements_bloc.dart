@@ -4,15 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:tangram/business/shapes/baseShape.dart';
-import 'package:tangram/business/useCases/get_initial_positions__usecase.dart';
 import 'package:tangram/business/useCases/MovingMechanismUseCase.dart';
+import 'package:tangram/business/useCases/get_initial_positions__usecase.dart';
 import 'package:tangram/business/useCases/get_initial_rotation_points_usecase.dart';
-import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/logger.dart';
+import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/shape_enum.dart';
 
 part 'movements_event.dart';
-
 part 'movements_state.dart';
 
 /// [baseShapeMap] every shape has his own List of [PointSystem]
@@ -69,14 +68,15 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
     }
     //==================================================================
     if (event is RotatedRight) {
-      BaseShape tempShape = state.baseShapeMap[state.focusShape]!;
+      var tempShape = state.baseShapeMap[state.focusShape]!;
 
       // getInitialRotationPointsUseCase.rotateShape(shape: state.focusShape);
-     // log.d('before rotation : ${state.baseShapeMap[state.focusShape]!.points}');
+      // log.d('before rotation : ${state.baseShapeMap[state.focusShape]!.points}');
       tempShape.rotateRight();
-     // log.d('after ...rotation : ${state.baseShapeMap[state.focusShape]!.points}....');
-   //   yield state;
-      yield state.copyWith(baseShape: tempShape,delta:state.delta+Offset(0,0.001));
+      // log.d('after ...rotation : ${state.baseShapeMap[state.focusShape]!.points}....');
+      //   yield state;
+      yield state.copyWith(
+          baseShape: tempShape, delta: state.delta + Offset(0, 0.001));
     }
     //==================================================================
     if (event is DragStarted) {
@@ -87,14 +87,15 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
     //==================================================================
     if (event is ShapeDragged) {
       // log.d('${event.cumulativeDelta}');
-      List<Offset> result = movingMechanismUseCase.changeStatePositionAndDelta(
+      var result = movingMechanismUseCase.changeStatePositionAndDelta(
           delta: event.delta + state.delta);
-      Offset pos = result[0];
-      Offset cumDelta = result[1];
+      var pos = result[0];
+      var cumDelta = result[1];
       yield state.copyWith(
         delta: cumDelta,
         focusShape: state.focusShape,
-        currentPosition: Offset(state.positionsMap[state.focusShape]!.dx + pos.dx,
+        currentPosition: Offset(
+            state.positionsMap[state.focusShape]!.dx + pos.dx,
             state.positionsMap[state.focusShape]!.dy + pos.dy),
       );
     }

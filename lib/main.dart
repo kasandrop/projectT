@@ -20,7 +20,7 @@ void main() {
 class MyApp extends StatelessWidget {
   final MovingMechanismUseCase movingMechanismUseCase = MovingMechanismUseCase();
   final GetInitialRotationPointsUseCase getPointsUseCase =
-      GetInitialRotationPointsUseCase(
+     GetInitialRotationPointsUseCase(
     rectangleWithoutTriangle: RectWithoutTriangle(),
     rectangleWithTriangle: RectWithTriangle(),
     trapezoid: Trapezoid(),
@@ -40,7 +40,8 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => MovementsBloc(
-            getInitialPositionsOfTheShapesUseCase: GetInitialPositionsUseCase(),
+            getInitialPositionsOfTheShapesUseCase:
+                const GetInitialPositionsUseCase(),
             getInitialRotationPointsUseCase: getPointsUseCase,
             movingMechanismUseCase: movingMechanismUseCase),
         child: const ScreenWidget(),

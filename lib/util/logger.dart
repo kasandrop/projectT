@@ -7,8 +7,8 @@ class SimpleLogPrinter extends LogPrinter {
   static const bottomLeftCorner = '└';
   static const middleCorner = '├';
   static const verticalLine = '│';
-  static const doubleDivider = "─";
-  static const singleDivider = "┄";
+  static const doubleDivider = '─';
+  static const singleDivider = '┄';
 
   static final levelColors = {
     Level.verbose: AnsiColor.fg(AnsiColor.grey(0.5)),
@@ -30,7 +30,7 @@ class SimpleLogPrinter extends LogPrinter {
 
   static final stackTraceRegex = RegExp(r'#[0-9]+[\s]+(.+) \(([^\s]+)\)');
 
-  static DateTime _startTime = DateTime.now();
+  static final DateTime _startTime = DateTime.now();
 
   final int methodCount;
   final int errorMethodCount;
@@ -40,8 +40,6 @@ class SimpleLogPrinter extends LogPrinter {
   final bool printTime;
 
   String _topBorder = '';
-  String _middleBorder = '';
-  String _bottomBorder = '';
 
   SimpleLogPrinter({
     this.methodCount = 1,
@@ -55,21 +53,19 @@ class SimpleLogPrinter extends LogPrinter {
 
     var doubleDividerLine = StringBuffer();
     var singleDividerLine = StringBuffer();
-    for (int i = 0; i < lineLength - 1; i++) {
+    for (var i = 0; i < lineLength - 1; i++) {
       doubleDividerLine.write(doubleDivider);
       singleDividerLine.write(singleDivider);
     }
 
-    _topBorder = "$topLeftCorner$doubleDividerLine";
-    _middleBorder = "$middleCorner$singleDividerLine";
-    _bottomBorder = "$bottomLeftCorner$doubleDividerLine";
+    _topBorder = '$topLeftCorner$doubleDividerLine';
   }
 
   @override
   List<String> log(LogEvent event) {
     var messageStr = stringifyMessage(event.message);
 
-    String stackTraceStr = "";
+    var stackTraceStr = '';
     if (event.stackTrace == null) {
       if (methodCount > 0) {
         stackTraceStr = formatStackTrace(StackTrace.current, methodCount);
@@ -78,11 +74,11 @@ class SimpleLogPrinter extends LogPrinter {
       stackTraceStr = formatStackTrace(event.stackTrace!, errorMethodCount);
     }
 
-    var errorStr = "";
+    var errorStr = '';
     if (event.error != null) {
       errorStr = event.error.toString();
     }
-    String timeStr = "";
+    var timeStr = '';
     if (printTime) {
       timeStr = getTime();
     }
@@ -97,7 +93,7 @@ class SimpleLogPrinter extends LogPrinter {
   }
 
   String formatStackTrace(StackTrace stackTrace, int methodCount) {
-    var lines = stackTrace.toString().split("\n");
+    var lines = stackTrace.toString().split('\n');
 
     var formatted = <String>[];
     var count = 0;
@@ -110,7 +106,7 @@ class SimpleLogPrinter extends LogPrinter {
         if (match.group(2)!.contains('simple_log_printer')) {
           continue;
         }
-        var newLine = "#$count   ${match.group(1)} (${match.group(2)})";
+        var newLine = '#$count   ${match.group(1)} (${match.group(2)})';
         formatted.add(newLine.replaceAll('<anonymous closure>', '()'));
         if (++count == methodCount) {
           break;
@@ -121,7 +117,7 @@ class SimpleLogPrinter extends LogPrinter {
     }
 
     if (formatted.isEmpty) {
-      return "";
+      return '';
     } else {
       return formatted.join('\n');
     }
@@ -129,23 +125,23 @@ class SimpleLogPrinter extends LogPrinter {
 
   String getTime() {
     String _threeDigits(int n) {
-      if (n >= 100) return "$n";
-      if (n >= 10) return "0$n";
-      return "00$n";
+      if (n >= 100) return '$n';
+      if (n >= 10) return '0$n';
+      return '00$n';
     }
 
     String _twoDigits(int n) {
-      if (n >= 10) return "$n";
-      return "0$n";
+      if (n >= 10) return '$n';
+      return '0$n';
     }
 
     var now = DateTime.now();
-    String h = _twoDigits(now.hour);
-    String min = _twoDigits(now.minute);
-    String sec = _twoDigits(now.second);
-    String ms = _threeDigits(now.millisecond);
+    var h = _twoDigits(now.hour);
+    var min = _twoDigits(now.minute);
+    var sec = _twoDigits(now.second);
+    var ms = _threeDigits(now.millisecond);
     var timeSinceStart = now.difference(_startTime).toString();
-    return "$h:$min:$sec.$ms (+$timeSinceStart)";
+    return '$h:$min:$sec.$ms (+$timeSinceStart)';
   }
 
   String stringifyMessage(dynamic message) {
@@ -177,14 +173,6 @@ class SimpleLogPrinter extends LogPrinter {
     }
   }
 
-  String _getEmoji(Level level) {
-    if (printEmojis) {
-      return levelEmojis[level]!;
-    } else {
-      return "";
-    }
-  }
-
   List<String> _formatAndPrint(
     Level level,
     String message,
@@ -192,32 +180,22 @@ class SimpleLogPrinter extends LogPrinter {
     String error,
     String stacktrace,
   ) {
-    List<String> buffer = [];
+    var buffer = <String>[];
     var color = _getLevelColor(level);
     buffer.add(color(_topBorder));
 
-    if (error != null) {
-      var errorColor = _getErrorColor(level);
-      for (var line in error.split('\n')) {
-        buffer.add(
-          color('$verticalLine ') +
-              errorColor.resetForeground +
-              errorColor(line) +
-              errorColor.resetBackground,
-        );
-      }
-      //  buffer.add(color(_middleBorder));
+    var errorColor = _getErrorColor(level);
+    for (var line in error.split('\n')) {
+      buffer.add(
+        color('$verticalLine ') +
+            errorColor.resetForeground +
+            errorColor(line) +
+            errorColor.resetBackground,
+      );
     }
 
-    if (stacktrace != null) {
-      for (var line in stacktrace.split('\n')) {
-        buffer.add('$color$verticalLine $line');
-      }
-      // buffer.add(color(_middleBorder));
-    }
-
-    if (time != null) {
-      //buffer..add(color('$verticalLine $time'))..add(color(_middleBorder));
+    for (var line in stacktrace.split('\n')) {
+      buffer.add('$color$verticalLine $line');
     }
 
     //var emoji = _getEmoji(level);

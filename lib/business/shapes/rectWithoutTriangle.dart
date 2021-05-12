@@ -9,7 +9,6 @@ var map = Map<String, int>.fromIterable(list,
     value: (item) => item * item);
  */
 class RectWithoutTriangle extends BaseShape {
-  final map = <Offset, PointSystem>{};
 
   RectWithoutTriangle({Offset origin = const Offset(2, 2)})
       : super(origin: origin) {
@@ -27,11 +26,6 @@ class RectWithoutTriangle extends BaseShape {
       points.add(const PointSystem(dx: 0, dy: 1, west: false, north: false));
       points.add(const PointSystem(dx: 1, dy: 1));
 
-      map.addAll(Map<Offset, PointSystem>.fromIterable(
-        points,
-        key: (point) => Offset(point.dx.toDouble(), point.dy.toDouble()),
-        value: (point) => point,
-      ));
     }
   }
 
@@ -41,17 +35,6 @@ class RectWithoutTriangle extends BaseShape {
     // TODO: implement rotateLeft
     throw UnimplementedError();
   }
-
-  ///knowing the location after the rotation we update the [PointSystem]with new values of  north east west south
-  // PointSystem getPointSystemFromMap(Offset offset) {
-  //   if (map.containsKey(offset)) {
-  //     return map[offset]!;
-  //   }
-  //   PointSystem ps =
-  //   PointSystem.zero(dx: offset.dx.toInt(), dy: offset.dy.toInt());
-  //   map.putIfAbsent(offset, () => ps);
-  //   return ps;
-  // }
 
 
 }

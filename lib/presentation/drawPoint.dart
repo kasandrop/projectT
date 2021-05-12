@@ -54,11 +54,12 @@ class FillerPainter extends CustomPainter {
 
   @override
   bool hitTest(Offset position) {
-    Offset position1 = position + startPoint;
-    bool hitTest = path.contains(position1);
+    var position1 = position + startPoint;
+    var hitTest = path.contains(position1);
     return hitTest;
   }
 
+  @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
     paint.color = color;
@@ -74,7 +75,7 @@ class FillerPainter extends CustomPainter {
       path.close();
     } else {
       if (pointSystem.east == true) {
-        Path tempPath = Path();
+        var tempPath = Path();
         tempPath.moveTo(dxMiddle, dyMiddle);
         tempPath.lineTo(pointSize, 0);
         tempPath.lineTo(pointSize, pointSize);
@@ -82,7 +83,7 @@ class FillerPainter extends CustomPainter {
         path.addPath(tempPath, Offset.zero);
       }
       if (pointSystem.south == true) {
-        Path tempPath = Path();
+        var tempPath = Path();
         tempPath.moveTo(dxMiddle, dyMiddle);
         tempPath.lineTo(pointSize, pointSize);
         tempPath.lineTo(0, pointSize);
@@ -90,7 +91,7 @@ class FillerPainter extends CustomPainter {
         path.addPath(tempPath, Offset.zero);
       }
       if (pointSystem.west == true) {
-        Path tempPath = Path();
+        var tempPath = Path();
         tempPath.moveTo(dxMiddle, dyMiddle);
         tempPath.lineTo(0, 0);
         tempPath.lineTo(0, pointSize);
@@ -99,7 +100,7 @@ class FillerPainter extends CustomPainter {
         path.addPath(tempPath, Offset.zero);
       }
       if (pointSystem.north == true) {
-        Path tempPath = Path();
+        var tempPath = Path();
         tempPath.moveTo(dxMiddle, dyMiddle);
         tempPath.lineTo(0, 0);
         tempPath.lineTo(pointSize, 0);

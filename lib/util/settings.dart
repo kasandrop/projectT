@@ -44,30 +44,3 @@ double getBoardSize({required Shapes shape}) {
   return toReturn;
 }
 
-String getAssetPath({required Shapes shape}) {
-  String toReturn;
-  switch (shape) {
-    case Shapes.TriangleRed:
-      toReturn = "assets/triangle.png";
-      break;
-    case Shapes.TriangleBlue:
-      toReturn = "assets/triangle.png";
-      break;
-    case Shapes.TriangleGreen:
-      toReturn = "assets/triangle.png";
-      break;
-    case Shapes.Trapezoid:
-      toReturn = "assets/trapez.png";
-      break;
-    case Shapes.RectWithTriangle:
-      toReturn = "assets/rectangleWithTriangle.png";
-      break;
-    case Shapes.RectWithoutTriangle:
-      toReturn = "assets/rectangleWithoutTriangle.png";
-      break;
-    default:
-      toReturn = "";
-      break;
-  }
-  return toReturn;
-}
