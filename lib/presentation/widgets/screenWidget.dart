@@ -15,46 +15,38 @@ import 'package:tangram/util/settings.dart';
 
 class ScreenWidget extends StatelessWidget {
   const ScreenWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    var settings = Provider.of<Settings>(context);
+    //log.d(' pixel height:${settings.pixelHeight.toDouble()}');
     return Scaffold(
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            var settings = Settings(
-              pixelHeight: constraints.maxHeight.toInt(),
-              pixelWidth: constraints.maxWidth.toInt(),
-            );
-            return Provider<Settings>.value(
-              value: settings,
-              child: Container(
-                height: constraints.maxHeight,
-                width: constraints.maxWidth,
-                child: Stack(
-                  children: <Widget>[
-                    const WidgetGridLines(),
-                    PuzzleToSolveWidget(
-                      puzzleToSolve: PuzzleToSolve(settings: settings, x: 3, y: 4),
-                    ),
-                    const AllShapesWidget(),
-                    Positioned(
-                      bottom: 50,
-                      right: 20,
-                      child: Container(
-                        child: FloatingActionButton(
-                            onPressed: () => {
-                                  log.d('..tap'),
-                                  BlocProvider.of<MovementsBloc>(context)
-                                      .add(RotatedRight()),
-                                },
-                            child: Icon(Icons.autorenew_rounded)),
-                      ),
-                    ),
-                  ],
+        child: Container(
+          height: settings.pixelHeight.toDouble(),
+          width: settings.pixelWidth.toDouble(),
+          child: Stack(
+            children: <Widget>[
+              const WidgetGridLines(),
+              PuzzleToSolveWidget(
+                puzzleToSolve: Provider.of<PuzzleToSolve>(context),
+              ),
+              const AllShapesWidget(),
+              Positioned(
+                bottom: 50,
+                right: 20,
+                child: Container(
+                  child: FloatingActionButton(
+                      onPressed: () => {
+                            log.d('..tap'),
+                            BlocProvider.of<MovementsBloc>(context)
+                                .add(RotatedRight()),
+                          },
+                      child: Icon(Icons.autorenew_rounded)),
                 ),
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     );

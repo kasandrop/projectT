@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/presentation/movements/movements_bloc.dart';
+import 'package:tangram/presentation/solver/solver_bloc.dart';
 import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/settings.dart';
 import 'package:tangram/util/shape_enum.dart';
@@ -68,7 +68,9 @@ class PositionedWrapper extends StatelessWidget {
           shape: shape,
           pointSize: pointSize,
           pointsSystem: pointsSystem,
-          color: color),
+          color: color,
+          dx: dx,
+          dy: dy),
     );
   }
 }
@@ -80,12 +82,16 @@ class DraggableWrapper extends StatelessWidget {
     required this.pointSize,
     required this.pointsSystem,
     required this.color,
+    required this.dx,
+    required this.dy,
   }) : super(key: key);
 
   final Shapes shape;
   final double pointSize;
   final List<PointSystem> pointsSystem;
   final Color color;
+  final double dx;
+  final double dy;
 
   @override
   Widget build(BuildContext context) {
@@ -107,16 +113,20 @@ class DraggableWrapper extends StatelessWidget {
           color: color),
 
       onDragEnd: (e) {
-        log.d('onDragEnd');
+        //  log.d('onDragEnd');
         BlocProvider.of<MovementsBloc>(context).add(DraggedFinished());
+        BlocProvider.of<SolverBloc>(context).add(ShapeFinishedDragDataEvent(
+            offset: Offset(dx, dy), points: pointsSystem));
       },
       onDragStarted: () {
-        log.d('onDragStarted');
+        //log.d('onDragStarted');
         BlocProvider.of<MovementsBloc>(context)
             .add(ShapeFocused(focusShape: shape));
         BlocProvider.of<MovementsBloc>(context).add(DragStarted(
           pointSizeInt: pointSize.toInt(),
         ));
+        BlocProvider.of<SolverBloc>(context).add(ShapeStartedDragDataEvent(
+            offset: Offset(dx, dy), points: pointsSystem));
       },
       onDragUpdate: (details) {
         //log.d('onDragUpdate');

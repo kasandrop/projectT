@@ -69,12 +69,7 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
     //==================================================================
     if (event is RotatedRight) {
       var tempShape = state.baseShapeMap[state.focusShape]!;
-
-      // getInitialRotationPointsUseCase.rotateShape(shape: state.focusShape);
-      // log.d('before rotation : ${state.baseShapeMap[state.focusShape]!.points}');
       tempShape.rotateRight();
-      // log.d('after ...rotation : ${state.baseShapeMap[state.focusShape]!.points}....');
-      //   yield state;
       yield state.copyWith(
           baseShape: tempShape, delta: state.delta + Offset(0, 0.001));
     }

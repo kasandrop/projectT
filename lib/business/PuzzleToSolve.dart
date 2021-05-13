@@ -10,8 +10,8 @@ class PuzzleToSolve extends BaseShape {
   final Settings settings;
 
   PuzzleToSolve({
-    required num x,
-    required num y,
+    required int x,
+    required int y,
     required this.settings,
   }):super(origin:Offset(x.toDouble(),y.toDouble())) {
     points.add(PointSystem(dx: x + 2, dy: y));

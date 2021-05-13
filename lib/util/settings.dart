@@ -27,6 +27,12 @@ class Settings {
 
   /// [pixelWidth]%[boardWidth] to calculate alignment
   Offset get leftOver => Offset(0, 0);
+
+  @override
+  String toString() {
+    return 'Settings{boardWidth: $boardWidth, boardHeight: $boardHeight,'
+        ' pointSize: $pointSize, pixelWidth: $pixelWidth, pixelHeight: $pixelHeight, color: $color}';
+  }
 }
 
 double getBoardSize({required Shapes shape}) {
