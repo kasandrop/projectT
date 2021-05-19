@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:tangram/business/shapes/baseShape.dart';
 import 'package:tangram/business/useCases/MovingMechanismUseCase.dart';
 import 'package:tangram/business/useCases/get_initial_positions__usecase.dart';
 import 'package:tangram/business/useCases/get_initial_rotation_points_usecase.dart';
@@ -11,8 +9,7 @@ import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/shape_enum.dart';
 
-part 'movements_event.dart';
-part 'movements_state.dart';
+import 'movements.dart';
 
 /// [baseShapeMap] every shape has his own List of [PointSystem]
 // It allows  to track rotation of the shape.
@@ -35,7 +32,9 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
             baseShapeMap: Map.of(getInitialRotationPointsUseCase.getMap()),
             focusShape: Shapes.TriangleGreen,
             delta: Offset(0, 0),
-            positionsMap: Map.of(getInitialPositionsOfTheShapesUseCase.positionsMap),
+            positionsMap:
+                Map.of(getInitialPositionsOfTheShapesUseCase.positionsMap),
+            rotation: false,
           ),
         );
 
@@ -52,9 +51,9 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
   }
 
   @override
-  void onChange(Change<MovementsState> change) {
-    super.onChange(change);
-  //  log.d('after ...rotation : ${change.currentState.baseShapeMap[state.focusShape]!.points}....');
+  void onTransition(Transition<MovementsEvent, MovementsState> transition) {
+    super.onTransition(transition);
+    // log.d('${transition.currentState}........................${transition.nextState}}');
   }
 
   @override
@@ -68,10 +67,14 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
     }
     //==================================================================
     if (event is RotatedRight) {
+      log.d('Rotated right event');
       var tempShape = state.baseShapeMap[state.focusShape]!;
       tempShape.rotateRight();
       yield state.copyWith(
-          baseShape: tempShape, delta: state.delta + Offset(0, 0.001));
+          baseShape: tempShape,
+          rotation: true,
+          delta: state.delta +
+              Offset(0, 0.001)); //adding offset otherwise state not emitted
     }
     //==================================================================
     if (event is DragStarted) {
@@ -93,9 +96,6 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
             state.positionsMap[state.focusShape]!.dx + pos.dx,
             state.positionsMap[state.focusShape]!.dy + pos.dy),
       );
-    }
-    if (event is DraggedFinished) {
-    //  log.d('after ...rotation : ${state.baseShapeMap[state.focusShape]!.points}....');
     }
   }
 }

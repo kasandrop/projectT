@@ -1,4 +1,6 @@
-part of 'solver_bloc.dart';
+import 'dart:ui';
+
+import 'package:tangram/util/point_system.dart';
 
 abstract class SolverEvent {
   const SolverEvent();
@@ -16,7 +18,7 @@ class ShapeStartedDragDataEvent extends SolverEvent {
 
   @override
   String toString() {
-    return 'ShapeStartedDragDataEvent{ offset: $offset, points: $points}';
+    return '\nShapeStartedDragDataEvent{ offset: $offset,\n points: $points}';
   }
 }
 
@@ -31,6 +33,36 @@ class ShapeFinishedDragDataEvent extends SolverEvent {
 
   @override
   String toString() {
-    return 'ShapeFinishedDragDataEvent{offset: $offset, points: $points}';
+    return '\nShapeFinishedDragDataEvent{offset: $offset,\n points: $points}';
+  }
+}
+
+class ShapeFinishedRotation extends SolverEvent {
+  final Offset offset;
+  final List<PointSystem> points;
+
+  const ShapeFinishedRotation({
+    required this.offset,
+    required this.points,
+  });
+
+  @override
+  String toString() {
+    return '\nShapeFinishedRotation{offset: $offset,\n points: $points}';
+  }
+}
+
+class ShapeStartedRotation extends SolverEvent {
+  final Offset offset;
+  final List<PointSystem> points;
+
+  const ShapeStartedRotation({
+    required this.offset,
+    required this.points,
+  });
+
+  @override
+  String toString() {
+    return '\nShapeStartedRotation{offset: $offset,\n points: $points}';
   }
 }

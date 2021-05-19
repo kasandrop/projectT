@@ -1,6 +1,9 @@
-part of 'movements_bloc.dart';
-
 //TODO: remove  base class
+import 'dart:ui';
+
+import 'package:equatable/equatable.dart';
+import 'package:tangram/util/shape_enum.dart';
+
 abstract class MovementsEvent extends Equatable {
   const MovementsEvent();
 
@@ -39,8 +42,6 @@ class ShapeDragged extends MovementsEvent {
   @override
   List<Object> get props => [delta];
 }
-
-class DraggedFinished extends MovementsEvent {}
 
 class RotatedRight extends MovementsEvent {}
 

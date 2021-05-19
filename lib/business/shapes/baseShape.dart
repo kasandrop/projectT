@@ -3,7 +3,7 @@ import 'package:tangram/util/point_system.dart';
 
 abstract class BaseShape {
   final Offset origin;
-  final List<PointSystem> points = [];
+  final points = <PointSystem>[];
 
   BaseShape({required this.origin});
 
@@ -13,10 +13,7 @@ abstract class BaseShape {
     throw UnimplementedError();
   }
 
-  List<PointSystem> rotateLeft() {
-    // TODO: implement rotateLeft
-    throw UnimplementedError();
-  }
+  void rotateLeft() {}
 
   void rotateRight() {
     {

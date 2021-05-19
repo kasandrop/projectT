@@ -1,37 +1,49 @@
-import 'dart:ui';
+import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tangram/business/solver_helper.dart';
 import 'package:tangram/util/logger.dart';
-import 'package:tangram/util/point_system.dart';
 
-part 'solver_event.dart';
-
-part 'solver_state.dart';
+import 'solver.dart';
 
 class SolverBloc extends Bloc<SolverEvent, SolverState> {
-  final List<PointSystem> puzzleToSolvePoints;
   final SolverHelper solverHelper;
 
+  // final MovementsBloc movementsBloc;
+  // StreamSubscription streamSubscription;
+
   SolverBloc({
-    required this.puzzleToSolvePoints,
     required this.solverHelper,
-    //required this.solved,
+    // required this.movementsBloc,
   }) : super(SolverState(
-            puzzleToSolvePoints: puzzleToSolvePoints,
-            currentlyCoveredPuzzle: solverHelper.initMap(puzzleToSolvePoints),
+            puzzleToSolvePoints: solverHelper.puzzleToSolvePoints,
+            currentlyCoveredPuzzle: solverHelper.initMap(),
             solved: false,
-            pointsToPack: puzzleToSolvePoints.length,
-            pointsCovered: 0));
+            pointsToPack: solverHelper.length,
+            pointsCovered: 0)) {
+    //  streamSubscription=movementsBloc.stream.listen(() { })
+  }
 
   @override
   Stream<SolverState> mapEventToState(SolverEvent event) async* {
     if (event is ShapeStartedDragDataEvent) {
+      // log.d('after shapeStarted  state: $state');
       yield state.copyWithShapeStartedDragData(
           offset: event.offset, points: event.points);
     }
     if (event is ShapeFinishedDragDataEvent) {
+      yield state.copyWithShapeFinishedDragData(
+          offset: event.offset, points: event.points);
+    }
+
+    if (event is ShapeStartedRotation) {
+      log.d('event${event.offset}, points: ${event.points}');
+      yield state.copyWithShapeStartedDragData(
+          offset: event.offset, points: event.points);
+    }
+
+    if (event is ShapeFinishedRotation) {
+      log.d('event${event.offset}, points: ${event.points}');
       yield state.copyWithShapeFinishedDragData(
           offset: event.offset, points: event.points);
     }
@@ -40,7 +52,6 @@ class SolverBloc extends Bloc<SolverEvent, SolverState> {
   @override
   void onTransition(Transition<SolverEvent, SolverState> transition) {
     super.onTransition(transition);
-    log.d('points covered: ${transition.currentState.pointsCovered}'
-        'from ${transition.currentState.pointsToPack}');
+    // log.d('after shapeFinished  state: ${transition.nextState}');
   }
 }

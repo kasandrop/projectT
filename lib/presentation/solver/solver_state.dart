@@ -1,7 +1,11 @@
-part of 'solver_bloc.dart';
+import 'dart:ui';
+
+import 'package:equatable/equatable.dart';
+import 'package:tangram/util/point_system.dart';
 
 @override
 class SolverState extends Equatable {
+  //puzzle which must be covered
   final List<PointSystem> puzzleToSolvePoints;
 
   //tracking progress
@@ -26,46 +30,105 @@ class SolverState extends Equatable {
 
   int subtractOne(int x) => x - 1;
 
+  int draggingStarted(int result) {
+    if (result == 0) {
+      return -1;
+    }
+    return 0;
+  }
+
+  int draggingFinished(int result) {
+    if (result == 1) {
+      return 1;
+    }
+    return 0;
+  }
+
   SolverState copyWithShapeStartedDragData({
     required Offset offset,
     required List<PointSystem> points,
   }) {
-    return _copyWith(points: points, offset: offset, func: subtractOne);
+    //   PointSystem ps=const PointSystem.north(dx: 7, dy: 7);
+    //   bool result=currentlyCoveredPuzzle.containsKey(ps);
+    // log.d(' Contains =$result');
+    return _copyWith(
+        points: points,
+        offset: offset,
+        func: subtractOne,
+        plusMinus: draggingStarted);
   }
 
   SolverState copyWithShapeFinishedDragData({
     required Offset offset,
     required List<PointSystem> points,
   }) {
-    return _copyWith(points: points, offset: offset, func: addingOne);
+    return _copyWith(
+        points: points,
+        offset: offset,
+        func: addingOne,
+        plusMinus: draggingFinished);
+  }
+
+  SolverState copyWithShapeFinishedRotation({
+    required Offset offset,
+    required List<PointSystem> points,
+  }) {
+    return _copyWith(
+        points: points,
+        offset: offset,
+        func: addingOne,
+        plusMinus: draggingFinished);
   }
 
   SolverState _copyWith({
     required Offset offset,
     required List<PointSystem> points,
     required Function func,
+    required Function plusMinus,
   }) {
-    var deltaPointsCovered = 0;
+    var delta = 0;
     var boolSolved = false;
     points.forEach((PointSystem point) {
       var newPoint = point + offset;
-      if (currentlyCoveredPuzzle.containsKey(newPoint)) {
-        currentlyCoveredPuzzle[newPoint] =
-            func(currentlyCoveredPuzzle[newPoint]);
-        if (currentlyCoveredPuzzle[newPoint] == 1) {
-          deltaPointsCovered++;
-          if (pointsToPack == pointsCovered) {
-            boolSolved = true;
-          }
-        }
+      if (newPoint.south == true) {
+        var temp = PointSystem.south(dx: newPoint.dx, dy: newPoint.dy);
+        delta += _decInc(temp, func, plusMinus);
+      }
+      if (newPoint.west == true) {
+        var temp = PointSystem.west(dx: newPoint.dx, dy: newPoint.dy);
+        delta += _decInc(temp, func, plusMinus);
+      }
+      if (newPoint.north == true) {
+        var temp = PointSystem.north(dx: newPoint.dx, dy: newPoint.dy);
+        delta += _decInc(temp, func, plusMinus);
+      }
+      if (newPoint.east == true) {
+        var temp = PointSystem.east(dx: newPoint.dx, dy: newPoint.dy);
+        delta += _decInc(temp, func, plusMinus);
       }
     });
+    if ((pointsCovered + delta) == pointsToPack) {
+      boolSolved = true;
+    }
     return SolverState(
         puzzleToSolvePoints: puzzleToSolvePoints,
         currentlyCoveredPuzzle: currentlyCoveredPuzzle,
         solved: boolSolved,
-        pointsCovered: pointsCovered + deltaPointsCovered,
+        pointsCovered: pointsCovered + delta,
         pointsToPack: pointsToPack);
+  }
+
+  /*
+  func   if dragging started subtract  if dragging finished add.
+  pointsCoveredFunction  if dragging started
+   */
+  int _decInc(PointSystem newPoint, Function func, Function plusMinus) {
+    if (currentlyCoveredPuzzle.containsKey(newPoint)) {
+      currentlyCoveredPuzzle[newPoint] = func(currentlyCoveredPuzzle[newPoint]);
+      int result = plusMinus(currentlyCoveredPuzzle[newPoint]);
+      return result;
+    }
+    return 0;
   }
 
   // void dragFinished(ShapeFinishedDragData data) {

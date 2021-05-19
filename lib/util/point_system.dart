@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class PointSystem {
-  final num dx;
-  final num dy;
+class PointSystem extends Equatable {
+  final int dx;
+  final int dy;
   final bool north;
   final bool east;
   final bool south;
@@ -24,9 +25,8 @@ class PointSystem {
     return Offset(dx.toDouble(), dy.toDouble());
   }
 
-  //100% correctf
-  PointSystem.afterClockWiseRotation(
-      {required PointSystem ps, required dx, required this.dy})
+  //100% correct
+  PointSystem.afterClockWiseRotation({required PointSystem ps, required dx, required this.dy})
       : north = ps.west,
         east = ps.north,
         south = ps.east,
@@ -40,14 +40,46 @@ class PointSystem {
         south = false,
         west = false;
 
+  const PointSystem.north({required this.dx, required this.dy})
+      : north = true,
+        east = false,
+        south = false,
+        west = false;
+
+  const PointSystem.west({required this.dx, required this.dy})
+      : north = false,
+        east = false,
+        south = false,
+        west = true;
+
+  const PointSystem.east({required this.dx, required this.dy})
+      : north = false,
+        east = true,
+        south = false,
+        west = false;
+
+  const PointSystem.south({required this.dx, required this.dy})
+      : north = false,
+        east = false,
+        south = true,
+        west = false;
+
   @override
   String toString() {
     return 'PointSystem{dx: $dx, '
         'dy: $dy,\n north: $north  \n, east: $east  \n, south: $south  \n, west: $west \n}';
   }
 
-  PointSystem operator +(Offset offset) =>
-      PointSystem.zero(dx: dx + offset.dx, dy: dy + offset.dy);
+  PointSystem operator +(Offset offset) => PointSystem(
+      dx: dx + offset.dx.toInt(),
+      dy: dy + offset.dy.toInt(),
+      west: west,
+      south: south,
+      east: east,
+      north: north);
+
+  @override
+  List<Object?> get props => [dx, dy, west, south, east, north];
 }
 // Offset operator +(Offset other) => Offset(dx + other.dx, dy + other.dy);
 //  |-----------|

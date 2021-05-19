@@ -95,9 +95,8 @@ class AppSettings extends StatelessWidget {
         BlocProvider<SolverBloc>(
           create: (BuildContext context) =>
               SolverBloc(
-                puzzleToSolvePoints: points,
-                solverHelper: SolverHelper(),
-              ),
+                solverHelper: SolverHelper(puzzleToSolvePoints: points),
+          ),
         ),
       ],
       child: const ScreenWidget(),
