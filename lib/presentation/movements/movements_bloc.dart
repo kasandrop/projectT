@@ -35,6 +35,7 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
             positionsMap:
                 Map.of(getInitialPositionsOfTheShapesUseCase.positionsMap),
             rotation: false,
+            dragFinished: false,
           ),
         );
 
@@ -77,13 +78,18 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
               Offset(0, 0.001)); //adding offset otherwise state not emitted
     }
     //==================================================================
+
+    if (event is DraggingFinished) {
+      yield state.copyWith(dragFinished: true);
+    }
+    //==================================================================
     if (event is DragStarted) {
       //  log.i('$event');
       movingMechanismUseCase.pointSize = event.pointSize;
-      yield state.copyWith(delta: Offset.zero);
+      yield state.copyWith(delta: Offset.zero, dragFinished: false);
     }
     //==================================================================
-    if (event is ShapeDragged) {
+    if (event is ShapeDragging) {
       // log.d('${event.cumulativeDelta}');
       var result = movingMechanismUseCase.changeStatePositionAndDelta(
           delta: event.delta + state.delta);

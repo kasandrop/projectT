@@ -10,13 +10,16 @@ class MovementsState extends Equatable {
   final Shapes focusShape; //currently focused shape
   final Offset delta;
   final bool rotation; // flag needed for solverBloc
+  final bool dragFinished;
 
-  const MovementsState(
-      {required this.baseShapeMap,
-      required this.positionsMap,
-      required this.focusShape,
-      required this.delta,
-      required this.rotation});
+  const MovementsState({
+    required this.baseShapeMap,
+    required this.positionsMap,
+    required this.focusShape,
+    required this.delta,
+    required this.rotation,
+    required this.dragFinished,
+  });
 
   MovementsState copyWith({
     BaseShape? baseShape,
@@ -24,6 +27,7 @@ class MovementsState extends Equatable {
     Shapes? focusShape,
     Offset? delta,
     bool? rotation,
+    bool? dragFinished,
   }) {
     baseShapeMap.update(focusShape ?? this.focusShape, (value) => baseShape ?? value);
     positionsMap.update(focusShape ?? this.focusShape, (value) => currentPosition ?? value);
@@ -34,19 +38,21 @@ class MovementsState extends Equatable {
       focusShape: focusShape ?? this.focusShape,
       delta: delta ?? this.delta,
       rotation: rotation ?? false,
+      dragFinished: dragFinished ?? false,
     );
   }
 
   @override
   List<Object> get props =>
-      [baseShapeMap, positionsMap, focusShape, delta, rotation];
+      [baseShapeMap, positionsMap, focusShape, delta, rotation, dragFinished];
 
   @override
   String toString() {
     return '\nMovementsState{ \n'
         'List of points : ${baseShapeMap[focusShape]},\n'
         ' focusShape: $focusShape, \n'
-        'delta: $delta}\n'
-        'rotation: $rotation}\n';
+        'delta: $delta \n'
+        'rotation: $rotation\n'
+        'dragFinished:$dragFinished\n';
   }
 }

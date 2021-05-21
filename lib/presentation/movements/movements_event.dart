@@ -30,18 +30,20 @@ class DragStarted extends MovementsEvent {
   List<Object> get props => [pointSizeInt];
 }
 
-class ShapeDragged extends MovementsEvent {
+class ShapeDragging extends MovementsEvent {
   //real point because delta keeps repeating and event will not be send
 
   final Offset delta;
 
-  const ShapeDragged({
+  const ShapeDragging({
     required this.delta,
   }) : super();
 
   @override
   List<Object> get props => [delta];
 }
+
+class DraggingFinished extends MovementsEvent {}
 
 class RotatedRight extends MovementsEvent {}
 

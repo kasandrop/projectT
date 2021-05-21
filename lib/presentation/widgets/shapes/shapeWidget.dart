@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tangram/presentation/drawPoint.dart';
 import 'package:tangram/presentation/movements/movements.dart';
 import 'package:tangram/presentation/solver/solver.dart';
+import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/point_system.dart';
 import 'package:tangram/util/settings.dart';
 import 'package:tangram/util/shape_enum.dart';
@@ -25,6 +26,12 @@ class ShapeWidget extends StatelessWidget {
       listener: (context, state) {
         if (state.rotation && state.focusShape == shape) {
           BlocProvider.of<SolverBloc>(context).add(ShapeFinishedRotation(
+              offset: state.positionsMap[shape]!,
+              points: state.baseShapeMap[shape]!.points));
+        }
+
+        if (state.dragFinished && state.focusShape == shape) {
+          BlocProvider.of<SolverBloc>(context).add(ShapeFinishedDragDataEvent(
               offset: state.positionsMap[shape]!,
               points: state.baseShapeMap[shape]!.points));
         }
@@ -118,11 +125,11 @@ class DraggableWrapper extends StatelessWidget {
           pointsSystem: pointsSystem,
           color: color),
       onDragEnd: (e) {
-        //  log.d('onDragEnd');
-        BlocProvider.of<SolverBloc>(context).add(ShapeFinishedDragDataEvent(
-            offset: Offset(dx, dy), points: pointsSystem));
-        //  var pointsCovered=BlocProvider.of<SolverBloc>(context).state.pointsCovered;
-        //     log.d('pointsCovered:$pointsCovered');
+        BlocProvider.of<MovementsBloc>(context).add(DraggingFinished());
+
+        var pointsCovered =
+            BlocProvider.of<SolverBloc>(context).state.pointsCovered;
+        log.d('pointsCovered:$pointsCovered');
       },
       onDragStarted: () {
         //log.d('onDragStarted');
@@ -138,7 +145,7 @@ class DraggableWrapper extends StatelessWidget {
         //log.d('onDragUpdate');
         final delta = Offset(details.delta.dx, details.delta.dy);
         BlocProvider.of<MovementsBloc>(context).add(
-          ShapeDragged(
+          ShapeDragging(
             delta: delta,
           ),
         );
