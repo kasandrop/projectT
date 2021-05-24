@@ -1,16 +1,13 @@
+![triangram](https://user-images.githubusercontent.com/20933329/119396933-6db79f00-bccd-11eb-97ba-dd6e61d38b2a.png)
+![triangram2](https://user-images.githubusercontent.com/20933329/119396935-6e503580-bccd-11eb-96ca-f221beaa98bc.png)
+
+
 # triangram
 
 A new Flutter application.
 
-## Getting Started
+A game simmilar to !tangram! game. The goal of the game is  to completely cover a picture
+with small shapes.
 
-This project is a starting point for a Flutter application.
+Under development.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-gra1.png
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
