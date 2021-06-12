@@ -181,26 +181,20 @@ class SimpleLogPrinter extends LogPrinter {
     String stacktrace,
   ) {
     var buffer = <String>[];
-    var color = _getLevelColor(level);
-    buffer.add(color(_topBorder));
 
-    var errorColor = _getErrorColor(level);
+    // buffer.add(color(_topBorder));
+
     for (var line in error.split('\n')) {
-      buffer.add(
-        color('$verticalLine ') +
-            errorColor.resetForeground +
-            errorColor(line) +
-            errorColor.resetBackground,
-      );
+      buffer.add(line);
     }
 
     for (var line in stacktrace.split('\n')) {
-      buffer.add('$color$verticalLine $line');
+      buffer.add('$line');
     }
 
     //var emoji = _getEmoji(level);
     for (var line in message.split('\n')) {
-      buffer.add(color('$verticalLine  $line'));
+      buffer.add('$line');
     }
     //buffer.add(color(_bottomBorder));
 
@@ -210,11 +204,16 @@ class SimpleLogPrinter extends LogPrinter {
 
 var log = Logger(
   printer: PrettyPrinter(
-      methodCount: 1, // number of method calls to be displayed
-      errorMethodCount: 8, // number of method calls if stacktrace is provided
-      lineLength: 120, // width of the output
-      colors: false, // Colorful log messages
-      printEmojis: false, // Print an emoji for each log message
+      methodCount: 1,
+      // number of method calls to be displayed
+      errorMethodCount: 8,
+      // number of method calls if stacktrace is provided
+      lineLength: 120,
+      // width of the output
+      colors: false,
+      // Colorful log messages
+      printEmojis: false,
+      // Print an emoji for each log message
       printTime: true // Should each log print contain a timestamp
       ),
 );

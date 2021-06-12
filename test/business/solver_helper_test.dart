@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tangram/business/PuzzleToSolve.dart';
-import 'package:tangram/business/solver_helper.dart';
-import 'package:tangram/util/point_system.dart';
+import 'package:tangram/data//models/solver_helper.dart';
+import 'package:tangram/data/models/PuzzleToSolve.dart';
+import 'package:tangram/data/models/point_system.dart';
 import 'package:tangram/util/settings.dart';
 
 class MockSettings extends Mock implements Settings {}

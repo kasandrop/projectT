@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:tangram/business/solver_helper.dart';
-import 'package:tangram/business/useCases/get_initial_rotation_points_usecase.dart';
-import 'package:tangram/presentation/movements/movements_bloc.dart';
-import 'package:tangram/presentation/solver/solver_bloc.dart';
-import 'package:tangram/presentation/widgets/screenWidget.dart';
+import 'package:tangram/data/models/solver_helper.dart';
+import 'package:tangram/pages/game_page.dart';
+import 'package:tangram/pages/home_page.dart';
+import 'package:tangram/useCases/MovingMechanismUseCase.dart';
+import 'package:tangram/useCases/get_initial_positions__usecase.dart';
+import 'package:tangram/useCases/get_initial_rotation_points_usecase.dart';
 import 'package:tangram/util/settings.dart';
 
-import 'business/PuzzleToSolve.dart';
-import 'business/shapes/rectWithTriangle.dart';
-import 'business/shapes/rectWithoutTriangle.dart';
-import 'business/shapes/trapezoid.dart';
-import 'business/shapes/triangle.dart';
-import 'business/useCases/MovingMechanismUseCase.dart';
-import 'business/useCases/get_initial_positions__usecase.dart';
+import 'bloc/movements/movements.dart';
+import 'bloc/solver/solver.dart';
+import 'data/models/PuzzleToSolve.dart';
+import 'data/models/shapes/rectWithTriangle.dart';
+import 'data/models/shapes/rectWithoutTriangle.dart';
+import 'data/models/shapes/trapezoid.dart';
+import 'data/models/shapes/triangle.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -30,10 +31,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Triangram',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
-      home: Home(),
+      theme: ThemeData.dark(),
+      home: HomePage(),
     );
   }
 }
@@ -65,10 +64,9 @@ class Home extends StatelessWidget {
 class AppSettings extends StatelessWidget {
   AppSettings({Key? key}) : super(key: key);
 
-  final MovingMechanismUseCase movingMechanismUseCase =
-  MovingMechanismUseCase();
+  final MovingMechanismUseCase movingMechanismUseCase = MovingMechanismUseCase();
   final GetInitialRotationPointsUseCase getPointsUseCase =
-  GetInitialRotationPointsUseCase(
+      GetInitialRotationPointsUseCase(
     rectangleWithoutTriangle: RectWithoutTriangle(),
     rectangleWithTriangle: RectWithTriangle(),
     trapezoid: Trapezoid(),
@@ -79,27 +77,22 @@ class AppSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final points = Provider
-        .of<PuzzleToSolve>(context)
-        .points;
+    final points = Provider.of<PuzzleToSolve>(context).points;
     return MultiBlocProvider(
       providers: [
         BlocProvider<MovementsBloc>(
-          create: (BuildContext context) =>
-              MovementsBloc(
-                  getInitialPositionsOfTheShapesUseCase:
-                  const GetInitialPositionsUseCase(),
-                  getInitialRotationPointsUseCase: getPointsUseCase,
-                  movingMechanismUseCase: movingMechanismUseCase),
+          create: (BuildContext context) => MovementsBloc(
+              getInitialPositionsOfTheShapesUseCase: const GetInitialPositionsUseCase(),
+              getInitialRotationPointsUseCase: getPointsUseCase,
+              movingMechanismUseCase: movingMechanismUseCase),
         ),
         BlocProvider<SolverBloc>(
-          create: (BuildContext context) =>
-              SolverBloc(
-                solverHelper: SolverHelper(puzzleToSolvePoints: points),
+          create: (BuildContext context) => SolverBloc(
+            solverHelper: SolverHelper(puzzleToSolvePoints: points),
           ),
         ),
       ],
-      child: const ScreenWidget(),
+      child: const GamePage(),
     );
   }
 }

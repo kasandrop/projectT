@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tangram/business/PuzzleToSolve.dart';
-import 'package:tangram/business/solver_helper.dart';
-import 'package:tangram/presentation/solver/solver.dart';
-import 'package:tangram/util/point_system.dart';
+import 'package:tangram/bloc/solver/solver.dart';
+import 'package:tangram/data/models/PuzzleToSolve.dart';
+import 'package:tangram/data/models/point_system.dart';
+import 'package:tangram/data/models/solver_helper.dart';
 import 'package:tangram/util/settings.dart';
 
 void main() {
@@ -24,8 +24,7 @@ void main() {
       solverBloc?.close();
     });
 
-    test('initial value of the state should be exactly the same  as stated',
-        () {
+    test('initial value of the state should be exactly the same  as stated', () {
       var puzzle = PuzzleToSolveMock(x: 3, y: 4);
       var initialState = SolverState(
           puzzleToSolvePoints: puzzle.points,
@@ -50,8 +49,7 @@ void main() {
             settings: Settings(pixelHeight: 1200, pixelWidth: 600),
           ).points),
         ),
-        act: (solverBloc) =>
-            (solverBloc as SolverBloc).add(ShapeStartedDragDataEvent(
+        act: (solverBloc) => (solverBloc as SolverBloc).add(ShapeStartedDragDataEvent(
           offset: Offset.zero,
           points: [],
         )),

@@ -1,0 +1,46 @@
+{
+  "level": [
+    {
+      "grid": 1,
+      "pointSystem": [
+        {
+          "dx": 2,
+          "dy": 0,
+          "east": true,
+          "west": true,
+          "south": true,
+          "north": true
+        },
+        {
+          "dx": 3,
+          "dy": 0,
+          "east": true,
+          "west": true,
+          "south": true,
+          "north": true
+        }
+      ]
+    },
+    {
+      "grid": 1,
+      "pointSystem": [
+        {
+          "dx": 22,
+          "dy": 2,
+          "east": true,
+          "west": true,
+          "south": true,
+          "north": true
+        },
+        {
+          "dx": 23,
+          "dy": 3,
+          "east": true,
+          "west": true,
+          "south": true,
+          "north": true
+        }
+      ]
+    }
+  ]
+}
