@@ -21,6 +21,7 @@ class LevelsRepositoryImpl implements LevelsRepository {
       var levels = Levels.fromJson(data);
       return levels;
     } else {
+      //TODO: display error
       throw Exception();
     }
   }
