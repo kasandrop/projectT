@@ -28,7 +28,7 @@ dependencies:
   flutter_bloc: ^7.0.0
   equatable: ^2.0.2
   provider: ^5.0.0
-  enum_to_string: ^2.0.1
+  get_it: ^7.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -39,7 +39,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^8.0.0
+  bloc_test: ^8.0.2
   pedantic: ^1.11.0
   mockito:
 

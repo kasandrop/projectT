@@ -14,7 +14,7 @@ class ShapeStartedDragDataEvent extends SolverEvent {
   const ShapeStartedDragDataEvent({
     required this.offset,
     required this.points,
-  });
+  }):super();
 
   @override
   String toString() {
@@ -29,7 +29,7 @@ class ShapeFinishedDragDataEvent extends SolverEvent {
   const ShapeFinishedDragDataEvent({
     required this.offset,
     required this.points,
-  });
+  }):super();
 
   @override
   String toString() {

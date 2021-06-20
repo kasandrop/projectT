@@ -6,31 +6,21 @@ import 'package:tangram/bloc/solver/solver.dart';
 import 'package:tangram/data/models/point_system.dart';
 import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/settings.dart';
-import 'package:tangram/util/top_level_functions.dart';
 import 'package:tangram/util/shape_enum.dart';
-import 'package:tangram/util/top_level_functions.dart';
 import 'package:tangram/widgets/draw_point_widget.dart';
-
+@deprecated
 class ShapeWidget extends StatelessWidget {
   final Color color;
   final Shapes shape;
-  final Offset offset;
-  final Path path;
 
   const ShapeWidget({
     Key? key,
     required this.color,
     required this.shape,
-    required this.offset,
-    required this.path,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var pointSize=pointSizeFromContext(context);
-    var dx=pointSize * getBoardSize(shape: shape);
-    var dy =pointSize * getBoardSize(shape: shape);
-    var size=Size(dx,dy);
     return BlocConsumer<MovementsBloc, MovementsState>(
       listener: (context, state) {
         if (state.rotation && state.focusShape == shape) {
@@ -46,7 +36,7 @@ class ShapeWidget extends StatelessWidget {
         }
       },
       builder: (context, state) {
-
+        final pointSize = Provider.of<Settings>(context).pointSize.toDouble();
         final dx = state.positionsMap[shape]!.dx;
         final dy = state.positionsMap[shape]!.dy;
         final pointsSystem = state.baseShapeMap[shape]!.points;
@@ -58,25 +48,22 @@ class ShapeWidget extends StatelessWidget {
             //  rootOverlay: true,
             childWhenDragging: ShapeFromPointsWidget(
               key: ObjectKey('childWhenDragging'),
-              path:path,
-              offset:offset,
-            //  size:size,
+              pointSize: pointSize,
+              shape: shape,
+              pointsSystem: pointsSystem,
               color: color,
             ),
             feedback: ShapeFromPointsWidget(
                 key: ObjectKey('feedback'),
-                path:path,
-               // size:size,
-                offset:offset,
+                pointSize: pointSize,
+                shape: shape,
+                pointsSystem: pointsSystem,
                 color: color),
             onDragEnd: (e) {
               BlocProvider.of<MovementsBloc>(context).add(DraggingFinished());
 
               var pointsCovered =
-                  BlocProvider
-                      .of<SolverBloc>(context)
-                      .state
-                      .pointsCovered;
+                  BlocProvider.of<SolverBloc>(context).state.pointsCovered;
               log.d('pointsCovered:$pointsCovered');
             },
             onDragStarted: () {
@@ -100,9 +87,9 @@ class ShapeWidget extends StatelessWidget {
             },
             child: ShapeFromPointsWidget(
                 key: ObjectKey('child'),
-               // size:size,
-                offset: offset,
-                path:path,
+                pointSize: pointSize,
+                shape: shape,
+                pointsSystem: pointsSystem,
                 color: color),
             //  childWhenDragging: ShapeFromPointsWidget(pointSize: pointSize, shape: shape, pointsSystem: pointsSystem, color: color),
           ),
@@ -113,38 +100,37 @@ class ShapeWidget extends StatelessWidget {
 }
 
 class ShapeFromPointsWidget extends StatelessWidget {
- // final Size size;
-  final Color color;
-  final Path path;
-  final Offset offset;
-
-
   const ShapeFromPointsWidget({
     Key? key,
-   // required this.size,
-     required this.color,
-    required this.path,
-    required this.offset,
+    required this.pointSize,
+    required this.shape,
+    required this.pointsSystem,
+    required this.color,
   }) : super(key: key);
 
-
-
+  final double pointSize;
+  final Shapes shape;
+  final List<PointSystem> pointsSystem;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    var pointSize=pointSizeFromContext(context);
-
     return Container(
-     //   height:size.height,
-      //  width: size.width,
-        child: CustomPaint(
-       //   size: size,
-          painter: ShapePainter(
-            path: path,
-            color: color,
-            offset: offset,
-          ),
-        ),
+      height: pointSize * getBoardSize(shape: shape),
+      width: pointSize * getBoardSize(shape: shape),
+      child: Stack(
+        children: pointsSystem
+            .map((PointSystem point) => Positioned(
+                  top: point.dy * pointSize,
+                  left: point.dx * pointSize,
+                  child: DrawPointWidget(
+                    pointSize: pointSize,
+                    pointSystem: point,
+                    color: color,
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 }

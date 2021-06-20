@@ -45,3 +45,10 @@ class CatPhoto {
   }
 }
  */
+class Student{
+  final  name;
+  final   surname;
+
+
+ const Student({this.name, this.surname});
+}

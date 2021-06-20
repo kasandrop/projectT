@@ -1,37 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tangram/data/models/PuzzleToSolve.dart';
-import 'package:tangram/data/models/point_system.dart';
-import 'package:tangram/util/settings.dart';
-import 'package:tangram/widgets/draw_point_widget.dart';
+import 'package:tangram/util/top_level_functions.dart';
+import 'package:tangram/widgets/shapes/shapeWidget.dart';
 
 class PuzzleToSolveWidget extends StatelessWidget {
-  final PuzzleToSolve puzzleToSolve;
+  final Color color;
 
-  final Color color = Colors.red;
+  final Path path;
+  final Offset offset;
 
   const PuzzleToSolveWidget({
     Key? key,
-    required this.puzzleToSolve,
+    this.color = Colors.red,
+    required this.path,
+    required this.offset,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final pointSize = Provider.of<Settings>(context).pointSize.toDouble();
-    return IgnorePointer(
-      child: Stack(
-        children: puzzleToSolve.points
-            .map((PointSystem point) => Positioned(
-                  top: point.dy * pointSize,
-                  left: point.dx * pointSize,
-                  child: DrawPointWidget(
-                    pointSize: pointSize,
-                    pointSystem: point,
-                    color: color,
-                  ),
-                ))
-            .toList(),
-      ),
-    );
-  }
-}
+ @override
+ Widget build(BuildContext context) {
+   return Container(
+
+     child: IgnorePointer(
+       child: ShapeFromPointsWidget(offset: offset, color: color, path: path),
+     ),
+   );
+
+
+   // @override
+   // Widget build(BuildContext context) {
+   //   return Container(
+   //     child: Transform.translate(offset:Offset(300,0),child:Transform(
+   //       alignment: FractionalOffset.topRight,
+   //       transform: Matrix4.identity()..rotateZ(45 * 3.1415 / 180),
+   //       child: Container(
+   //         child: IgnorePointer(
+   //           child: ShapeFromPointsWidget(offset: offset, color: color, path: path),
+   //         ),
+   //       ),
+   //     )),
+   //   );
+   // }
+//}
+ }}

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:tangram/data/models/point_system.dart';
-import 'package:tangram/useCases/MovingMechanismUseCase.dart';
-import 'package:tangram/useCases/get_initial_positions__usecase.dart';
-import 'package:tangram/useCases/get_initial_rotation_points_usecase.dart';
+import 'package:tangram/data/useCases/MovingMechanismUseCase.dart';
+import 'package:tangram/data/useCases/get_initial_positions__usecase.dart';
+import 'package:tangram/data/useCases/get_initial_rotation_points_usecase.dart';
 import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/shape_enum.dart';
 

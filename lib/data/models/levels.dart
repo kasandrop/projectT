@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 
 import 'level.dart';
@@ -5,25 +7,27 @@ import 'level.dart';
 /// level : [{"grid":1,"pointSystem":[{"dx":1,"dy":1}]},{"grid":1,"pointSystem":[{"dx":2,"dy":2}]},{"grid":1,"pointSystem":[{"dx":3,"dy":2}]}]
 
 class Levels extends Equatable {
-  final List<Level> level;
+  final List<Level> levels;
 
-  Levels({required this.level});
 
-  int get numberOfLevels => level.length;
+  Levels({required this.levels});
 
-  Level getLevel(int number) => level.elementAt(number - 1);
+  int get numberOfLevels => levels.length;
+
+
+  //Level getLevel(int number) => level.elementAt(number - 1);
 
   factory Levels.fromJson(Map<String, dynamic> json) => Levels(
-        level: List<Level>.from(json["level"].map((x) => Level.fromJson(x))),
+        levels: List<Level>.from(json["level"].map((x) => Level.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "level": List<dynamic>.from(level.map((x) => x.toJson())),
+        "level": List<dynamic>.from(levels.map((x) => x.toJson())),
       };
 
   @override
   // TODO: implement props
-  List<Object?> get props => [level];
+  List<Object?> get props => [levels];
 }
 
 /// grid : 1

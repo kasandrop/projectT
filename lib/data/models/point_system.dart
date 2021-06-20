@@ -102,6 +102,8 @@ class PointSystem extends Equatable {
   @override
   List<Object?> get props => [dx, dy, west, south, east, north];
 }
+
+
 // Offset operator +(Offset other) => Offset(dx + other.dx, dy + other.dy);
 //  |-----------|
 //  |'    N   ' |-3

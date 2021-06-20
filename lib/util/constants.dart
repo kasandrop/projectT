@@ -11,3 +11,10 @@ const colorGreen = Color(0xDA4CAF50);
 const colorOrange = Color(0xE2FF9800);
 const httpAddress =
     "https://gamepoints-b963b-default-rtdb.europe-west1.firebasedatabase.app/root.json";
+const int boardWidth=9;
+
+class Routes {
+  static const String home = '/';
+  static const String error = '/error';
+  static const String game = '/game';
+}

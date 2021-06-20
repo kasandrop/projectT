@@ -4,56 +4,61 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:tangram/bloc/movements/movements.dart';
-import 'package:tangram/bloc/solver/solver.dart';
-import 'package:tangram/data/models/PuzzleToSolve.dart';
+import 'package:tangram/blocks/levels.dart';
 import 'package:tangram/util/logger.dart';
-import 'package:tangram/util/settings.dart';
+import 'package:tangram/util/top_level_functions.dart';
 import 'package:tangram/widgets/puzzleToSolveWidget.dart';
 import 'package:tangram/widgets/shapes/allShapesWidget.dart';
-import 'package:tangram/widgets/widgetGridLines.dart';
 
 class GamePage extends StatelessWidget {
-  const GamePage({Key? key}) : super(key: key);
+  const GamePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var settings = Provider.of<Settings>(context);
-    //log.d(' pixel height:${settings.pixelHeight.toDouble()}');
-    return BlocListener<SolverBloc, SolverState>(
-      listener: (context, state) {
-        log.d('Points covered: ${state.pointsCovered}\n solved? ${state.solved}');
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            height: settings.pixelHeight.toDouble(),
-            width: settings.pixelWidth.toDouble(),
-            child: Stack(
-              children: <Widget>[
-                const WidgetGridLines(),
-                PuzzleToSolveWidget(
-                  puzzleToSolve: Provider.of<PuzzleToSolve>(context),
+    var screenHeightPixel = screenHeight(context);
+    var screenWidthPixel = screenWidth(context);
+    var mediaQueryData = MediaQuery.of(context);
+    var screenSize = mediaQueryData.size;
+    log.d('screen size   width:${screenSize.width}   height: ${screenSize.height}\n');
+    log.d('screen size option 2.  width:$screenWidthPixel  height: $screenHeightPixel');
+    var points = BlocProvider.of<LevelsBloc>(context).state.pointSystem!;
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Colors.teal,
+          height: screenHeightPixel,
+          width: screenWidthPixel,
+          child: Stack(
+            children: <Widget>[
+              //  const WidgetGridLines(),
+              Container(
+                color: Colors.white38,
+                child: PuzzleToSolveWidget(
+                  offset: Offset(0,0),
+                  path: pointSystemsToPath(points, pointSizeFromContext(context)),
                 ),
-                const AllShapesWidget(),
-                Positioned(
-                  bottom: 50,
-                  right: 20,
-                  child: Container(
-                    child: FloatingActionButton(
-                        onPressed: () {
-                          var myState = BlocProvider.of<MovementsBloc>(context).state;
-                          BlocProvider.of<SolverBloc>(context).add(ShapeStartedRotation(
-                              offset: myState.positionsMap[myState.focusShape]!,
-                              points: myState.baseShapeMap[myState.focusShape]!.points));
-                          BlocProvider.of<MovementsBloc>(context).add(RotatedRight());
-                        },
-                        child: Icon(Icons.autorenew_rounded)),
-                  ),
+              ),
+            //  const AllShapesWidget(),
+              /*
+              Positioned(
+                bottom: 50,
+                right: 20,
+                child: Container(
+                  child: FloatingActionButton(
+                      onPressed: () {
+                        var myState = BlocProvider.of<MovementsBloc>(context).state;
+                        BlocProvider.of<SolverBloc>(context).add(ShapeStartedRotation(
+                            offset: myState.positionsMap[myState.focusShape]!,
+                            points: myState.baseShapeMap[myState.focusShape]!.points));
+                        BlocProvider.of<MovementsBloc>(context).add(RotatedRight());
+                      },
+                      child: Icon(Icons.autorenew_rounded)),
                 ),
-              ],
-            ),
+              ),
+              */
+            ],
           ),
         ),
       ),

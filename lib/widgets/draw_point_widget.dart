@@ -17,7 +17,7 @@ class DrawPointWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size(pointSize, pointSize),
-      painter: FillerPainter(
+      painter: PointPainter(
         path: Path(),
         pointSize: pointSize,
         pointSystem: pointSystem,
@@ -28,11 +28,52 @@ class DrawPointWidget extends StatelessWidget {
   }
 }
 
-/*
- point size ->in pixel size of the point
- */
-//TODO: class Settings  properties better  int or double check that
-class FillerPainter extends CustomPainter {
+
+
+
+
+
+
+class ShapePainter extends CustomPainter {
+  final Color color;
+  final Offset offset; //origin
+  final Path path;
+
+  const ShapePainter(
+      {
+      required this.color,
+      required this.path,
+      required this.offset,});
+
+  @override
+  bool hitTest(Offset position) {
+    var position1 = position+offset;
+    var hitTest = path.contains(position1);
+    return hitTest;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.color = color;
+    paint.style = PaintingStyle.fill;
+    canvas.drawPath(path, paint);
+    //canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+
+  @override
+  String toString() {
+    return 'ShapePainter{path: $path}';
+  }
+}
+
+
+class PointPainter extends CustomPainter {
   final double pointSize;
   final double dxMiddle;
   final double dyMiddle;
@@ -44,12 +85,12 @@ class FillerPainter extends CustomPainter {
   //TODO: created path to inject to constructor to make it const
   final Path path;
 
-  const FillerPainter(
+  const PointPainter(
       {required this.pointSize,
-      required this.pointSystem,
-      required this.color,
-      required this.startPoint,
-      required this.path})
+        required this.pointSystem,
+        required this.color,
+        required this.startPoint,
+        required this.path})
       : dxMiddle = pointSize / 2,
         dyMiddle = pointSize / 2;
 
@@ -122,6 +163,6 @@ class FillerPainter extends CustomPainter {
 
   @override
   String toString() {
-    return 'FillerPainter{path: $path}';
+    return 'PointPainter{path: $path}';
   }
 }

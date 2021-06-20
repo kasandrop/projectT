@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:tangram/data/models/level.dart';
 import 'package:tangram/data/models/levels.dart';
 import 'package:tangram/data/models/point_system.dart';
+import 'package:tangram/util/grid_enum.dart';
 import 'package:test/test.dart';
 
 import '../../fixtures/fixture_reader.dart';
@@ -11,13 +12,13 @@ void main() {
   var ps1 = PointSystem(dx: 2, dy: 0);
   var ps2 = PointSystem(dx: 3, dy: 0);
 
-  var level1 = Level(grid: 1, pointSystem: <PointSystem>[ps1, ps2]);
+  var level1 = Level(grid: Grid.Turned, pointSystem: <PointSystem>[ps1, ps2]);
 
   var ps21 = PointSystem(dx: 22, dy: 2);
   var ps22 = PointSystem(dx: 23, dy: 3);
 
-  var level2 = Level(grid: 1, pointSystem: <PointSystem>[ps21, ps22]);
-  var levels = Levels(level: <Level>[level1, level2]);
+  var level2 = Level(grid: Grid.Turned, pointSystem: <PointSystem>[ps21, ps22]);
+  var levels = Levels(levels: <Level>[level1, level2]);
 
   group('fromJson', () {
     test('LevelRepositories returns Levels object', () async {

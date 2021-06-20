@@ -223,4 +223,46 @@ void main() {
 
     //expect(    rectAway.height+rectAway.width,greaterThan(10)  );
   });
+
+
+
+
+
+  test(
+      'checking properties of 3 exacly overlapping paths and making a diffrence between them and one which overlaps again',
+          () {
+        var p1 = Path();
+        var p2 = Path();
+        p1.moveTo(0.0, 0.0);
+        p2.moveTo(0.0, 0.0);
+
+        //expect(p1.getBounds().isEmpty==true,p1.getBounds().isEmpty);
+
+        var offset1 = Offset(0, 0);
+        var offset2 = Offset(10, 0);
+        var offset3 = Offset(10, 10); //
+        var offset4 = Offset(10, 0);
+        p1.addPolygon(<Offset>[offset1, offset2, offset3, offset4], true);
+        // expect(p1
+        //     .getBounds()
+        //     .isEmpty == false, p1
+        //     .getBounds()
+        //     .isEmpty);
+
+        p2.addPolygon(<Offset>[offset1, offset2, offset3, offset4], true);
+        // expect(p2.getBounds().isEmpty==false,p2.getBounds().isEmpty);
+
+        var p3 = Path.combine(PathOperation.union, p1, p2);
+        //expect(p3.getBounds().isEmpty==false,p3.getBounds().isEmpty);
+
+
+        var temp = Path();
+        temp.addPolygon(<Offset>[offset1, offset2 , offset3, offset4], true);
+        var p6 = Path.combine(PathOperation.union, p3, temp);
+
+       var rectAway=p6.getBounds();
+        expect(rectAway.height + rectAway.width, greaterThan(0));
+
+        //expect(    rectAway.height+rectAway.width,greaterThan(10)  );
+      });
 }
