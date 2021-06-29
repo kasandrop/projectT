@@ -5,34 +5,67 @@ import 'package:tangram/util/shape_enum.dart';
 
 class RectWithTriangle implements ShapeProduct {
   @override
-  final Offset cellSize = const Offset(2, 4);
+  final Offset positionOfBoundingRectangle;
   @override
-  final Offset origin = const Offset(1, 2);
+  final Shapes shape;
+  @override
+  final int positionInList;
+  @override
+  final Color color;
 
   @override
-  final int initialExtraRotation;
-  @override
-  final Path currentPath;
-  @override
-  final Path previousPath;
-  @override
-  final Shapes name;
-  @override
-  final Offset position;
+  const RectWithTriangle({
+    required this.color,
+    required this.shape,
+    required this.positionOfBoundingRectangle,
+    required this.positionInList,
+  }) : super();
 
   @override
-  final List<List<Offset>> offsets = const [
+  Path getPath(double pointSize) => Path()
+    ..addPolygon(
+        [...getOffsetList((positionInList/2).floor()).map((e) => e * pointSize)], true);
+
+  @override
+  Path getPathForUi(double pointSize) => Path()
+    ..addPolygon(   [...getOffsetList(0).map((e) => e * pointSize)], true);
+
+  static List<Offset> getOffsetList(int i) => offsets[i];
+
+  @override
+  Size get size => cellSize;
+
+  @override
+  List<Offset> get pointsOfPolygonInPixel => [];
+
+  @override
+  RectWithTriangle copyWith({
+    Offset? positionOfBoundingRectangle,
+    bool? rotationLeft, bool? rotationRight,
+  }) =>
+      RectWithTriangle(
+        shape: shape,
+        color: color,
+        positionInList:(rotationLeft!=null)?(positionInList-1)%8:(rotationRight!=null)?(positionInList+1)%8:positionInList,
+        positionOfBoundingRectangle:
+            positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
+      );
+
+  static const Size cellSize = Size(4, 4);
+  static const Offset origin = Offset(2, 2);
+
+  static const List<List<Offset>> offsets = <List<Offset>>[
     [Offset(0, 0), Offset(2, 2), Offset(2, 4), Offset(0, 4)],
     [Offset(4, 0), Offset(2, 2), Offset(2, 0), Offset(0, 0)],
     [Offset(2, 4), Offset(0, 2), Offset(0, 0), Offset(2, 0)],
     [Offset(0, 2), Offset(2, 0), Offset(4, 0), Offset(4, 2)],
   ];
 
-  const RectWithTriangle({
-    required this.initialExtraRotation,
-    required this.currentPath,
-    required this.previousPath,
-    required this.name,
-    required this.position,
-  }) : super();
+  @override
+  String toString() {
+    return 'RectWithTriangle{positionOfBoundingRectangle: $positionOfBoundingRectangle, \t shape: $shape,\tpositionInList $positionInList\n';
+  }
+
+  @override
+  bool get isPositionInListEven =>positionInList%2==0;
 }

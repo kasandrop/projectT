@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tangram/util/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tangram/blocs/solver/solver.dart';
 import 'package:tangram/util/top_level_functions.dart';
-import 'package:tangram/util/shape_enum.dart';
 import 'package:tangram/widgets/shapes/shapeWidget.dart';
 
 class AllShapesWidget extends StatelessWidget {
@@ -10,19 +9,20 @@ class AllShapesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: screenWidth(context),
-      height:screenHeight(context),
-      child: Stack(
-        children: <Widget>[
-          // const ShapeWidget(color: colorBlue,   shape: Shapes.TriangleBlue),
-          // const ShapeWidget(color: colorOrange, shape: Shapes.TriangleRed),
-          // const ShapeWidget(color: colorOrange, shape: Shapes.TriangleGreen),
-          // const ShapeWidget(color: colorBlue,   shape: Shapes.Trapezoid),
-          // const ShapeWidget(color: colorBlue,   shape: Shapes.RectWithTriangle),
-          // const ShapeWidget(color: colorBlue,   shape: Shapes.RectWithoutTriangle),
-        ],
-      ),
+    return BlocBuilder<SolverBloc, SolverState>(
+      builder: (context, SolverState state) {
+        return Container(
+          width: screenWidth(context),
+          height: screenHeight(context),
+          child: Stack(
+            children: <Widget>[
+              for ( var  shape   in state.shapeOrder.order)
+                //Compile-time constant  shall not be something the developers have to worry. It is compiler's job solely for optimization.
+                 ShapeWidget(shape: shape),
+            ],
+          ),
+        );
+      },
     );
   }
 }

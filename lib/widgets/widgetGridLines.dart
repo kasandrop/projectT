@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tangram/util/settings.dart';
 
 //Todo: add keys and const to all widgets
 class WidgetGridLines extends StatelessWidget {
@@ -8,21 +7,21 @@ class WidgetGridLines extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var settings = Provider.of<Settings>(context);
-
-    return CustomPaint(
-      painter: LinesGrid(
-        color: Theme.of(context).primaryColor,
-        boardWidth: settings.boardWidth,
-        boardHeight: settings.boardHeight,
-        pixelHeight: settings.pixelHeight,
-        pixelWidth: settings.pixelWidth,
-        pointSize: settings.pointSize,
-        //TODO:to align check later
-        startPoint: Offset.zero,
-      ),
-      child: Container(),
-    );
+    //var settings = Provider.of<Settings>(context);
+return Container();
+    // return CustomPaint(
+    //   painter: LinesGrid(
+    //     // color: Theme.of(context).primaryColor,
+    //     // boardWidth: settings.boardWidth,
+    //     // boardHeight: settings.boardHeight,
+    //     // pixelHeight: settings.pixelHeight,
+    //     // pixelWidth: settings.pixelWidth,
+    //     // pointSize: settings.pointSize,
+    //     // //TODO:to align check later
+    //     startPoint: Offset.zero,
+    //   ),
+    //   child: Container(),
+    // );
   }
 }
 

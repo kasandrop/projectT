@@ -29,9 +29,3 @@ class Levels extends Equatable {
   // TODO: implement props
   List<Object?> get props => [levels];
 }
-
-/// grid : 1
-/// pointSystem : [{"dx":1,"dy":1}]
-
-/// dx : 1
-/// dy : 1

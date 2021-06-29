@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/blocks/levels.dart';
+import 'package:tangram/blocs/Levels/levels.dart';
 import 'package:tangram/util/constants.dart';
 import 'package:tangram/util/logger.dart';
+import 'package:tangram/util/top_level_functions.dart';
 import 'package:tangram/widgets/level_button.dart';
 import 'package:tangram/widgets/shadow_text.dart';
 
@@ -13,7 +14,6 @@ class HomePage extends StatelessWidget {
     var screenSize = mediaQueryData.size;
     log.d('screen size   width:${screenSize.width}   height: ${screenSize.height}');
     var levelsWidth = -100.0 + screenSize.width;
-
     return Scaffold(
       body: WillPopScope(
         // No way to get back
@@ -39,32 +39,31 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   width: levelsWidth,
                   height: levelsWidth,
-                  child:BlocBuilder<LevelsBloc,LevelsState>(
-
-                    builder: (context,LevelsState state){
-
-
-                      return  GridView.builder(
-                        itemCount: state.numberOfLevels, //TODO:Temporarily,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 1.01,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return LevelButton(
-                            width: 80.0,
-                            height: 60.0,
-                            text: 'Level ${index + 1}',
-                            onTap: ()  {
-                              log.d('ontap() level number $index');
-                              BlocProvider.of<LevelsBloc>(context).add(CurrentLevel(levelPosition: index));
-                              Navigator.of(context).pushNamed(Routes.game);
-                            },
-                          );
-                        },
-                      );
-                    }
-                  ),
+                  child: BlocBuilder<LevelsBloc, LevelsState>(
+                      builder: (context, LevelsState state) {
+                    return GridView.builder(
+                      itemCount: state.numberOfLevels, //TODO:Temporarily,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1.01,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return LevelButton(
+                          width: 80.0,
+                          height: 60.0,
+                          text: 'Level ${index + 1}',
+                          onTap: () {
+                            BlocProvider.of<LevelsBloc>(context).add(
+                              CurrentLevel(
+                                levelPosition: index,
+                              ),
+                            );
+                            Navigator.of(context).pushNamed(Routes.game);
+                          },
+                        );
+                      },
+                    );
+                  }),
                 ),
               ),
             ),

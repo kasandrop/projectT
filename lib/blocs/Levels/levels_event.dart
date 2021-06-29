@@ -7,5 +7,7 @@ abstract class LevelsEvent {
 class CurrentLevel extends LevelsEvent {
     final int levelPosition;
 
+
   const CurrentLevel({required this.levelPosition}) : super();
 }
+

@@ -1,3 +1,4 @@
+
 enum Shapes {
   TriangleRed,
   TriangleBlue,
@@ -5,5 +6,5 @@ enum Shapes {
   Trapezoid,
   RectWithTriangle,
   RectWithoutTriangle,
-  None,
+
 }

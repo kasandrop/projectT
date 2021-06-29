@@ -3,21 +3,28 @@ import 'dart:ui';
 import 'package:tangram/util/shape_enum.dart';
 
 abstract class ShapeProduct {
-  Offset get cellSize;
+  //0-means 0 degree rotated  ->0 position from  List pointsOfPolygonInPixel
+  //1-means 45 degrees rotated->still 0 position from List
+  //2-mean 90 degrees rotated and ->1st position from List pointsOfPolygonInPixel
+  int get positionInList;
 
-  List<List<Offset>> get offsets;
 
-  int get initialExtraRotation;
+  List<Offset> get pointsOfPolygonInPixel;
 
-  Path get currentPath;
+  Offset get positionOfBoundingRectangle;
 
-  Path get previousPath;
+  Path getPath(double pointSize);
 
-  Offset get position;
+  Path getPathForUi(double pointSize);
 
-  Offset get origin;
+  Color get color;
 
-  Shapes get name;
+  Shapes get shape;
 
-  static late final int cellSizePixel;
+  Size get size;
+
+  bool get isPositionInListEven;
+
+
+  ShapeProduct copyWith({bool? rotationLeft,bool? rotationRight, Offset? positionOfBoundingRectangle,});
 }

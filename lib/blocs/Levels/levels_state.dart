@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tangram/data/models/puzzle.dart';
 import 'package:tangram/data/models/level.dart';
 import 'package:tangram/data/models/levels.dart';
 import 'package:tangram/data/models/point_system.dart';
@@ -8,6 +9,7 @@ import 'package:tangram/util/grid_enum.dart';
 class LevelsState extends Equatable {
   final Levels levels;
   final int currentLevelNumber;
+
 
   // final Offset size; //pixelHeight,pixelWidth  or real screen size in pixel
 
@@ -21,6 +23,12 @@ class LevelsState extends Equatable {
   int get numberOfLevels => levels.numberOfLevels;
 
   Grid get currentLevelGrid => currentLevel.grid;
+
+  Puzzle get puzzle {
+
+    return Puzzle(pointsSystem: currentLevel.pointSystem
+    );
+  }
 
   List<PointSystem>? get pointSystem => currentLevel.pointSystem;
 
