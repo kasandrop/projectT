@@ -12,6 +12,6 @@ class VisibilityShape extends ChangeNotifier {
     notifyListeners();
   }
 
-
+bool  get areAllVisible=>isSelected.every((element) => (element==false));
 
 }

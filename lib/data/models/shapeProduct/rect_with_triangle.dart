@@ -1,9 +1,10 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:tangram/data/models/shapeProduct/shape_product.dart';
 import 'package:tangram/util/shape_enum.dart';
 
-class RectWithTriangle implements ShapeProduct {
+class RectWithTriangle  extends Equatable  implements ShapeProduct {
   @override
   final Offset positionOfBoundingRectangle;
   @override
@@ -20,6 +21,14 @@ class RectWithTriangle implements ShapeProduct {
     required this.positionOfBoundingRectangle,
     required this.positionInList,
   }) : super();
+
+  @override
+  List<Object> get props => [shape,positionOfBoundingRectangle,positionInList,color];
+
+  @override
+  bool get stringify =>true;
+
+  @override
 
   @override
   Path getPath(double pointSize) => Path()
@@ -61,10 +70,7 @@ class RectWithTriangle implements ShapeProduct {
     [Offset(0, 2), Offset(2, 0), Offset(4, 0), Offset(4, 2)],
   ];
 
-  @override
-  String toString() {
-    return 'RectWithTriangle{positionOfBoundingRectangle: $positionOfBoundingRectangle, \t shape: $shape,\tpositionInList $positionInList\n';
-  }
+
 
   @override
   bool get isPositionInListEven =>positionInList%2==0;

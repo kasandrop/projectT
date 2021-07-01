@@ -54,10 +54,10 @@ class BottomPanel extends StatelessWidget {
                       Provider.of<VisibilityShape>(context, listen: false).toggleElement = index;
                     if  (value.isSelected[index]==true){
                       BlocProvider.of<SolverBloc>(context).add(FocusEvent(focusShape:Shapes.values.elementAt(index)));
-                      log.d('pokaz duzy trojkat');
+                     // log.d('pokaz duzy trojkat');
                     }else{
                       BlocProvider.of<SolverBloc>(context).add(HideFocusEvent(focusShape:Shapes.values.elementAt(index)));
-                      log.d('schowaj duzy trojkat');
+                    //  log.d('schowaj duzy trojkat');
                     }
 
                     },

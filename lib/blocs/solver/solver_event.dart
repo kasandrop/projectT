@@ -46,27 +46,27 @@ class HideFocusEvent extends SolverEvent {
 }
 
 
-
-
-class LeftRotationEvent extends SolverEvent{
+class LeftRotationEvent extends SolverEvent {
   const LeftRotationEvent();
 }
 
-class RightRotationEvent extends SolverEvent{
+class RightRotationEvent extends SolverEvent {
   const RightRotationEvent();
 }
 
 class PositionEvent extends SolverEvent {
   final Offset positionOfBoundingRectangle;
+  //final Shapes focusShape;
 
-  PositionEvent({required this.positionOfBoundingRectangle})
-      : assert(positionOfBoundingRectangle.dx <= boardWidth),
-        assert(positionOfBoundingRectangle.dy <= boardWidth);
+  PositionEvent(
+      {required this.positionOfBoundingRectangle,
+       // required this.focusShape,
+      });
 
-  @override
-  String toString() {
-    return 'PositionEvent{offset: $positionOfBoundingRectangle}';
-  }
+  // : assert(positionOfBoundingRectangle.dx <= boardWidth),
+  //   assert(positionOfBoundingRectangle.dy <= boardWidth);
+
+
 }
 
 //

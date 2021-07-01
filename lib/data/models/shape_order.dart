@@ -1,13 +1,42 @@
+import 'package:equatable/equatable.dart';
 import 'package:tangram/util/shape_enum.dart';
+import 'package:meta/meta.dart';
+
+
 //manages the appearance of the shape widgets on stack
-class ShapeOrder {
+@immutable
+class ShapeOrder extends Equatable {
   final List<Shapes> order;
 
-  const ShapeOrder({required this.order});
+  const ShapeOrder({
+    required this.order,
+  });
 
-  Shapes get currentFocus => order.last;
+  Shapes get focusShape=>order.last;
 
-  set currentFocus(Shapes shape) {
-    if (order.last != shape) order.add(order.removeAt(order.indexOf(shape)));
+  ShapeOrder copyWith({
+    List<Shapes>? shapes,
+    Shapes? newFocusShape,
+  }) {
+    assert(shapes != null || newFocusShape != null,
+        'both shapes and newFocusShape must not be null at the same time');
+    if (shapes != null) {
+      return ShapeOrder(order: shapes);
+    }
+    if (newFocusShape != null) {
+      var newOrder=List<Shapes>.of(order);
+      var shapeToRemove = newOrder.removeAt(newOrder.indexOf(newFocusShape));
+      newOrder.add(shapeToRemove);
+      return ShapeOrder(order: newOrder);
+    }
+    assert(0 == 1, 'Error');
+    return this;
   }
+
+  @override
+  bool get stringify => true;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [order];
 }

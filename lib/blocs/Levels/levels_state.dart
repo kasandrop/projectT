@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+
+import 'package:meta/meta.dart';
 import 'package:tangram/data/models/puzzle.dart';
 import 'package:tangram/data/models/level.dart';
 import 'package:tangram/data/models/levels.dart';
@@ -6,6 +8,7 @@ import 'package:tangram/data/models/point_system.dart';
 import 'package:tangram/util/grid_enum.dart';
 
 //-----------------------------------------------------------------
+@immutable
 class LevelsState extends Equatable {
   final Levels levels;
   final int currentLevelNumber;

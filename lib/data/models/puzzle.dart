@@ -1,9 +1,12 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:tangram/data/models/point_system.dart';
 
-class Puzzle {
+//TODO: make this class immutable
+class Puzzle  {
   final List<PointSystem> pointsSystem;
+
   Offset get heightSpread => Offset(_tempHeightSpread.dx, _tempHeightSpread.dy);
 
   Offset get widthSpread => Offset(_tempWidthSpread.dx, _tempWidthSpread.dy);
@@ -17,6 +20,10 @@ class Puzzle {
   }) {
     _init();
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [pointsSystem];
 
   Puzzle.zero():pointsSystem=<PointSystem>[];
 
@@ -110,4 +117,6 @@ class Puzzle {
 
     return path;
   }
+
+
 }

@@ -1,9 +1,10 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:tangram/data/models/shapeProduct/shape_product.dart';
 import 'package:tangram/util/shape_enum.dart';
 
-class Trapezoid implements ShapeProduct {
+class Trapezoid  extends Equatable implements ShapeProduct {
   @override
   final Offset positionOfBoundingRectangle;
   @override
@@ -20,6 +21,15 @@ class Trapezoid implements ShapeProduct {
     required this.positionOfBoundingRectangle,
     required this.positionInList,
   }) : super();
+
+
+  @override
+  List<Object> get props => [shape,positionOfBoundingRectangle,positionInList,color];
+
+  @override
+  bool get stringify =>true;
+
+  @override
 
   @override
   Path getPath(double pointSize) => Path()
@@ -56,10 +66,6 @@ class Trapezoid implements ShapeProduct {
             positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
       );
 
-  @override
-  String toString() {
-    return 'Trapezoid{positionOfBoundingRectangle: $positionOfBoundingRectangle,\t shape: $shape,\t positionInList $positionInList\n';
-  }
 
   static const List<List<Offset>> offsets = <List<Offset>>[
     [Offset(4, 0), Offset(4, 2), Offset(2, 4), Offset(0, 4)],

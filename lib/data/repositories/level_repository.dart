@@ -16,7 +16,7 @@ class LevelsRepositoryImpl extends LevelsRepository<Levels> {
   Future<Levels> getLevels() async {
     var url = Uri.parse(httpAddress);
     var response = await client.get(url);
-    log.d('response:\n${response.body}');
+    //log.d('response:\n${response.body}');
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);

@@ -90,25 +90,24 @@ Future<void> init() async {
   );
   sl.registerFactory<ShapeOrder>(() => ShapeOrder(
         order: <Shapes>[
-          Shapes.Trapezoid,
-          Shapes.TriangleBlue,
           Shapes.TriangleRed,
+          Shapes.TriangleBlue,
           Shapes.TriangleGreen,
-          Shapes.RectWithoutTriangle,
+          Shapes.Trapezoid,
           Shapes.RectWithTriangle,
+          Shapes.RectWithoutTriangle,
         ],
       ));
 
   sl.registerFactory<GameShapes>(() => GameShapes(
-        shapeOrder: sl(),
         shapes: <Shapes, ShapeProduct>{
-          Shapes.Trapezoid: sl(instanceName: 'Shapes.Trapezoid'),
-          Shapes.TriangleBlue: sl(instanceName: 'Shapes.TriangleBlue'),
           Shapes.TriangleRed: sl(instanceName: 'Shapes.TriangleRed'),
+          Shapes.TriangleBlue: sl(instanceName: 'Shapes.TriangleBlue'),
           Shapes.TriangleGreen: sl(instanceName: 'Shapes.TriangleGreen'),
+          Shapes.Trapezoid: sl(instanceName: 'Shapes.Trapezoid'),
+          Shapes.RectWithTriangle: sl(instanceName: 'Shapes.RectWithTriangle'),
           Shapes.RectWithoutTriangle:
               sl(instanceName: 'Shapes.RectWithoutTriangle'),
-          Shapes.RectWithTriangle: sl(instanceName: 'Shapes.RectWithTriangle'),
         },
       ));
 

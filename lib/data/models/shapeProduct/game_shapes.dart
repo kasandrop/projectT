@@ -1,40 +1,47 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:tangram/data/models/shapeProduct/shape_product.dart';
-import 'package:tangram/data/models/shape_order.dart';
+import 'package:tangram/util/logger.dart';
 import 'package:tangram/util/shape_enum.dart';
+import 'dart:developer';
 
-class GameShapes {
+@immutable
+class GameShapes extends Equatable {
   final Map<Shapes, ShapeProduct> shapes;
-  final ShapeOrder shapeOrder;
 
-  const GameShapes({required this.shapes, required this.shapeOrder});
+  const GameShapes({
+    required this.shapes,
+  });
 
-  Shapes get currentFocus => shapeOrder.currentFocus;
+  @override
+  List<Object?> get props => [shapes];
 
-  ShapeProduct getShape(Shapes shape)=>shapes[shape]!;
+  @override
+  bool get stringify => true;
 
-  set currentFocus(Shapes shape) => shapeOrder.currentFocus = shape;
-
-  set hideFocus(Shapes shape)=>throw UnimplementedError('Nie mam juz sil przerwa');
+  ShapeProduct getShape(Shapes shape) => shapes[shape]!;
 
   bool get isPositionInAllShapesEven =>
-      shapes.values.every((element) => element.isPositionInListEven == true);
+      shapes.values.toList().every((element) => element.isPositionInListEven == true);
 
   GameShapes copyWith(
-      {Shapes? focusShape,
-      bool? rotationLeft,
+      {required Shapes shape,
       Offset? positionOfBoundingRectangle,
+      bool? rotationLeft,
       bool? rotationRight}) {
-    if (focusShape != null) currentFocus = focusShape;
     var map = Map<Shapes, ShapeProduct>.of(shapes);
-    var shapeToUpdate = map.remove(currentFocus)!;
+    var shapeToUpdate = map.remove(shape)!;
     var shapeUpdated = shapeToUpdate.copyWith(
       rotationRight: rotationRight,
       positionOfBoundingRectangle: positionOfBoundingRectangle,
       rotationLeft: rotationLeft,
     );
-    map[currentFocus] = shapeUpdated;
-    return GameShapes(shapes: map, shapeOrder: shapeOrder);
+    map[shape] = shapeUpdated;
+    var gm=GameShapes(shapes: map);
+  //  log.d('gameShape:  ${gm.shapes}');
+
+    return gm;
   }
 }

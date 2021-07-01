@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:tangram/data/models/shapeProduct/shape_product.dart';
 import 'package:tangram/util/shape_enum.dart';
 
-class Triangle implements ShapeProduct {
+class Triangle  extends Equatable implements ShapeProduct {
   @override
   final Offset positionOfBoundingRectangle;
   @override
@@ -35,6 +36,13 @@ class Triangle implements ShapeProduct {
             positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
       );
 
+
+  @override
+  List<Object> get props => [shape,positionOfBoundingRectangle,positionInList,color];
+
+  @override
+  bool get stringify =>true;
+
   @override
   List<Offset> get pointsOfPolygonInPixel => [];
 
@@ -51,7 +59,7 @@ class Triangle implements ShapeProduct {
     ..addPolygon(
         [...getOffsetList(0).map((e) => e * pointSize)], true);
 
-  static pathForUi(double pointSize)=> Path()
+    static Path pathForUi(double pointSize)=> Path()
     ..addPolygon(
         [...getOffsetList(0).map((e) => e * pointSize)], true);
 
@@ -64,14 +72,12 @@ class Triangle implements ShapeProduct {
     [Offset(0, 2), Offset(2, 0), Offset(2, 2)],
   ];
 
-  @override
-  String toString() {
-    return 'Triangle{positionOfBoundingRectangle: $positionOfBoundingRectangle, \tshape: $shape,\t positionInList $positionInList\n';
-  }
+
 
   @override
   Size get size => cellSize;
 
   @override
   bool get isPositionInListEven =>positionInList%2==0;
+
 }

@@ -6,7 +6,6 @@ import 'package:tangram/util/constants.dart';
 import 'package:tangram/util/logger.dart';
 
 import 'config/injection_container.dart';
-import 'config/injection_container.dart' as di;
 import 'config/routes/route_generator.dart';
 
 void main() async{
@@ -14,7 +13,7 @@ void main() async{
   //debugPaintPointersEnabled = true;
   //WidgetsFlutterBinding.ensureInitialized();
 
- await di.init();
+ await init();
   runApp(SplashApp(
     key: UniqueKey(),
     onInitializationComplete: () => runApp(Application()),

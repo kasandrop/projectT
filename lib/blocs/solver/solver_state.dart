@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:tangram/data/models/core/solver.dart';
 import 'package:tangram/data/models/puzzle.dart';
 import 'package:tangram/data/models/shapeProduct/game_shapes.dart';
@@ -8,22 +9,21 @@ import 'package:tangram/data/models/shapeProduct/shape_product.dart';
 import 'package:tangram/data/models/shape_order.dart';
 import 'package:tangram/util/shape_enum.dart';
 
+@immutable
 class SolverState extends Equatable {
   final Puzzle puzzle;
   final GameShapes gameShapes;
-  final Shapes topShape;
+  final ShapeOrder shapeOrder;
 
-  SolverState({
-    required this.puzzle,
-    required this.gameShapes,
-    //  required this.pointSize,
-  }):topShape=gameShapes.currentFocus;
+  SolverState(
+      {required this.puzzle, required this.gameShapes, required this.shapeOrder
+      //  required this.pointSize,
+      });
 
   //will try with normalize values
   Path getPathOfPuzzle() => puzzle.getPath(1);
 
-   ShapeProduct getShape(Shapes shape) => gameShapes.getShape(shape);
-
+  ShapeProduct getShape(Shapes shape) => gameShapes.getShape(shape);
 
   Path getPath({
     required Shapes shape,
@@ -37,53 +37,53 @@ class SolverState extends Equatable {
   }) =>
       getShape(shape).getPathForUi(pointSize);
 
-  Shapes get currentFocus => gameShapes.currentFocus;
-
-  ShapeOrder get shapeOrder=>gameShapes.shapeOrder;
-  //setting focus in the shapeOrder changes order of elements in List  no need to preserve
-  set currentFocus(Shapes shape) {
-
-    gameShapes.currentFocus = shape;
-  }
-
-  set hideFocus(Shapes shape) => gameShapes.hideFocus = shape;
+  Shapes get currentFocus => shapeOrder.focusShape;
 
   @override
-  List<Object> get props => [puzzle, gameShapes,currentFocus];
+  List<Object> get props => [puzzle, gameShapes, shapeOrder];
 
   @override
-  String toString() {
-    var text = '';
-    gameShapes.shapes.entries.forEach((element) {
-      text = '${element.key}:${element.value}' + text;
-    });
-    return text + '\n currentFocus:$currentFocus';
-  }
+  bool get stringify => true;
 
-  bool isSolved() => Solver.isWorkOut(gameShapes: gameShapes, puzzle: puzzle);
+  bool isSolved({required bool areAllShapesVisible}) => Solver.isWorkOut(
+        gameShapes: gameShapes,
+        puzzle: puzzle,
+        areAllShapesVisible: areAllShapesVisible,
+      );
 
   SolverState copyWith({
+    Shapes? focusShape,
     Puzzle? puzzle,
     GameShapes? gameShapes,
     Offset? positionOfBoundingRectangle,
-    Shapes? focusShape,
     bool? rotationLeft,
     bool? rotationRight,
-   // Shapes? hideFocusShape,
+    // Shapes? hideFocusShape,
   }) {
-    if (focusShape != null) currentFocus = focusShape;
+    ShapeOrder newShapeOrder;
+    if (focusShape != null) {
+      //log.d('before Changing focus shape order:$shapeOrder ');
+      newShapeOrder = shapeOrder.copyWith(newFocusShape: focusShape);
+      //  log.d('after  Changing focus shape order:$newShapeOrder ');
+    } else {
+      //  log.d('no fokus change order: shape order:$shapeOrder ');
+      newShapeOrder = shapeOrder;
+    }
+
     return (positionOfBoundingRectangle != null ||
             rotationLeft != null ||
             rotationRight != null)
         ? SolverState(
             puzzle: puzzle ?? this.puzzle,
+            shapeOrder: newShapeOrder,
             gameShapes: this.gameShapes.copyWith(
-                focusShape: currentFocus,
+                shape: newShapeOrder.order.last,
                 rotationLeft: rotationLeft,
                 positionOfBoundingRectangle: positionOfBoundingRectangle,
                 rotationRight: rotationRight),
           )
         : SolverState(
+            shapeOrder: newShapeOrder,
             puzzle: puzzle ?? this.puzzle,
             gameShapes: gameShapes ?? this.gameShapes,
           );
