@@ -1,132 +1,28 @@
 import 'dart:ui';
 
-
 import 'package:tangram/data/models/puzzle.dart';
-import 'package:tangram/util/constants.dart';
 import 'package:tangram/util/shape_enum.dart';
 
 abstract class SolverEvent {
   const SolverEvent();
 }
 
-class PuzzleToSolveEvent extends SolverEvent {
-  final Puzzle puzzle;
+class UpdateMapEvent extends SolverEvent {
+  final Map<Shapes, Path> map;
 
-  const PuzzleToSolveEvent({
-    required this.puzzle,
-  });
+  const UpdateMapEvent({required this.map});
 
   @override
   String toString() {
-    return 'PuzzleToSolveEvent{puzzle: $puzzle}';
+    return 'UpdateMapEvent{map: $map}';
   }
 }
 
-class FocusEvent extends SolverEvent {
-  final Shapes focusShape;
-
-  const FocusEvent({required this.focusShape});
+class NoFreshUpdatesEvent extends SolverEvent {
+  const NoFreshUpdatesEvent();
 
   @override
   String toString() {
-    return 'FocusEvent{focusShape: $focusShape}';
+    return 'NoFreshUpdatesEvent';
   }
 }
-
-
-class HideFocusEvent extends SolverEvent {
-  final Shapes focusShape;
-
-  const HideFocusEvent({required this.focusShape});
-
-  @override
-  String toString() {
-    return 'HideFocusEvent{focusShape: $focusShape}';
-  }
-}
-
-
-class LeftRotationEvent extends SolverEvent {
-  const LeftRotationEvent();
-}
-
-class RightRotationEvent extends SolverEvent {
-  const RightRotationEvent();
-}
-
-class PositionEvent extends SolverEvent {
-  final Offset positionOfBoundingRectangle;
-  //final Shapes focusShape;
-
-  PositionEvent(
-      {required this.positionOfBoundingRectangle,
-       // required this.focusShape,
-      });
-
-  // : assert(positionOfBoundingRectangle.dx <= boardWidth),
-  //   assert(positionOfBoundingRectangle.dy <= boardWidth);
-
-
-}
-
-//
-// //TODO: Offset should be derived from dart.ui
-// class ShapeStartedDragDataEvent extends SolverEvent {
-//   final Offset offset;
-//   final List<PointSystem> points;
-//
-//   const ShapeStartedDragDataEvent({
-//     required this.offset,
-//     required this.points,
-//   }):super();
-//
-//   @override
-//   String toString() {
-//     return '\nShapeStartedDragDataEvent{ offset: $offset,\n points: $points}';
-//   }
-// }
-//
-// class ShapeFinishedDragDataEvent extends SolverEvent {
-//   final Offset offset;
-//   final List<PointSystem> points;
-//
-//   const ShapeFinishedDragDataEvent({
-//     required this.offset,
-//     required this.points,
-//   }):super();
-//
-//   @override
-//   String toString() {
-//     return '\nShapeFinishedDragDataEvent{offset: $offset,\n points: $points}';
-//   }
-// }
-//
-// class ShapeFinishedRotation extends SolverEvent {
-//   final Offset offset;
-//   final List<PointSystem> points;
-//
-//   const ShapeFinishedRotation({
-//     required this.offset,
-//     required this.points,
-//   });
-//
-//   @override
-//   String toString() {
-//     return '\nShapeFinishedRotation{offset: $offset,\n points: $points}';
-//   }
-// }
-//
-// class ShapeStartedRotation extends SolverEvent {
-//   final Offset offset;
-//   final List<PointSystem> points;
-//
-//   const ShapeStartedRotation({
-//     required this.offset,
-//     required this.points,
-//   });
-//
-//   @override
-//   String toString() {
-//     return '\nShapeStartedRotation{offset: $offset,\n points: $points}';
-//   }
-// }

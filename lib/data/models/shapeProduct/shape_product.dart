@@ -14,7 +14,8 @@ abstract class ShapeProduct  extends Equatable {
 
   Offset get positionOfBoundingRectangle;
 
-  Path getPath(double pointSize);
+  //unit data
+  Path getPath({double pointSize=1});
 
   Path getPathForUi(double pointSize);
 

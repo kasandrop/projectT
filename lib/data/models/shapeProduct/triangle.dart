@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tangram/data/models/shapeProduct/shape_product.dart';
 import 'package:tangram/util/shape_enum.dart';
 
-class Triangle  extends Equatable implements ShapeProduct {
+class Triangle extends Equatable implements ShapeProduct {
   @override
   final Offset positionOfBoundingRectangle;
   @override
@@ -12,8 +12,6 @@ class Triangle  extends Equatable implements ShapeProduct {
   final int positionInList;
   @override
   final Color color;
-
-
 
   const Triangle({
     required this.shape,
@@ -31,17 +29,20 @@ class Triangle  extends Equatable implements ShapeProduct {
       Triangle(
         color: color,
         shape: shape,
-        positionInList:(rotationLeft!=null)?(positionInList-1)%8:(rotationRight!=null)?(positionInList+1)%8:positionInList,
+        positionInList: (rotationLeft != null)
+            ? (positionInList - 1) % 8
+            : (rotationRight != null)
+                ? (positionInList + 1) % 8
+                : positionInList,
         positionOfBoundingRectangle:
             positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
       );
 
+  @override
+  List<Object> get props => [shape, positionOfBoundingRectangle, positionInList, color];
 
   @override
-  List<Object> get props => [shape,positionOfBoundingRectangle,positionInList,color];
-
-  @override
-  bool get stringify =>true;
+  bool get stringify => true;
 
   @override
   List<Offset> get pointsOfPolygonInPixel => [];
@@ -50,18 +51,14 @@ class Triangle  extends Equatable implements ShapeProduct {
   static const Offset origin = Offset(1, 1);
 
   @override
-  Path getPath(double pointSize) => Path()
-    ..addPolygon(
-        [...getOffsetList((positionInList/2).floor()).map((e) => e * pointSize)], true);
+  Path getPath({double pointSize=1}) => Path()
+    ..addPolygon([...getOffsetList((positionInList / 2).floor()).map((e) => e * pointSize)], true)..shift(positionOfBoundingRectangle);
 
   @override
-  Path getPathForUi(double pointSize) => Path()
-    ..addPolygon(
-        [...getOffsetList(0).map((e) => e * pointSize)], true);
+  Path getPathForUi(double pointSize) =>
+      Path()..addPolygon([...getOffsetList(0).map((e) => e * pointSize)], true);
 
-    static Path pathForUi(double pointSize)=> Path()
-    ..addPolygon(
-        [...getOffsetList(0).map((e) => e * pointSize)], true);
+
 
   static List<Offset> getOffsetList(int i) => offsets[i];
 
@@ -72,12 +69,9 @@ class Triangle  extends Equatable implements ShapeProduct {
     [Offset(0, 2), Offset(2, 0), Offset(2, 2)],
   ];
 
-
-
   @override
   Size get size => cellSize;
 
   @override
-  bool get isPositionInListEven =>positionInList%2==0;
-
+  bool get isPositionInListEven => positionInList % 2 == 0;
 }

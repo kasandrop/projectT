@@ -1,10 +1,11 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 
 import 'package:meta/meta.dart';
 import 'package:tangram/data/models/puzzle.dart';
 import 'package:tangram/data/models/level.dart';
 import 'package:tangram/data/models/levels.dart';
-import 'package:tangram/data/models/point_system.dart';
 import 'package:tangram/util/grid_enum.dart';
 
 //-----------------------------------------------------------------
@@ -29,11 +30,11 @@ class LevelsState extends Equatable {
 
   Puzzle get puzzle {
 
-    return Puzzle(pointsSystem: currentLevel.pointSystem
+    return Puzzle(points: currentLevel.points
     );
   }
 
-  List<PointSystem>? get pointSystem => currentLevel.pointSystem;
+  List<Offset>? get points => currentLevel.points;
 
   LevelsState copyWith({
     Levels? levels,

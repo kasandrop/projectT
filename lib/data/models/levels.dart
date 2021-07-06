@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import 'level.dart';
 
-/// level : [{"grid":1,"pointSystem":[{"dx":1,"dy":1}]},{"grid":1,"pointSystem":[{"dx":2,"dy":2}]},{"grid":1,"pointSystem":[{"dx":3,"dy":2}]}]
+/// level : [{"grid":1,"offset":[{"dx":1,"dy":1}]},{"grid":1,"offset":[{"dx":2,"dy":2}]},{"grid":1,"offset":[{"dx":3,"dy":2}]}]
 
 class Levels extends Equatable {
   final List<Level> levels;

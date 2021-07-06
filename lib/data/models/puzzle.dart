@@ -1,36 +1,29 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
-import 'package:tangram/data/models/point_system.dart';
+import 'package:flutter/material.dart';
 
-//TODO: make this class immutable
-class Puzzle  {
-  final List<PointSystem> pointsSystem;
+@immutable
+class Puzzle extends Equatable {
+  final List<Offset> points;
 
-  Offset get heightSpread => Offset(_tempHeightSpread.dx, _tempHeightSpread.dy);
-
-  Offset get widthSpread => Offset(_tempWidthSpread.dx, _tempWidthSpread.dy);
-
-  var _tempWidthSpread;
-  var _tempHeightSpread;
-
+  // late final Offset widthSpread;
+  // late final Offset heightSpread;
 
   Puzzle({
-    required this.pointsSystem,
-  }) {
-    _init();
-  }
+    required this.points,
+  });
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [pointsSystem];
+  List<Object> get props => [points];
 
-  Puzzle.zero():pointsSystem=<PointSystem>[];
-
+  Puzzle.zero() : points = <Offset>[];
 
   void _init() {
-    pointsSystem.forEach((element) {
-      if (element == pointsSystem.first) {
+    var _tempWidthSpread;
+    var _tempHeightSpread;
+    points.forEach((element) {
+      if (element == points.first) {
         _tempWidthSpread = Offset(element.dx.toDouble(), element.dy.toDouble());
         _tempHeightSpread = Offset(element.dx.toDouble(), element.dy.toDouble());
       }
@@ -51,72 +44,21 @@ class Puzzle  {
         _tempHeightSpread = Offset(_tempHeightSpread.dx, tempY.toDouble());
       }
     });
+
+    // heightSpread = Offset(_tempHeightSpread.dx, _tempHeightSpread.dy);
+
+    // widthSpread = Offset(_tempWidthSpread.dx, _tempWidthSpread.dy);
   }
 
-  Path getPath(double pointSize) {
-    var path = Path();
-    pointsSystem.forEach((element) {
-      path.addPath(_pointSystemToPath(element, pointSize), Offset(0, 0));
-    });
-    return path;
-  }
-
-  static Path _pointSystemToPath(PointSystem element, double pointSize) {
-    var path = Path();
-
-    var startX = element.dx.toDouble() * pointSize;
-    var startY = element.dy.toDouble() * pointSize;
-    var middleX = startX + pointSize / 2;
-    var middleY = startY + pointSize / 2;
-
-    if (element.east == true &&
-        element.north == true &&
-        element.south == true &&
-        element.west == true) {
-      path.moveTo(startX, startY);
-      path.lineTo(startX + pointSize, startY);
-      path.lineTo(startX + pointSize, startY + pointSize);
-      path.lineTo(startX, startY + pointSize);
-      path.close();
+  //unit data
+  Path getPath({double pointSize = 1}) {
+    var path = Path()
+      ..addPolygon(points, true);
+    if (pointSize == 1) {
       return path;
     }
-    if (element.east == true) {
-      var tempPath = Path();
-      tempPath.moveTo(middleX, middleY);
-      tempPath.lineTo(startX + pointSize, startY);
-      tempPath.lineTo(startX + pointSize, startY + pointSize);
-      tempPath.close();
-      path.addPath(tempPath, Offset.zero);
-    }
-    if (element.south == true) {
-      var tempPath = Path();
-      tempPath.moveTo(middleX, middleY);
-      tempPath.lineTo(startX + pointSize, startY + pointSize);
-      tempPath.lineTo(startX, startY + pointSize);
-      tempPath.close();
-      path.addPath(tempPath, Offset.zero);
-    }
-    if (element.west == true) {
-      var tempPath = Path();
-      tempPath.moveTo(middleX, middleY);
-      tempPath.lineTo(startX, startY);
-      tempPath.lineTo(startX, startY + pointSize);
-
-      tempPath.close();
-      path.addPath(tempPath, Offset.zero);
-    }
-    if (element.north == true) {
-      var tempPath = Path();
-      tempPath.moveTo(middleX, middleY);
-      tempPath.lineTo(startX, startY);
-      tempPath.lineTo(startX + pointSize, startY);
-      tempPath.close();
-
-      path.addPath(tempPath, Offset.zero);
-    }
-
-    return path;
+    var matrix4 = Matrix4.identity();
+    matrix4.scale(pointSize, pointSize);
+    return path.transform(matrix4.storage);
   }
-
-
 }

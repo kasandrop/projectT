@@ -1,6 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:tangram/data/models/point_system.dart';
 import 'package:tangram/data/models/puzzle.dart';
 //
 // void main() {

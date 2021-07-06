@@ -31,9 +31,8 @@ class RectWithTriangle  extends Equatable  implements ShapeProduct {
   @override
 
   @override
-  Path getPath(double pointSize) => Path()
-    ..addPolygon(
-        [...getOffsetList((positionInList/2).floor()).map((e) => e * pointSize)], true);
+  Path getPath({double pointSize=1}) => Path()
+    ..addPolygon([...getOffsetList((positionInList / 2).floor()).map((e) => e * pointSize)], true)..shift(positionOfBoundingRectangle);
 
   @override
   Path getPathForUi(double pointSize) => Path()

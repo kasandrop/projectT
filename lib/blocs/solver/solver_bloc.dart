@@ -1,55 +1,30 @@
-import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tangram/blocs/solver/solver.dart';
-import 'package:tangram/data/models/puzzle.dart';
-import 'package:tangram/data/models/shapeProduct/game_shapes.dart';
-import 'package:tangram/data/models/shape_order.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:tangram/util/shape_enum.dart';
 
 class SolverBloc extends Bloc<SolverEvent, SolverState> {
-  final GameShapes gameShapes;
-  final ShapeOrder shapeOrder;
+  final Map<Shapes, Path> map;
+  final Path puzzlePath;
 
   SolverBloc({
-    required this.gameShapes,
-    required this.shapeOrder,
-  }) : super(SolverState(
-            puzzle: Puzzle.zero(),
-            gameShapes: gameShapes,
-            shapeOrder: shapeOrder));
+    required this.map,
+    required this.puzzlePath,
+  }) : super(SolverState(puzzlePath: puzzlePath, map: map));
 
   @override
   Stream<SolverState> mapEventToState(SolverEvent event) async* {
-    log.d('$event');
-    if (event is PuzzleToSolveEvent) {
-      yield state.copyWith(
-        puzzle: event.puzzle,
-      );
+    if (event is UpdateMapEvent) {
+      yield state.copyWith(map: event.map,freshData:true);
     }
-    if (event is PositionEvent) {
-      yield state.copyWith(
-          positionOfBoundingRectangle: event.positionOfBoundingRectangle,
-     //   focusShape: event.focusShape,
-      );
-    }
-    if (event is FocusEvent) {
-      yield state.copyWith(focusShape: event.focusShape);
-    }
-    if (event is HideFocusEvent) {
-      // yield state.copyWith(hideFocusShape: event.focusShape);
-    }
-    if (event is LeftRotationEvent) {
-      yield state.copyWith(rotationLeft: true);
-    }
-    if (event is RightRotationEvent) {
-      yield state.copyWith(rotationRight: true);
+    if (event is NoFreshUpdatesEvent) {
+      yield state.copyWith(freshData: false);
     }
   }
 
   @override
   void onTransition(Transition<SolverEvent, SolverState> transition) {
     super.onTransition(transition);
-   // log.d('****onTransition***\nstate:${transition.nextState}');
   }
 }

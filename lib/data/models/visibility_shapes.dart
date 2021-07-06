@@ -3,15 +3,17 @@ import 'package:tangram/util/shape_enum.dart';
 
 class VisibilityShape extends ChangeNotifier {
 
-  List<bool> isSelected;
+  List<bool> isHidden;
 
-  VisibilityShape({required this.isSelected});
+  VisibilityShape({required this.isHidden});
 
  set  toggleElement(int index){
-    isSelected[index]=!isSelected[index];
+    isHidden[index]=!isHidden[index];
     notifyListeners();
   }
 
-bool  get areAllVisible=>isSelected.every((element) => (element==false));
+bool  get areAllHidden=>isHidden.every((element) => (element==true));
+
+// bool  get areAllVisible=>isHidden.every((element) => (element==false));
 
 }

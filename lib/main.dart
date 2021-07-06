@@ -5,6 +5,7 @@ import 'package:tangram/pages/home_page.dart';
 import 'package:tangram/util/constants.dart';
 import 'package:tangram/util/logger.dart';
 
+import 'blocs/triangram_bloc_observer.dart';
 import 'config/injection_container.dart';
 import 'config/routes/route_generator.dart';
 
@@ -12,7 +13,7 @@ void main() async{
   // debugPaintSizeEnabled = true;
   //debugPaintPointersEnabled = true;
   //WidgetsFlutterBinding.ensureInitialized();
-
+Bloc.observer=TriangramBlocObserver();
  await init();
   runApp(SplashApp(
     key: UniqueKey(),

@@ -16,10 +16,12 @@ class GameShapes extends Equatable {
   });
 
   @override
-  List<Object?> get props => [shapes];
+  List<Object> get props => [shapes];
 
   @override
   bool get stringify => true;
+
+  Map<Shapes,Path> getPathMap(double pointSize)=>{ for (Shapes e in Shapes.values) e : getShape(e ).getPath(pointSize: pointSize) };
 
   ShapeProduct getShape(Shapes shape) => shapes[shape]!;
 

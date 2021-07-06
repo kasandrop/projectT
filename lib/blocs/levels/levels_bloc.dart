@@ -11,7 +11,6 @@ class LevelsBloc extends Bloc<LevelsEvent, LevelsState> {
   final int lastLevelCompleted;
   final LevelsState initialState;
 
-
   LevelsBloc({
     required this.getLevelsUseCase,
     required this.lastLevelCompleted,
@@ -20,11 +19,11 @@ class LevelsBloc extends Bloc<LevelsEvent, LevelsState> {
 
   @override
   Stream<LevelsState> mapEventToState(LevelsEvent event) async* {
-
-    log.d('mapEventToState');
-
-    if(event is CurrentLevel){
-      yield state.copyWith(currentLevelNumber: event.levelPosition,levels: state.levels);
+    if (event is CurrentLevel) {
+      yield state.copyWith(
+        currentLevelNumber: event.levelPosition,
+        levels: state.levels,
+      );
     }
   }
 }

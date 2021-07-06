@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tangram/blocs/Levels/levels.dart';
-import 'package:tangram/blocs/solver/solver_bloc.dart';
+import 'package:tangram/blocs/data/data_bloc.dart';
+import 'package:tangram/blocs/solver/solver.dart';
 import 'package:tangram/data/models/shapeProduct/game_shapes.dart';
 import 'package:tangram/data/models/shapeProduct/rect_with_triangle.dart';
 import 'package:tangram/data/models/shapeProduct/rect_without_triangle.dart';
@@ -57,7 +58,7 @@ Future<void> init() async {
     instanceName: 'Shapes.TriangleBlue',
   );
   sl.registerFactory<ShapeProduct>(
-    () => Triangle(
+    () =>const  Triangle(
         color: kColorGreen,
         shape: Shapes.TriangleGreen,
         positionInList: 0,
@@ -65,7 +66,7 @@ Future<void> init() async {
     instanceName: 'Shapes.TriangleGreen',
   );
   sl.registerFactory<ShapeProduct>(
-    () => RectWithoutTriangle(
+    () => const  RectWithoutTriangle(
         color: kColorOrange,
         shape: Shapes.RectWithoutTriangle,
         positionInList: 0,
@@ -73,7 +74,7 @@ Future<void> init() async {
     instanceName: 'Shapes.RectWithoutTriangle',
   );
   sl.registerFactory<ShapeProduct>(
-    () => RectWithTriangle(
+    () => const RectWithTriangle(
         color: kColorOrange,
         shape: Shapes.RectWithTriangle,
         positionInList: 0,
@@ -81,7 +82,7 @@ Future<void> init() async {
     instanceName: 'Shapes.RectWithTriangle',
   );
   sl.registerFactory<ShapeProduct>(
-    () => Trapezoid(
+    () =>const  Trapezoid(
         color: kColorOrange,
         shape: Shapes.Trapezoid,
         positionInList: 0,
@@ -89,14 +90,7 @@ Future<void> init() async {
     instanceName: 'Shapes.Trapezoid',
   );
   sl.registerFactory<ShapeOrder>(() => ShapeOrder(
-        order: <Shapes>[
-          Shapes.TriangleRed,
-          Shapes.TriangleBlue,
-          Shapes.TriangleGreen,
-          Shapes.Trapezoid,
-          Shapes.RectWithTriangle,
-          Shapes.RectWithoutTriangle,
-        ],
+        order: <Shapes>[ ],
       ));
 
   sl.registerFactory<GameShapes>(() => GameShapes(
@@ -120,22 +114,24 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerFactory<SolverBloc>(
-    () => SolverBloc(
+  sl.registerFactory<DataBloc>(
+    () => DataBloc(
       gameShapes: sl(),
       shapeOrder: sl(),
     ),
   );
 
+
+
   //ui
   sl.registerSingleton<VisibilityShape>(
-    VisibilityShape(isSelected: [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
+    VisibilityShape(isHidden: [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
     ]),
   );
 }

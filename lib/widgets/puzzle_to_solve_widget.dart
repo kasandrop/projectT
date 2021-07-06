@@ -18,19 +18,18 @@ class PuzzleToSolveWidget extends StatelessWidget {
     required this.pointSize,
   }) : super(key: key);
 
-  Path get path => puzzle.getPath(pointSize);
-
-  Size get size => Size(puzzle.widthSpread.dx, puzzle.widthSpread.dy) * pointSize;
-
   @override
   Widget build(BuildContext context) {
+    var path=puzzle.getPath(pointSize: pointSize);
+    var size=Size(path.getBounds().width,path.getBounds().height);
     return Container(
       child: IgnorePointer(
         child: ShapeFromPathWidget(
-            offset: offset,
-            color: color,
-            path: path,
-            size: size * pointSizeFromContext(context)),
+          offset: offset,
+          color: color,
+          path: path,
+           size:size,
+        ),
       ),
     );
   }
