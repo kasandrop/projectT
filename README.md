@@ -11,4 +11,5 @@ A game simmilar to !tangram! game. The goal of the game is  to completely cover 
 with small shapes.
 
 Under development.
+Tested on Windows 10 so far
 
