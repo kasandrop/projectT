@@ -1,5 +1,5 @@
-![tangram1](https://user-images.githubusercontent.com/20933329/130906221-8a9ccf45-7d25-4d36-9dbd-ea2a1da22c48.png)
-![tangram1](https://user-images.githubusercontent.com/20933329/130906282-69dc2308-8b6a-4e74-a771-27b6141cf0d1.png)
+![tangram1](https://user-images.githubusercontent.com/20933329/130906375-3dbbb18e-69ef-452e-affb-e3b6035828d5.png)
+![tangram2](https://user-images.githubusercontent.com/20933329/130906386-7ba1fb80-d5b0-4256-bca4-7c0c44997e8b.png)
 
 
 
