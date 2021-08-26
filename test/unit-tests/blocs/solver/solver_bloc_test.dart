@@ -1,5 +1,125 @@
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
-import 'package:tangram/data/models/puzzle.dart';
+import 'package:triangram/blocs/data/data.dart';
+import 'package:triangram/data/models/shapeProduct/rect_with_triangle.dart';
+import 'package:triangram/data/models/shapeProduct/rect_without_triangle.dart';
+import 'package:triangram/data/models/shapeProduct/trapezoid.dart';
+import 'package:triangram/data/models/shapeProduct/triangle.dart';
+import 'package:triangram/data/models/shape_order.dart';
+import 'package:triangram/util/constants.dart';
+import 'package:test/test.dart';
+import 'package:triangram/blocs/solver/solver.dart';
+import 'package:triangram/data/models/puzzle.dart';
+import 'package:triangram/data/models/shapeProduct/game_shapes.dart';
+import 'package:triangram/data/models/shapeProduct/shape_product.dart';
+import 'package:triangram/util/shape_enum.dart';
+
+const gameShape = GameShapes(
+  shapes: <Shapes, ShapeProduct>{
+    Shapes.TriangleRed: Triangle(
+      color: kColorOrange,
+      shape: Shapes.TriangleRed,
+      positionInList: 0,
+      positionOfBoundingRectangle: Offset(0, 2),
+      isAnchored: false,
+    ),
+    Shapes.TriangleBlue: Triangle(
+      color: kColorBlue,
+      shape: Shapes.TriangleBlue,
+      positionInList: 2,
+      positionOfBoundingRectangle: Offset(2, 0),
+      isAnchored: false,
+    ),
+    Shapes.TriangleGreen: Triangle(
+      color: kColorGreen,
+      shape: Shapes.TriangleGreen,
+      positionInList: 6,
+      positionOfBoundingRectangle: Offset(4, 2),
+      isAnchored: false,
+    ),
+    Shapes.RectWithoutTriangle: RectWithoutTriangle(
+      color: kColorOrange,
+      shape: Shapes.RectWithoutTriangle,
+      positionInList: 0,
+      positionOfBoundingRectangle: Offset(2, 0),
+      isAnchored: false,
+    ),
+    Shapes.RectWithTriangle: RectWithTriangle(
+      color: kColorOrange,
+      shape: Shapes.RectWithTriangle,
+      positionInList: 0,
+      positionOfBoundingRectangle: Offset(2, 4),
+      isAnchored: false,
+    ),
+    Shapes.Trapezoid: Trapezoid(
+      color: kColorOrange,
+      shape: Shapes.Trapezoid,
+      positionInList: 6,
+      positionOfBoundingRectangle: Offset(0, 2),
+      isAnchored: false,
+    ),
+  },
+);
+
+const shapeOrder = ShapeOrder(order: <Shapes>[
+  Shapes.TriangleGreen,
+  Shapes.TriangleRed,
+  Shapes.TriangleBlue,
+  Shapes.RectWithoutTriangle,
+  Shapes.Trapezoid,
+  Shapes.RectWithTriangle,
+]);
+const dataState = DataState(gameShapes: gameShape, shapeOrder: shapeOrder, solve: true);
+
+const cross = <Offset>[
+  Offset(2, 0),
+  Offset(4, 0),
+  Offset(4, 2),
+  Offset(6, 2),
+  Offset(6, 4),
+  Offset(4, 4),
+  Offset(4, 8),
+  Offset(2, 8),
+  Offset(2, 4),
+  Offset(0, 4),
+  Offset(0, 2),
+  Offset(2, 2),
+];
+
+void main() {
+  group('solver state', () {
+    late SolverBloc solverBloc;
+    late Puzzle puzzle;
+    late Map<Shapes, MyPath> map;
+    late SolverState solverState;
+
+    setUp(() {
+      puzzle = Puzzle(points: cross);
+      map = <Shapes, MyPath>{
+        Shapes.RectWithoutTriangle: dataState.getMyPath(shape: Shapes.RectWithoutTriangle),
+        Shapes.Trapezoid: dataState.getMyPath(shape: Shapes.Trapezoid),
+        Shapes.RectWithTriangle: dataState.getMyPath(shape: Shapes.RectWithTriangle),
+        Shapes.TriangleGreen: dataState.getMyPath(shape: Shapes.TriangleGreen),
+        Shapes.TriangleRed: dataState.getMyPath(shape: Shapes.TriangleRed),
+        Shapes.TriangleBlue: dataState.getMyPath(shape: Shapes.TriangleBlue),
+      };
+      solverBloc = SolverBloc(pathsForShape: PathsForShapes(map: map), puzzle: puzzle);
+
+      solverState =
+          SolverState(pathsForShapes: PathsForShapes(map: map), puzzle: puzzle, attempt: 0);
+    });
+    test('checking value equality', () {
+      expect(solverBloc.state, solverState);
+    });
+
+    test('checking isPuzzleCovered getter', () {
+      var solverStateTest =
+          SolverState(pathsForShapes: PathsForShapes(map: map), puzzle: puzzle, attempt: 0);
+      expect(solverStateTest.isPuzzleCovered, true);
+    });
+  });
+}
 //
 // void main() {
 //   group('SolverBloc', () {

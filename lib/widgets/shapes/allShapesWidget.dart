@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/blocs/data/data.dart';
-import 'package:tangram/blocs/solver/solver.dart';
-import 'package:tangram/data/models/shape_order.dart';
-import 'package:tangram/util/logger.dart';
-import 'package:tangram/util/shape_enum.dart';
-import 'package:tangram/util/top_level_functions.dart';
-import 'package:tangram/widgets/shapes/shapeWidget.dart';
+import 'package:triangram/blocs/data/data.dart';
+import 'package:triangram/blocs/solver/solver.dart';
+import 'package:triangram/util/logger.dart';
+import 'package:triangram/util/top_level_functions.dart';
+import 'package:triangram/widgets/shapes/shapeWidget.dart';
 
 class AllShapesWidget extends StatelessWidget {
   const AllShapesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    log.d('build-allshapes');
+    log.d('build-allShapes');
     //  buildWhen: (previous, current) =>previous.currentFocus!=current.currentFocus,
     return BlocConsumer<DataBloc, DataState>(
         listener: (context, state) {},
@@ -32,8 +30,21 @@ class AllShapesWidget extends StatelessWidget {
               children: <Widget>[
                 for (var shape in shapeOrder.order)
                   //Compile-time constant  shall not be something the developers have to worry. It is compiler's job solely for optimization.
-                  ShapeWidget(shape: shape, key: ObjectKey(shape)),
-                SolutionWidget(key: ObjectKey('SolutionWidget')),
+                  ShapeWidget(
+                      isFocus: shapeOrder.order.last == shape, shape: shape, key: ObjectKey(shape)),
+                Builder(
+                  builder: (BuildContext context) {
+                    var solverState = context.watch<SolverBloc>().state;
+                    var playerWins = solverState.isPuzzleCovered;
+                    // log.d('info from solverState isSolved?: ${solverState.isPuzzleCovered}');
+                    return Positioned(
+                      top: 500,
+                      left: 50,
+                      child: Text('attempt:${solverState.attempt} solved:$playerWins'),
+                    );
+                  },
+                ),
+                // SolutionWidget(key: ObjectKey('SolutionWidget')),
               ],
             ),
           );
@@ -47,14 +58,10 @@ class SolutionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log.d('SolutionWidget');
-    return BlocBuilder<SolverBloc, SolverState>(
-
-        buildWhen: (previous, current) => previous.map != current.map,
-        builder: (context, state) {
-          log.d('nareszczie!!!!');
-          var result = state.isPuzzleCovered;
-          log.d('result: $result');
-          return Container();
-        });
+    return BlocBuilder<SolverBloc, SolverState>(builder: (context, state) {
+      var result = state.isPuzzleCovered;
+      log.d('result: $result');
+      return Container();
+    });
   }
 }

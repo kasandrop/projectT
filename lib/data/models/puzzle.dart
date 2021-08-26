@@ -5,55 +5,25 @@ import 'package:flutter/material.dart';
 
 @immutable
 class Puzzle extends Equatable {
-  final List<Offset> points;
+  final List<Offset> _points;
+  late final Offset puzzleOffset;
 
-  // late final Offset widthSpread;
-  // late final Offset heightSpread;
+  Puzzle(this._points);
 
-  Puzzle({
-    required this.points,
-  });
+  List<Offset> pointsAfterAlignment() => _points.map((e) => e + puzzleOffset).toList();
 
   @override
-  List<Object> get props => [points];
+  List<Object> get props => [_points];
 
-  Puzzle.zero() : points = <Offset>[];
+  Puzzle.zero() : _points = <Offset>[];
 
-  void _init() {
-    var _tempWidthSpread;
-    var _tempHeightSpread;
-    points.forEach((element) {
-      if (element == points.first) {
-        _tempWidthSpread = Offset(element.dx.toDouble(), element.dy.toDouble());
-        _tempHeightSpread = Offset(element.dx.toDouble(), element.dy.toDouble());
-      }
+  @override
+  bool get stringify => true;
 
-      var tempX = element.dx;
-      if (tempX < _tempWidthSpread.dx) {
-        _tempWidthSpread = Offset(tempX.toDouble(), _tempWidthSpread.dy);
-      }
-      if (tempX > _tempWidthSpread.dy) {
-        _tempWidthSpread = Offset(_tempWidthSpread.dx, tempX.toDouble());
-      }
+  Path getPathAfterAlignment() => Path()..addPolygon(pointsAfterAlignment(), true);
 
-      var tempY = element.dy;
-      if (tempY < _tempHeightSpread.dx) {
-        _tempHeightSpread = Offset(tempY.toDouble(), _tempHeightSpread.dy);
-      }
-      if (tempY > _tempHeightSpread.dy) {
-        _tempHeightSpread = Offset(_tempHeightSpread.dx, tempY.toDouble());
-      }
-    });
-
-    // heightSpread = Offset(_tempHeightSpread.dx, _tempHeightSpread.dy);
-
-    // widthSpread = Offset(_tempWidthSpread.dx, _tempWidthSpread.dy);
-  }
-
-  //unit data
-  Path getPath({double pointSize = 1}) {
-    var path = Path()
-      ..addPolygon(points, true);
+  Path getPathForUi({double pointSize = 1}) {
+    var path = Path()..addPolygon(_points, true);
     if (pointSize == 1) {
       return path;
     }

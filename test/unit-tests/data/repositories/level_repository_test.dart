@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:tangram/data/models/level.dart';
-import 'package:tangram/data/models/levels.dart';
-import 'package:tangram/util/grid_enum.dart';
+import 'package:triangram/data/models/level.dart';
+import 'package:triangram/data/models/levels.dart';
+import 'package:triangram/util/grid_enum.dart';
 import 'package:test/test.dart';
 
 import '../../fixtures/fixture_reader.dart';

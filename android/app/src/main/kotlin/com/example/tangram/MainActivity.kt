@@ -1,4 +1,4 @@
-package com.example.tangram
+package com.example.triangram
 
 import io.flutter.embedding.android.FlutterActivity
 

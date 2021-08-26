@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:triangram/util/logger.dart';
 
 class TriangramBlocObserver extends BlocObserver {
   @override
@@ -11,7 +11,7 @@ class TriangramBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    log.d('onChange $change');
+    //  log.d('onChange $change');
   }
 
   @override

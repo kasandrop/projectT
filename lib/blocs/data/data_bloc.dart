@@ -1,27 +1,33 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/blocs/data/data.dart';
-import 'package:tangram/data/models/puzzle.dart';
-import 'package:tangram/data/models/shapeProduct/game_shapes.dart';
-import 'package:tangram/data/models/shape_order.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:triangram/blocs/data/data.dart';
+import 'package:triangram/data/models/puzzle.dart';
+import 'package:triangram/data/models/shapeProduct/game_shapes.dart';
+import 'package:triangram/data/models/shape_order.dart';
+import 'package:triangram/util/logger.dart';
+import 'package:triangram/util/top_level_functions.dart';
 
 class DataBloc extends Bloc<DataEvent, DataState> {
   final GameShapes gameShapes;
   final ShapeOrder shapeOrder;
+  late final Puzzle puzzle;
 
   DataBloc({
     required this.gameShapes,
     required this.shapeOrder,
-  }) : super(DataState(gameShapes: gameShapes, shapeOrder: shapeOrder));
+  }) : super(DataState(gameShapes: gameShapes, shapeOrder: shapeOrder, solve: false));
 
   @override
   Stream<DataState> mapEventToState(DataEvent event) async* {
     if (event is PositionEvent) {
-      //unit data
       yield state.copyWith(
-          solve: true, positionOfBoundingRectangle: event.positionOfBoundingRectangle);
+          solve: true,
+          positionOfBoundingRectangle: normalizeOffset(
+              boundingRect: event.positionOfBoundingRectangle,
+              pointsPath: puzzle.pointsAfterAlignment(),
+              pointsOfShape: state.pointsOfFocusPolygon));
     }
     if (event is FocusEvent) {
       yield state.copyWith(focusShape: event.focusShape, solve: false);
@@ -38,10 +44,5 @@ class DataBloc extends Bloc<DataEvent, DataState> {
     if (event is RightRotationEvent) {
       yield state.copyWith(rotationRight: true, solve: true);
     }
-  }
-
-  @override
-  void onTransition(Transition<DataEvent, DataState> transition) {
-    super.onTransition(transition);
   }
 }

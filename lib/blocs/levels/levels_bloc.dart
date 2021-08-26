@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/data/useCases/get_levels_use_case.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:triangram/data/useCases/get_levels_use_case.dart';
+import 'package:triangram/util/logger.dart';
 
 import 'levels.dart';
 

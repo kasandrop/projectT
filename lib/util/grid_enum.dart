@@ -2,3 +2,4 @@
 ///
 
 enum Grid { Normal, Turned, Mixed }
+enum FromWidget { toSolve, Shape }

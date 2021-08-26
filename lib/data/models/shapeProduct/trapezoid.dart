@@ -1,78 +1,106 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:equatable/equatable.dart';
-import 'package:tangram/data/models/shapeProduct/shape_product.dart';
-import 'package:tangram/util/shape_enum.dart';
+import 'package:triangram/data/models/shapeProduct/shape_product.dart';
 
-class Trapezoid  extends Equatable implements ShapeProduct {
-  @override
-  final Offset positionOfBoundingRectangle;
-  @override
-  final Shapes shape;
-  @override
-  final int positionInList;
-  @override
-  final Color color;
-
-
+class Trapezoid extends ShapeProduct {
   const Trapezoid({
-    required this.color,
-    required this.shape,
-    required this.positionOfBoundingRectangle,
-    required this.positionInList,
-  }) : super();
-
-
-  @override
-  List<Object> get props => [shape,positionOfBoundingRectangle,positionInList,color];
-
-  @override
-  bool get stringify =>true;
-
-  @override
-
-  @override
-  Path getPath({double pointSize=1}) => Path()
-    ..addPolygon([...getOffsetList((positionInList / 2).floor()).map((e) => e * pointSize)], true)..shift(positionOfBoundingRectangle);
-
-  @override
-  Path getPathForUi(double pointSize) => Path()
-    ..addPolygon(
-        [...getOffsetList(0).map((e) => e * pointSize)], true);
-
-  static List<Offset> getOffsetList(int i) => offsets[i];
-
-  @override
-  List<Offset> get pointsOfPolygonInPixel => [];
-
-  @override
-  Size get size => cellSize;
-
-  static const Size cellSize = Size(4, 4);
-  static const Size origin = Size(2, 2);
+    required shape,
+    required color,
+    required colorFrom,
+    required colorTo,
+    required isAnchored,
+    required positionOfBoundingRectangle,
+    required positionInList,
+    required origin,
+    required size,
+  }) : super(
+          shape: shape,
+          color: color,
+          colorFrom: colorFrom,
+          colorTo: colorTo,
+          isAnchored: isAnchored,
+          positionOfBoundingRectangle: positionOfBoundingRectangle,
+          positionInList: positionInList,
+          origin: origin,
+          size: size,
+        );
 
   @override
   Trapezoid copyWith({
-          Offset? positionOfBoundingRectangle,
-          bool? rotationLeft,  bool? rotationRight,
-
+    Offset? positionOfBoundingRectangle,
+    bool? rotationLeft,
+    bool? rotationRight,
+    bool? isAnchored,
   }) =>
       Trapezoid(
         shape: shape,
         color: color,
-        positionInList:(rotationLeft!=null)?(positionInList-1)%8:(rotationRight!=null)?(positionInList+1)%8:positionInList,
+        colorFrom: colorFrom,
+        colorTo: colorTo,
+        origin: origin,
+        size: size,
+        positionInList: (rotationLeft != null)
+            ? (positionInList - 1) % 8
+            : (rotationRight != null)
+                ? (positionInList + 1) % 8
+                : positionInList,
         positionOfBoundingRectangle:
             positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
+        isAnchored: isAnchored ?? this.isAnchored,
       );
 
-
-  static const List<List<Offset>> offsets = <List<Offset>>[
-    [Offset(4, 0), Offset(4, 2), Offset(2, 4), Offset(0, 4)],
-    [Offset(4, 4), Offset(2, 4), Offset(0, 2), Offset(0, 0)],
-    [Offset(0, 4), Offset(0, 2), Offset(2, 0), Offset(4, 0)],
-    [Offset(0, 0), Offset(2, 0), Offset(4, 2), Offset(4, 4)],
-  ];
+  @override
+  bool get isPositionInListEven => positionInList % 2 == 0;
 
   @override
-  bool get isPositionInListEven =>positionInList%2==0;
+  List<Offset> get getInitialPointsBeforeRotation =>
+      [Offset(4.0, 0), Offset(4.0, 2.0), Offset(2.0, 4.0), Offset(0.0, 4.0)];
+
+  @override
+  List<Offset> get getInitialExtraPointsBeforeRotation =>
+      [Offset(1, 3), Offset(2, 2), Offset(3, 1), Offset(3, 3)];
+
+  @override
+  List<Offset> getListOfOffsetsTest(int i) => Trapezoid.offsetsTest[i];
+
+  @override
+  String toString() {
+    return '''
+         Trapezoid{ ${super.toString()}
+         ''';
+  }
+
+  static const Size shapeSize = Size(4, 4);
+  static const Offset shapeOrigin = Offset(2, 2);
+  static final List<List<Offset>> offsetsTest = <List<Offset>>[
+    [Offset(4, 0), Offset(4, 2), Offset(2, 4), Offset(0, 4)], //0
+    [
+      Offset(2 + math.sqrt(8), 2),
+      Offset(2 + math.sqrt(8) / 2, 2 + math.sqrt(8) / 2),
+      Offset(2 - math.sqrt(8) / 2, 2 + math.sqrt(8) / 2),
+      Offset(2 - math.sqrt(8), 2)
+    ], //1
+    [Offset(4, 4), Offset(2, 4), Offset(0, 2), Offset(0, 0)],
+    [
+      Offset(2, 2 + math.sqrt(8)),
+      Offset(2 - math.sqrt(8) / 2, 2 + math.sqrt(8) / 2),
+      Offset(2 - math.sqrt(8) / 2, 2 - math.sqrt(8) / 2),
+      Offset(2, 2 - math.sqrt(8))
+    ], //3
+    [Offset(0, 4), Offset(0, 2), Offset(2, 0), Offset(4, 0)],
+    [
+      Offset(2 - math.sqrt(8), 2),
+      Offset(2 - math.sqrt(8) / 2, 2 - math.sqrt(8) / 2),
+      Offset(2 + math.sqrt(8) / 2, 2 - math.sqrt(8) / 2),
+      Offset(2 + math.sqrt(8), 2)
+    ], //5
+    [Offset(0, 0), Offset(2, 0), Offset(4, 2), Offset(4, 4)],
+    [
+      Offset(2, 2 - math.sqrt(8)),
+      Offset(2 + math.sqrt(8) / 2, 2 - math.sqrt(8) / 2),
+      Offset(2 + math.sqrt(8) / 2, 2 + math.sqrt(8) / 2),
+      Offset(2, 2 + math.sqrt(8))
+    ],
+  ];
 }

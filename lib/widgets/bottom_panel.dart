@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:tangram/blocs/data/data.dart';
-import 'package:tangram/data/models/visibility_shapes.dart';
-import 'package:tangram/util/logger.dart';
-import 'package:tangram/util/shape_enum.dart';
-import 'package:tangram/util/top_level_functions.dart';
-import 'package:tangram/widgets/shape_from_path_widget.dart';
+import 'package:triangram/blocs/data/data.dart';
+import 'package:triangram/data/models/visibility_shapes.dart';
+import 'package:triangram/util/logger.dart';
+import 'package:triangram/util/shape_enum.dart';
+import 'package:triangram/util/top_level_functions.dart';
+import 'package:triangram/widgets/shape_from_path_widget.dart';
 import 'dart:math' as math;
 
 class BottomPanel extends StatelessWidget {
@@ -25,12 +25,21 @@ class BottomPanel extends StatelessWidget {
                 padding: EdgeInsets.all(2),
                 decoration: BoxDecoration(),
                 child: ShapeFromPathWidget(
-                    size: getSizeFromShape(e) * pointSizeScaled * _scale(e: e),
-                    color: (value.isHidden[e.index] == false)
-                        ? state.getShape(e).color.withOpacity(0.2)
-                        : state.getShape(e).color,
-                    path: state.getPathForUi(shape: e, pointSize: pointSizeScaled * _scale(e: e)),
-                    offset: Offset(0, 0)),
+                  state: DraggableState.none,
+                  size: getSizeFromShape(e) * pointSizeScaled * _scale(e: e),
+                  color: (value.isHidden[e.index] == false)
+                      ? state.getShape(e).color.withOpacity(0.2)
+                      : state.getShape(e).color,
+                  // colorFrom: (value.isHidden[e.index] == false)
+                  //     ? state.getShape(e).colorFrom.withOpacity(0.2)
+                  //     : state.getShape(e).colorFrom,
+                  // colorTo: (value.isHidden[e.index] == false)
+                  //     ? state.getShape(e).colorTo.withOpacity(0.2)
+                  //     : state.getShape(e).colorTo,
+                  // elevation: 4,
+                  shadowColor: Theme.of(context).colorScheme.onSurface,
+                  path: state.getPathForUi(shape: e, pointSize: pointSizeScaled * _scale(e: e)),
+                ),
               ),
             )
             .toList();
@@ -50,11 +59,9 @@ class BottomPanel extends StatelessWidget {
                       if (temp == true) {
                         BlocProvider.of<DataBloc>(context)
                             .add(ShowShapeEvent(showShape: Shapes.values.elementAt(index)));
-
                       } else {
                         BlocProvider.of<DataBloc>(context)
                             .add(HideShapeEvent(hideShape: Shapes.values.elementAt(index)));
-
                       }
                     },
                     isSelected: value.isHidden,
@@ -69,10 +76,14 @@ class BottomPanel extends StatelessWidget {
                 FloatingActionButton(
                   heroTag: UniqueKey(),
                   onPressed: () {
-                    if(areAllShapesHidden) return;
+                    if (areAllShapesHidden) return;
                     BlocProvider.of<DataBloc>(context).add(LeftRotationEvent());
                   },
-                  child: Icon(Icons.autorenew_sharp),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(math.pi),
+                    child: Icon(Icons.autorenew_sharp),
+                  ),
                 )
               ],
             ),
@@ -80,17 +91,12 @@ class BottomPanel extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 FloatingActionButton(
-
                   heroTag: UniqueKey(),
                   onPressed: () {
-                    if(areAllShapesHidden) return;
+                    if (areAllShapesHidden) return;
                     BlocProvider.of<DataBloc>(context).add(RightRotationEvent());
                   },
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationY(math.pi),
-                    child: Icon(Icons.autorenew_sharp),
-                  ),
+                  child: Icon(Icons.autorenew_sharp),
                 ),
               ],
             ),

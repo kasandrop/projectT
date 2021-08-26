@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(tangram LANGUAGES CXX)
+project(triangram LANGUAGES CXX)
 
-set(BINARY_NAME "tangram")
+set(BINARY_NAME "triangram")
 
 cmake_policy(SET CMP0063 NEW)
 

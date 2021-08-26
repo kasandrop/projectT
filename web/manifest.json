@@ -1,6 +1,6 @@
 {
-  "name": "tangram",
-  "short_name": "tangram",
+  "name": "triangram",
+  "short_name": "triangram",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0175C2",

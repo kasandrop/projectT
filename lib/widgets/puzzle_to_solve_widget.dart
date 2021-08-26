@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:tangram/data/models/puzzle.dart';
-import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/top_level_functions.dart';
-import 'package:tangram/widgets/shape_from_path_widget.dart';
+import 'package:triangram/data/models/puzzle.dart';
+import 'package:triangram/util/constants.dart';
+import 'package:triangram/util/top_level_functions.dart';
+import 'package:triangram/widgets/shape_from_path_widget.dart';
 
 class PuzzleToSolveWidget extends StatelessWidget {
-  final Color color;
-  final Puzzle puzzle;
-  final Offset offset;
-  final double pointSize;
+  // final Color color;
+  final Path puzzlePath;
 
   const PuzzleToSolveWidget({
     Key? key,
-    this.color = kColorOfPuzzle,
-    required this.puzzle,
-    required this.offset,
-    required this.pointSize,
+    //this.color = kColorOfPuzzle,
+    required this.puzzlePath,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var path=puzzle.getPath(pointSize: pointSize);
-    var size=Size(path.getBounds().width,path.getBounds().height);
+    var size = Size(puzzlePath.getBounds().width, puzzlePath.getBounds().height);
     return Container(
       child: IgnorePointer(
         child: ShapeFromPathWidget(
-          offset: offset,
-          color: color,
-          path: path,
-           size:size,
+          //  colorTo: kDarkerGrey,
+          //  colorFrom: kDarkGrey,
+          //elevation: 0,
+          state: DraggableState.none,
+          shadowColor: Theme.of(context).colorScheme.onPrimary,
+          color: Theme.of(context).colorScheme.onPrimary,
+          path: puzzlePath,
+          size: size,
         ),
       ),
     );

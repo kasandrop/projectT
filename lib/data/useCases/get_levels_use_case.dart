@@ -1,5 +1,5 @@
-import 'package:tangram/data/models/levels.dart';
-import 'package:tangram/data/repositories/level_repository.dart';
+import 'package:triangram/data/models/levels.dart';
+import 'package:triangram/data/repositories/level_repository.dart';
 
 class GetLevelsUseCase {
   final LevelsRepository levelsRepository;
@@ -8,9 +8,7 @@ class GetLevelsUseCase {
     required this.levelsRepository,
   });
 
-
-  Future<Levels> call () async {
-    return await levelsRepository.getLevels() ;
+  Future<Levels> call() async {
+    return await levelsRepository.getLevels();
   }
 }
-

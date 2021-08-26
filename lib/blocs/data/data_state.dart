@@ -1,10 +1,11 @@
 import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:tangram/data/models/shapeProduct/game_shapes.dart';
-import 'package:tangram/data/models/shapeProduct/shape_product.dart';
-import 'package:tangram/data/models/shape_order.dart';
-import 'package:tangram/util/shape_enum.dart';
+import 'package:triangram/data/models/shapeProduct/game_shapes.dart';
+import 'package:triangram/data/models/shapeProduct/shape_product.dart';
+import 'package:triangram/data/models/shape_order.dart';
+import 'package:triangram/util/shape_enum.dart';
 
 @immutable
 class DataState extends Equatable {
@@ -12,22 +13,28 @@ class DataState extends Equatable {
   final ShapeOrder shapeOrder;
   final bool solve;
 
-  DataState({
+  const DataState({
     required this.gameShapes,
     required this.shapeOrder,
-    this.solve = true,
+    required this.solve,
   });
+
+  List<Offset> get pointsOfFocusPolygon => gameShapes.getShape(currentFocus!).pointsOfPolygon;
 
   ShapeProduct getShape(Shapes shape) => gameShapes.getShape(shape);
 
   //unit data
-  Map<Shapes, Path> get pathOfAllShapes => gameShapes.getPathMap(1);
+  Map<Shapes, MyPath> get pathOfAllShapes => gameShapes.getMyPathMap(pointSize: 1);
 
   // Path getPath({
   //   required Shapes shape,
   //   double pointSize=1,
   // }) =>
   //     getShape(shape).getPath(pointSize: pointSize);
+
+  // Path getPath({required Shapes shape}) => getShape(shape).getPath();
+
+  MyPath getMyPath({required Shapes shape}) => getShape(shape).getMyPath();
 
   Path getPathForUi({
     required Shapes shape,
@@ -49,13 +56,7 @@ class DataState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
-        gameShapes,
-        shapeOrder,
-      ];
-
-  @override
-  bool get stringify => true;
+  List<Object> get props => [gameShapes, shapeOrder, solve];
 
   DataState copyWith({
     Shapes? showShape,
@@ -108,5 +109,15 @@ class DataState extends Equatable {
             gameShapes: gameShapes ?? this.gameShapes,
             solve: solve ?? this.solve,
           );
+  }
+
+  @override
+  String toString() {
+    return '''DataState{
+      gameShapes: $gameShapes, 
+      shapeOrder: $shapeOrder, 
+      solve: $solve}
+      
+      ''';
   }
 }

@@ -1,76 +1,85 @@
 import 'dart:ui';
+import 'package:triangram/data/models/shapeProduct/shape_product.dart';
 
-import 'package:equatable/equatable.dart';
-import 'package:tangram/data/models/shapeProduct/shape_product.dart';
-import 'package:tangram/util/shape_enum.dart';
-
-class RectWithTriangle  extends Equatable  implements ShapeProduct {
-  @override
-  final Offset positionOfBoundingRectangle;
-  @override
-  final Shapes shape;
-  @override
-  final int positionInList;
-  @override
-  final Color color;
-
-  @override
+class RectWithTriangle extends ShapeProduct {
   const RectWithTriangle({
-    required this.color,
-    required this.shape,
-    required this.positionOfBoundingRectangle,
-    required this.positionInList,
-  }) : super();
-
-  @override
-  List<Object> get props => [shape,positionOfBoundingRectangle,positionInList,color];
-
-  @override
-  bool get stringify =>true;
-
-  @override
-
-  @override
-  Path getPath({double pointSize=1}) => Path()
-    ..addPolygon([...getOffsetList((positionInList / 2).floor()).map((e) => e * pointSize)], true)..shift(positionOfBoundingRectangle);
-
-  @override
-  Path getPathForUi(double pointSize) => Path()
-    ..addPolygon(   [...getOffsetList(0).map((e) => e * pointSize)], true);
-
-  static List<Offset> getOffsetList(int i) => offsets[i];
-
-  @override
-  Size get size => cellSize;
-
-  @override
-  List<Offset> get pointsOfPolygonInPixel => [];
+    required shape,
+    required color,
+    required colorFrom,
+    required colorTo,
+    required isAnchored,
+    required positionOfBoundingRectangle,
+    required positionInList,
+    required origin,
+    required size,
+  }) : super(
+          shape: shape,
+          color: color,
+          colorFrom: colorFrom,
+          colorTo: colorTo,
+          isAnchored: isAnchored,
+          positionOfBoundingRectangle: positionOfBoundingRectangle,
+          positionInList: positionInList,
+          origin: origin,
+          size: size,
+        );
 
   @override
   RectWithTriangle copyWith({
     Offset? positionOfBoundingRectangle,
-    bool? rotationLeft, bool? rotationRight,
+    bool? rotationLeft,
+    bool? rotationRight,
+    bool? isAnchored,
   }) =>
       RectWithTriangle(
         shape: shape,
         color: color,
-        positionInList:(rotationLeft!=null)?(positionInList-1)%8:(rotationRight!=null)?(positionInList+1)%8:positionInList,
+        colorFrom: colorFrom,
+        colorTo: colorTo,
+        origin: origin,
+        size: size,
+        positionInList: (rotationLeft != null)
+            ? (positionInList - 1) % 8
+            : (rotationRight != null)
+                ? (positionInList + 1) % 8
+                : positionInList,
         positionOfBoundingRectangle:
             positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
+        isAnchored: isAnchored ?? this.isAnchored,
       );
 
-  static const Size cellSize = Size(4, 4);
-  static const Offset origin = Offset(2, 2);
-
-  static const List<List<Offset>> offsets = <List<Offset>>[
-    [Offset(0, 0), Offset(2, 2), Offset(2, 4), Offset(0, 4)],
-    [Offset(4, 0), Offset(2, 2), Offset(2, 0), Offset(0, 0)],
-    [Offset(2, 4), Offset(0, 2), Offset(0, 0), Offset(2, 0)],
-    [Offset(0, 2), Offset(2, 0), Offset(4, 0), Offset(4, 2)],
-  ];
-
-
+  @override
+  bool get isPositionInListEven => positionInList % 2 == 0;
 
   @override
-  bool get isPositionInListEven =>positionInList%2==0;
+  List<Offset> get getInitialPointsBeforeRotation =>
+      [Offset(0, 0), Offset(2, 2), Offset(2, 4), Offset(0, 4)];
+
+  @override
+  List<Offset> get getInitialExtraPointsBeforeRotation =>
+      [Offset(1, 1), Offset(2, 3), Offset(1, 4), Offset(0, 1), Offset(0, 2), Offset(0, 3)];
+
+  @override
+  List<Offset> getListOfOffsetsTest(int i) => RectWithTriangle.offsetsTest[i];
+
+  @override
+  String toString() {
+    return '''
+         RectWithTriangle{ ${super.toString()}
+         ''';
+  }
+
+  static const Size shapeSize = Size(4, 4);
+  static const Offset shapeOrigin = Offset(2, 2);
+
+  static const List<List<Offset>> offsetsTest = <List<Offset>>[
+    [Offset(0, 0), Offset(2, 2), Offset(2, 4), Offset(0, 4)],
+    [Offset(0, 0), Offset(2, 2), Offset(2, 4), Offset(0, 4)],
+    [Offset(4, 0), Offset(2, 2), Offset(0, 2), Offset(0, 0)],
+    [Offset(4, 0), Offset(2, 2), Offset(0, 2), Offset(0, 0)],
+    [Offset(4, 4), Offset(2, 2), Offset(2, 0), Offset(4, 0)],
+    [Offset(4, 4), Offset(2, 2), Offset(2, 0), Offset(4, 0)],
+    [Offset(0, 4), Offset(2, 2), Offset(4, 2), Offset(4, 4)],
+    [Offset(0, 4), Offset(2, 2), Offset(4, 2), Offset(4, 4)],
+  ];
 }

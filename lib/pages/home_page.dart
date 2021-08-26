@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/blocs/Levels/levels.dart';
-import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/logger.dart';
-import 'package:tangram/util/top_level_functions.dart';
-import 'package:tangram/widgets/level_button.dart';
-import 'package:tangram/widgets/shadow_text.dart';
+import 'package:triangram/blocs/Levels/levels.dart';
+import 'package:triangram/util/constants.dart';
+import 'package:triangram/util/logger.dart';
+import 'package:triangram/util/top_level_functions.dart';
+import 'package:triangram/widgets/level_button.dart';
+import 'package:triangram/widgets/shadow_text.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQueryData = MediaQuery.of(context);
     var screenSize = mediaQueryData.size;
-    log.d('screen size   width:${screenSize.width}   height: ${screenSize.height}');
+    // log.d('screen size   width:${screenSize.width}   height: ${screenSize.height}');
     var levelsWidth = -100.0 + screenSize.width;
     return Scaffold(
       body: WillPopScope(
@@ -39,8 +39,8 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   width: levelsWidth,
                   height: levelsWidth,
-                  child: BlocBuilder<LevelsBloc, LevelsState>(
-                      builder: (context, LevelsState state) {
+                  child:
+                      BlocBuilder<LevelsBloc, LevelsState>(builder: (context, LevelsState state) {
                     return GridView.builder(
                       itemCount: state.numberOfLevels, //TODO:Temporarily,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

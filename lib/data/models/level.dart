@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
-import 'package:tangram/util/grid_enum.dart';
+import 'package:triangram/util/grid_enum.dart';
 
 class Level extends Equatable {
   Level({
@@ -14,7 +14,8 @@ class Level extends Equatable {
 
   factory Level.fromJson(Map<String, dynamic> json) => Level(
         grid: Grid.values.elementAt(json["grid"]),
-        points: List.from(json["offset"].map((x) =>Offset((x["dx"]).toDouble(), (x["dy"]).toDouble()))),
+        points: List.from(
+            json["offset"].map((x) => Offset((x["dx"]).toDouble(), (x["dy"]).toDouble()))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -26,9 +27,6 @@ class Level extends Equatable {
   // TODO: implement props
   List<Object?> get props => [grid, points];
 }
-
-
-
 
 extension OffsetToJson on Offset {
   Map<String, dynamic> toJson() => {"dx": this.dx, "dy": this.dy};

@@ -7,7 +7,7 @@
 
 A new Flutter application.
 
-A game simmilar to !tangram! game. The goal of the game is  to completely cover a picture
+A game simmilar to !triangram! game. The goal of the game is  to completely cover a picture
 with small shapes.
 
 Under development.

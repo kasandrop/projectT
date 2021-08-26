@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:tangram/data/models/puzzle.dart';
-import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/shape_enum.dart';
+import 'package:triangram/data/models/puzzle.dart';
+import 'package:triangram/util/constants.dart';
+import 'package:triangram/util/shape_enum.dart';
 
 abstract class DataEvent {
   const DataEvent();
@@ -64,7 +64,7 @@ class PositionEvent extends DataEvent {
   final Offset positionOfBoundingRectangle;
 
   //final Shapes focusShape;
-  PositionEvent({
+  const PositionEvent({
     required this.positionOfBoundingRectangle,
     // required this.focusShape,
   });

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' show Client; //as http;
-import 'package:tangram/data/models/levels.dart';
-import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:triangram/data/models/levels.dart';
+import 'package:triangram/util/constants.dart';
+import 'package:triangram/util/logger.dart';
 
 abstract class LevelsRepository<T> {
   Future<T> getLevels();
@@ -19,7 +19,6 @@ class LevelsRepositoryImpl extends LevelsRepository<Levels> {
     //log.d('response:\n${response.body}');
 
     if (response.statusCode == 200) {
-
       var data = json.decode(response.body);
       var levels = Levels.fromJson(data);
       return levels;

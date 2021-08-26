@@ -1,20 +1,24 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tangram/blocs/Levels/levels.dart';
-import 'package:tangram/pages/home_page.dart';
-import 'package:tangram/util/constants.dart';
-import 'package:tangram/util/logger.dart';
+import 'package:triangram/blocs/Levels/levels.dart';
+import 'package:triangram/pages/home_page.dart';
+import 'package:triangram/util/constants.dart';
+import 'package:triangram/util/logger.dart';
 
 import 'blocs/triangram_bloc_observer.dart';
 import 'config/injection_container.dart';
 import 'config/routes/route_generator.dart';
 
-void main() async{
+void main() async {
   // debugPaintSizeEnabled = true;
   //debugPaintPointersEnabled = true;
   //WidgetsFlutterBinding.ensureInitialized();
-Bloc.observer=TriangramBlocObserver();
- await init();
+
+//it sets   to override toString() method in all classes  which extended Equitable
+  EquatableConfig.stringify = true;
+  Bloc.observer = TriangramBlocObserver();
+  await init();
   runApp(SplashApp(
     key: UniqueKey(),
     onInitializationComplete: () => runApp(Application()),
@@ -39,8 +43,7 @@ class _SplashAppState extends State<SplashApp> {
       home: Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: CircularProgressIndicator(
-              color: Colors.purple),
+          child: CircularProgressIndicator(color: Colors.purple),
         ),
       ),
     );
@@ -69,10 +72,20 @@ class Application extends StatelessWidget {
         onGenerateRoute: RouteGenerator.generateRoute,
         debugShowCheckedModeBanner: false,
         title: 'Triangram',
-        theme: ThemeData.dark(),
+        theme: getLightTheme(),
+        darkTheme: getDarkTheme(),
+        themeMode: ThemeMode.dark,
         home: HomePage(),
       ),
     );
+  }
+
+  ThemeData getLightTheme() {
+    return ThemeData.from(colorScheme: colorSchemeDark);
+  }
+
+  ThemeData getDarkTheme() {
+    return ThemeData.from(colorScheme: colorSchemeDark);
   }
 }
 //

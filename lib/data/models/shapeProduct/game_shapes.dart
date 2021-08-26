@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:tangram/data/models/shapeProduct/shape_product.dart';
-import 'package:tangram/util/logger.dart';
-import 'package:tangram/util/shape_enum.dart';
+import 'package:triangram/data/models/shapeProduct/shape_product.dart';
+import 'package:triangram/util/logger.dart';
+import 'package:triangram/util/shape_enum.dart';
 import 'dart:developer';
 
 @immutable
@@ -18,10 +18,8 @@ class GameShapes extends Equatable {
   @override
   List<Object> get props => [shapes];
 
-  @override
-  bool get stringify => true;
-
-  Map<Shapes,Path> getPathMap(double pointSize)=>{ for (Shapes e in Shapes.values) e : getShape(e ).getPath(pointSize: pointSize) };
+  Map<Shapes, MyPath> getMyPathMap({double pointSize = 1}) =>
+      {for (Shapes e in Shapes.values) e: getShape(e).getMyPath(pointSize: pointSize)};
 
   ShapeProduct getShape(Shapes shape) => shapes[shape]!;
 
@@ -41,8 +39,8 @@ class GameShapes extends Equatable {
       rotationLeft: rotationLeft,
     );
     map[shape] = shapeUpdated;
-    var gm=GameShapes(shapes: map);
-  //  log.d('gameShape:  ${gm.shapes}');
+    var gm = GameShapes(shapes: map);
+    //  log.d('gameShape:  ${gm.shapes}');
 
     return gm;
   }

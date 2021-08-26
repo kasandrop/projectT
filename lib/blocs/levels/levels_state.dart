@@ -3,17 +3,16 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 
 import 'package:meta/meta.dart';
-import 'package:tangram/data/models/puzzle.dart';
-import 'package:tangram/data/models/level.dart';
-import 'package:tangram/data/models/levels.dart';
-import 'package:tangram/util/grid_enum.dart';
+import 'package:triangram/data/models/puzzle.dart';
+import 'package:triangram/data/models/level.dart';
+import 'package:triangram/data/models/levels.dart';
+import 'package:triangram/util/grid_enum.dart';
 
 //-----------------------------------------------------------------
 @immutable
 class LevelsState extends Equatable {
   final Levels levels;
   final int currentLevelNumber;
-
 
   // final Offset size; //pixelHeight,pixelWidth  or real screen size in pixel
 
@@ -29,9 +28,7 @@ class LevelsState extends Equatable {
   Grid get currentLevelGrid => currentLevel.grid;
 
   Puzzle get puzzle {
-
-    return Puzzle(points: currentLevel.points
-    );
+    return Puzzle(currentLevel.points);
   }
 
   List<Offset>? get points => currentLevel.points;

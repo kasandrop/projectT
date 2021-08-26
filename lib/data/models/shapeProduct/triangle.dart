@@ -1,34 +1,45 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:tangram/data/models/shapeProduct/shape_product.dart';
-import 'package:tangram/util/shape_enum.dart';
+import 'dart:math' as math;
+import 'dart:ui';
 
-class Triangle extends Equatable implements ShapeProduct {
-  @override
-  final Offset positionOfBoundingRectangle;
-  @override
-  final Shapes shape;
-  @override
-  final int positionInList;
-  @override
-  final Color color;
+import 'package:triangram/data/models/shapeProduct/shape_product.dart';
 
+class Triangle extends ShapeProduct {
   const Triangle({
-    required this.shape,
-    required this.positionOfBoundingRectangle,
-    required this.positionInList,
-    required this.color,
-  }) : super();
+    required shape,
+    required color,
+    required colorFrom,
+    required colorTo,
+    required isAnchored,
+    required positionOfBoundingRectangle,
+    required positionInList,
+    required origin,
+    required size,
+  }) : super(
+          shape: shape,
+          color: color,
+          colorFrom: colorFrom,
+          colorTo: colorTo,
+          isAnchored: isAnchored,
+          positionOfBoundingRectangle: positionOfBoundingRectangle,
+          positionInList: positionInList,
+          origin: origin,
+          size: size,
+        );
 
   @override
   Triangle copyWith({
     Offset? positionOfBoundingRectangle,
     bool? rotationLeft,
     bool? rotationRight,
+    bool? isAnchored,
   }) =>
       Triangle(
-        color: color,
         shape: shape,
+        color: color,
+        colorFrom: colorFrom,
+        colorTo: colorTo,
+        origin: origin,
+        size: size,
         positionInList: (rotationLeft != null)
             ? (positionInList - 1) % 8
             : (rotationRight != null)
@@ -36,42 +47,38 @@ class Triangle extends Equatable implements ShapeProduct {
                 : positionInList,
         positionOfBoundingRectangle:
             positionOfBoundingRectangle ?? this.positionOfBoundingRectangle,
+        isAnchored: isAnchored ?? this.isAnchored,
       );
 
   @override
-  List<Object> get props => [shape, positionOfBoundingRectangle, positionInList, color];
-
-  @override
-  bool get stringify => true;
-
-  @override
-  List<Offset> get pointsOfPolygonInPixel => [];
-
-  static const Size cellSize = Size(2, 2);
-  static const Offset origin = Offset(1, 1);
-
-  @override
-  Path getPath({double pointSize=1}) => Path()
-    ..addPolygon([...getOffsetList((positionInList / 2).floor()).map((e) => e * pointSize)], true)..shift(positionOfBoundingRectangle);
-
-  @override
-  Path getPathForUi(double pointSize) =>
-      Path()..addPolygon([...getOffsetList(0).map((e) => e * pointSize)], true);
-
-
-
-  static List<Offset> getOffsetList(int i) => offsets[i];
-
-  static const List<List<Offset>> offsets = <List<Offset>>[
-    [Offset(0, 0), Offset(2, 2), Offset(0, 2)],
-    [Offset(2, 0), Offset(0, 2), Offset(0, 0)],
-    [Offset(2, 2), Offset(0, 0), Offset(2, 0)],
-    [Offset(0, 2), Offset(2, 0), Offset(2, 2)],
-  ];
-
-  @override
-  Size get size => cellSize;
-
-  @override
   bool get isPositionInListEven => positionInList % 2 == 0;
+  @override
+  List<Offset> get getInitialExtraPointsBeforeRotation => [Offset(1, 1)];
+
+  @override
+  List<Offset> get getInitialPointsBeforeRotation =>
+      [Offset(0.0, 0.0), Offset(2.0, 2.0), Offset(0.0, 2.0)];
+  @override
+  List<Offset> getListOfOffsetsTest(int i) => Triangle.offsetsTest[i];
+
+  @override
+  String toString() {
+    return '''
+         Triangle{ ${super.toString()}
+         ''';
+  }
+
+  static const Offset shapeOrigin = Offset(1, 1);
+  static const Size shapeSize = Size(2, 2);
+
+  static List<List<Offset>> offsetsTest = <List<Offset>>[
+    [Offset(0, 0), Offset(2, 2), Offset(0, 2)],
+    [Offset(1, 1 - math.sqrt(2)), Offset(1, 1 + math.sqrt(2)), Offset(1 - math.sqrt(2), 1)],
+    [Offset(2, 0), Offset(0, 2), Offset(0, 0)],
+    [Offset(1 + math.sqrt(2), 1), Offset(1 - math.sqrt(2), 1), Offset(1, 1 - math.sqrt(2))],
+    [Offset(2, 2), Offset(0, 0), Offset(2, 0)],
+    [Offset(1, 1 + math.sqrt(2)), Offset(1, 1 - math.sqrt(2)), Offset(1 + math.sqrt(2), 1)],
+    [Offset(0, 2), Offset(2, 0), Offset(2, 2)],
+    [Offset(1 - math.sqrt(2), 1), Offset(1 + math.sqrt(2), 1), Offset(1, 1 + math.sqrt(2))],
+  ];
 }
